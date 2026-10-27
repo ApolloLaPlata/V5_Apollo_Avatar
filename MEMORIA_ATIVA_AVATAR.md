@@ -132,3 +132,12 @@ Centraliza o "Registro Civil de Personagens Soberanos", gerando especificações
 1. Qualquer nova funcionalidade adicionada ao estúdio deve passar pela checagem estrita de tipos (`npx tsc --noEmit`) e pelo build de produção (`npm run build`) com **Exit Code 0**.
 2. O arquivo `antigravity_hive_bus.md` da Colmeia deve ser atualizado a cada avanço relevante.
 3. O serviço de Background Cron (`0 */2 * * *`) deve ser mantido ativo para garantir a sincronia e telemetria constante do ecossistema.
+
+---
+
+## 6. LOG DE HARDENING & CORREÇÕES DE BUGS (27/10/2026)
+- **Commit 5ab98be:**
+  - waveformAnalyzer.ts: Eliminada divisão por zero e NaN em verageRms para pointCount 0 ou duração nula/negativa, com fallbacks de intervalo de silêncio proporcionais.
+  - udioProcessor.ts: Rejeição imediata de arquivo nulo, execução segura em SSR (	ypeof window === 'undefined'), tratamento preventivo para buffers sem canais (channels === 0) e cleanup seguro com .catch(() => {}) no udioContext.close().
+  - Suíte scripts/test_audio_waveform_hardening.ts aprovada com 100% de sucesso (4/4 testes).
+  - Next.js 14 Build: Compilado com Exit Code 0 em todas as 6 rotas.
