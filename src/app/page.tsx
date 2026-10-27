@@ -75,6 +75,7 @@ import CharacterSheetPrintPanel from '@/components/avatar/CharacterSheetPrintPan
 import CatalogBackupRestorePanel from '@/components/avatar/CatalogBackupRestorePanel';
 import CatalogStressTesterPanel from '@/components/avatar/CatalogStressTesterPanel';
 import CentralCharacterManagementDashboard from '@/components/avatar/CentralCharacterManagementDashboard';
+import KeyboardShortcutsModal from '@/components/avatar/KeyboardShortcutsModal';
 import AvatarCard from '@/components/avatar/AvatarCard';
 import QuickCreateAvatarModal from '@/components/avatar/QuickCreateAvatarModal';
 import Apollo5RocketLogo from '@/components/ui/Apollo5RocketLogo';
@@ -550,6 +551,11 @@ export default function AvatarHubPage() {
       <QuickCreateAvatarModal 
         isOpen={isCreateModalOpen} 
         onClose={() => setIsCreateModalOpen(false)} 
+      />
+
+      {/* Central de Atalhos de Teclado Globais (Fase 10 · Etapa 098) */}
+      <KeyboardShortcutsModal
+        onOpenCreateModal={() => setIsCreateModalOpen(true)}
       />
     </div>
   );
