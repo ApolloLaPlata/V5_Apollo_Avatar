@@ -43,6 +43,7 @@ export default function V5AvatarZipPackerPanel({
   const [isPacking, setIsPacking] = useState(false);
   const [progress, setProgress] = useState<ZipPackagingProgress | null>(null);
   const [lastResult, setLastResult] = useState<ZipPackagingResult | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [includeConnectors, setIncludeConnectors] = useState(true);
   const [compressionLevel, setCompressionLevel] = useState(6);
 
@@ -50,6 +51,7 @@ export default function V5AvatarZipPackerPanel({
     if (!currentAvatar || isPacking) return;
 
     try {
+      setErrorMessage(null);
       setIsPacking(true);
       setProgress({
         stage: 'Iniciando compilação do pacote soberano...',
@@ -69,8 +71,10 @@ export default function V5AvatarZipPackerPanel({
       );
 
       setLastResult(result);
-    } catch (err) {
+    } catch (err: unknown) {
       console.error('Erro ao empacotar .v5avatar:', err);
+      const msg = err instanceof Error ? err.message : 'Falha desconhecida ao gerar pacote ZIP.';
+      setErrorMessage(msg);
     } finally {
       setIsPacking(false);
     }
@@ -140,6 +144,17 @@ export default function V5AvatarZipPackerPanel({
           <div className="text-[10px] font-mono text-slate-500 truncate">
             Processando: <span className="text-slate-300">{progress.currentFile}</span>
           </div>
+        </div>
+      )}
+
+      {/* Erro no Empacotamento */}
+      {errorMessage && (
+        <div className="bg-rose-950/30 border border-rose-500/40 rounded-xl p-4 space-y-1 text-xs font-mono text-rose-300 animate-in fade-in">
+          <div className="flex items-center gap-2 font-bold text-rose-400">
+            <AlertCircle className="w-4 h-4 shrink-0" />
+            <span>Falha ao gerar o pacote .v5avatar</span>
+          </div>
+          <p className="text-[11px] text-slate-300 pl-6">{errorMessage}</p>
         </div>
       )}
 

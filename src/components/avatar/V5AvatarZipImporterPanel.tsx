@@ -40,19 +40,25 @@ export default function V5AvatarZipImporterPanel({
   const [unpackedResult, setUnpackedResult] = useState<UnpackedAvatarResult | null>(null);
   const [isDragOver, setIsDragOver] = useState(false);
   const [importSuccessMessage, setImportSuccessMessage] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleProcessFile = async (file: File | Blob) => {
     setIsProcessing(true);
     setImportSuccessMessage(null);
+    setErrorMessage(null);
     setProgress({ stage: 'Iniciando leitura...', percent: 5 });
 
     try {
       const result = await unpackAndValidateV5Avatar(file, (p) => setProgress(p));
       setUnpackedResult(result);
+      if (!result.isValid) {
+        setErrorMessage(`O pacote contém ${result.validationErrors.length} inconsistência(s) de validação.`);
+      }
     } catch (err: unknown) {
       console.error('Erro na descompactação:', err);
-      const msg = err instanceof Error ? err.message : 'Arquivo inválido';
-      alert(`Falha ao importar pacote: ${msg}`);
+      const msg = err instanceof Error ? err.message : 'Arquivo inválido ou corrompido';
+      setErrorMessage(msg);
+      setUnpackedResult(null);
     } finally {
       setIsProcessing(false);
     }
@@ -80,23 +86,29 @@ export default function V5AvatarZipImporterPanel({
     if (!sourceAvatar) return;
 
     setIsProcessing(true);
+    setImportSuccessMessage(null);
+    setErrorMessage(null);
     setProgress({ stage: 'Gerando pacote de teste em memória...', percent: 20 });
 
     try {
       const { blob } = await createV5AvatarZipPackage(sourceAvatar);
       const result = await unpackAndValidateV5Avatar(blob, (p) => setProgress(p));
       setUnpackedResult(result);
+      if (!result.isValid) {
+        setErrorMessage(`O pacote de demonstração possui falhas de integridade.`);
+      }
     } catch (err: unknown) {
       console.error('Erro ao gerar pacote de demonstração:', err);
       const msg = err instanceof Error ? err.message : 'Falha na demonstração';
-      alert(`Erro: ${msg}`);
+      setErrorMessage(msg);
+      setUnpackedResult(null);
     } finally {
       setIsProcessing(false);
     }
   };
 
   const handleInjectIntoStore = () => {
-    if (!unpackedResult || !unpackedResult.profile) return;
+    if (!unpackedResult || !unpackedResult.profile || !unpackedResult.isValid) return;
 
     const imported = unpackedResult.profile;
     const exists = avatars.some((a) => a.id === imported.id);
@@ -213,6 +225,17 @@ export default function V5AvatarZipImporterPanel({
         </div>
       )}
 
+      {/* Mensagem de Erro / Inconsistência */}
+      {errorMessage && (
+        <div className="bg-rose-950/30 border border-rose-500/40 rounded-xl p-4 text-xs font-mono text-rose-300 space-y-1 animate-in fade-in">
+          <div className="flex items-center gap-2 font-bold text-rose-400">
+            <AlertTriangle className="w-4 h-4 shrink-0" />
+            <span>Aviso de Validação do Pacote</span>
+          </div>
+          <p className="text-[11px] text-slate-300 pl-6">{errorMessage}</p>
+        </div>
+      )}
+
       {/* Sucesso na Injeção */}
       {importSuccessMessage && (
         <div className="p-4 rounded-xl bg-emerald-950/30 border border-emerald-500/40 text-emerald-400 text-xs font-mono font-bold flex items-center justify-between animate-in fade-in">
@@ -240,9 +263,15 @@ export default function V5AvatarZipImporterPanel({
               <div>
                 <div className="flex items-center gap-2">
                   <h3 className="text-base font-bold text-white">{unpackedResult.profile.name}</h3>
-                  <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-400/30 text-emerald-400 text-[10px] font-mono font-bold">
-                    SHA-256 VERIFICADO
-                  </span>
+                  {unpackedResult.checksumAuditPassed && unpackedResult.isValid ? (
+                    <span className="px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-400/30 text-emerald-400 text-[10px] font-mono font-bold">
+                      SHA-256 VERIFICADO
+                    </span>
+                  ) : (
+                    <span className="px-2 py-0.5 rounded-full bg-rose-500/10 border border-rose-400/30 text-rose-400 text-[10px] font-mono font-bold">
+                      FALHA DE VALIDAÇÃO
+                    </span>
+                  )}
                 </div>
                 <p className="text-xs text-slate-400">
                   {unpackedResult.profile.tagline} · Nicho:{' '}
@@ -253,12 +282,32 @@ export default function V5AvatarZipImporterPanel({
 
             <button
               onClick={handleInjectIntoStore}
-              className="px-4 py-2 rounded-xl bg-cyber-cyan text-obsidian-950 hover:bg-cyber-cyan/90 transition-all text-xs font-mono font-bold flex items-center gap-1.5 shadow-[0_0_15px_rgba(0,229,255,0.2)]"
+              disabled={!unpackedResult.isValid}
+              className={`px-4 py-2 rounded-xl transition-all text-xs font-mono font-bold flex items-center gap-1.5 ${
+                unpackedResult.isValid
+                  ? 'bg-cyber-cyan text-obsidian-950 hover:bg-cyber-cyan/90 shadow-[0_0_15px_rgba(0,229,255,0.2)] cursor-pointer'
+                  : 'bg-slate-800 text-slate-500 border border-slate-700 cursor-not-allowed opacity-60'
+              }`}
             >
               <UserCheck className="w-4 h-4" />
-              Restaurar Personagem no Estúdio (1-Clique)
+              {unpackedResult.isValid ? 'Restaurar Personagem no Estúdio (1-Clique)' : 'Pacote Inválido para Restauração'}
             </button>
           </div>
+
+          {/* Alertas de Erro de Validação */}
+          {unpackedResult.validationErrors.length > 0 && (
+            <div className="bg-rose-950/20 border border-rose-500/30 rounded-lg p-3 text-xs font-mono text-rose-300 space-y-1">
+              <span className="font-bold flex items-center gap-1.5 text-rose-400">
+                <AlertTriangle className="w-3.5 h-3.5" />
+                Erros detectados no pacote:
+              </span>
+              <ul className="list-disc list-inside space-y-0.5 text-[11px] text-slate-300">
+                {unpackedResult.validationErrors.map((err, idx) => (
+                  <li key={idx}>{err}</li>
+                ))}
+              </ul>
+            </div>
+          )}
 
           {/* Grade de Pilares Restaurados */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-mono">
