@@ -176,11 +176,11 @@ export function validateBroadcasterOrigin(
 export function validateReplayTimestamp(
   timestamp: number | undefined
 ): { valid: boolean; deltaMs: number; reason?: string } {
-  if (!timestamp || typeof timestamp !== 'number') {
+  if (typeof timestamp !== 'number' || !Number.isFinite(timestamp) || timestamp <= 0) {
     return {
       valid: false,
       deltaMs: 0,
-      reason: 'Carimbo de data/hora (timestamp) numérico ausente no payload.',
+      reason: 'Carimbo de data/hora (timestamp) numérico ausente ou inválido no payload.',
     };
   }
 
