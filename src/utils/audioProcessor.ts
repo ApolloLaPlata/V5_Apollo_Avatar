@@ -38,9 +38,15 @@ export const ALLOWED_AUDIO_TYPES = [
  * Analisa um arquivo de áudio usando a Web Audio API nativa
  */
 export async function analyzeAudioFile(file: File): Promise<AudioSanitizationReport> {
+  if (!file || typeof file !== 'object') {
+    throw new Error('Nenhum arquivo de áudio fornecido para análise.');
+  }
+
+  const safeFileName = typeof file.name === 'string' ? file.name : 'audio_sample.wav';
+
   if (typeof window === 'undefined') {
     return {
-      fileName: file.name,
+      fileName: safeFileName,
       durationSeconds: 10,
       sampleRateHz: 44100,
       channels: 1,
@@ -67,6 +73,21 @@ export async function analyzeAudioFile(file: File): Promise<AudioSanitizationRep
     const duration = audioBuffer.duration;
     const sampleRate = audioBuffer.sampleRate;
     const channels = audioBuffer.numberOfChannels;
+
+    if (channels === 0 || audioBuffer.length === 0) {
+      return {
+        fileName: safeFileName,
+        durationSeconds: 0,
+        sampleRateHz: sampleRate || 44100,
+        channels: 0,
+        estimatedNoiseFloorDb: -60,
+        peakDbFs: -60,
+        clippingDetected: false,
+        isLengthOptimal: false,
+        overallQuality: 'Ruído Excessivo (Rejeitar)',
+        verdict: 'Requer Normalização',
+      };
+    }
 
     // Análise de picos e clipping no canal 0
     const channelData = audioBuffer.getChannelData(0);
@@ -95,7 +116,7 @@ export async function analyzeAudioFile(file: File): Promise<AudioSanitizationRep
     }
 
     return {
-      fileName: file.name,
+      fileName: safeFileName,
       durationSeconds: Number(duration.toFixed(1)),
       sampleRateHz: sampleRate,
       channels,
@@ -110,6 +131,12 @@ export async function analyzeAudioFile(file: File): Promise<AudioSanitizationRep
           : 'Aprovado para V5 Sound',
     };
   } finally {
-    audioContext.close();
+    try {
+      if (typeof audioContext.close === 'function') {
+        audioContext.close().catch(() => {});
+      }
+    } catch {
+      // Ignora erro de cleanup de contexto
+    }
   }
 }
