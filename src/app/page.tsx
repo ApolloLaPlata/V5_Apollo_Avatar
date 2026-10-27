@@ -75,6 +75,7 @@ import CharacterSheetPrintPanel from '@/components/avatar/CharacterSheetPrintPan
 import CatalogBackupRestorePanel from '@/components/avatar/CatalogBackupRestorePanel';
 import CatalogStressTesterPanel from '@/components/avatar/CatalogStressTesterPanel';
 import E2EStudioWorkflowPanel from '@/components/avatar/E2EStudioWorkflowPanel';
+import SecurityAuditPanel from '@/components/avatar/SecurityAuditPanel';
 import MilestoneVersion100Banner from '@/components/avatar/MilestoneVersion100Banner';
 import CentralCharacterManagementDashboard from '@/components/avatar/CentralCharacterManagementDashboard';
 import KeyboardShortcutsModal from '@/components/avatar/KeyboardShortcutsModal';
@@ -545,6 +546,9 @@ export default function AvatarHubPage() {
           avatarId={selectedAvatar?.id}
           avatarName={selectedAvatar?.name}
         />
+
+        {/* Varredura de Segurança de Inputs contra XSS, Memory Leaks e Prompt Injection (Fase 11 · Etapa 104) */}
+        <SecurityAuditPanel />
 
         {/* Dashboard Central de Gestão de Personagens (Fase 10 · Etapa 097) */}
         <CentralCharacterManagementDashboard 
