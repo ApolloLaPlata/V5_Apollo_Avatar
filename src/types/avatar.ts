@@ -28,6 +28,11 @@ export type TurnaroundAngle =
   | 'profile_right' 
   | 'back';
 
+export interface FaceExpressionItem {
+  expression: string;
+  promptModifier: string;
+}
+
 export interface FaceDNA {
   primaryAnchorImage?: string;
   referenceImages: string[];
@@ -35,6 +40,7 @@ export interface FaceDNA {
   tPoseSheetUrl?: string;      // T-Pose neutra
   aPoseSheetUrl?: string;      // A-Pose relaxada
   expressionSheetUrl?: string; // Expressões faciais
+  expressions?: FaceExpressionItem[];
   pulidEmbeddingId?: string;
   clothingPrompt: string;
   fixedFeaturesPrompt: string;

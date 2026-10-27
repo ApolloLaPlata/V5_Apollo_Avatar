@@ -14,6 +14,15 @@ import PoseFidelityComparator from '@/components/avatar/PoseFidelityComparator';
 import JointCoordinatesGenerator from '@/components/avatar/JointCoordinatesGenerator';
 import UtilityPoseCatalog from '@/components/avatar/UtilityPoseCatalog';
 import PoseSheetExporterPanel from '@/components/avatar/PoseSheetExporterPanel';
+import VisemesCanonicalTable from '@/components/avatar/VisemesCanonicalTable';
+import VisemePromptCompiler from '@/components/avatar/VisemePromptCompiler';
+import BaseEmotionsMatrixPanel from '@/components/avatar/BaseEmotionsMatrixPanel';
+import SecondaryEmotionsMatrixPanel from '@/components/avatar/SecondaryEmotionsMatrixPanel';
+import ExpressionsGrid3x3Viewer from '@/components/avatar/ExpressionsGrid3x3Viewer';
+import EmotionalIntensityModulator from '@/components/avatar/EmotionalIntensityModulator';
+import QuickExpressionSwitcher from '@/components/avatar/QuickExpressionSwitcher';
+import SpriteSheetComposerPanel from '@/components/avatar/SpriteSheetComposerPanel';
+import AnatomicalDeviationValidatorPanel from '@/components/avatar/AnatomicalDeviationValidatorPanel';
 import AvatarCard from '@/components/avatar/AvatarCard';
 import QuickCreateAvatarModal from '@/components/avatar/QuickCreateAvatarModal';
 import Apollo5RocketLogo from '@/components/ui/Apollo5RocketLogo';
@@ -114,6 +123,48 @@ export default function AvatarHubPage() {
           tPoseUrl={selectedAvatar?.avatarUrl}
           aPoseUrl={selectedAvatar?.avatarUrl}
         />
+
+        {/* Tabela de Visemas Canônicos da Fala (Lip-Sync Engine) */}
+        <VisemesCanonicalTable
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+        />
+
+        {/* Compilador de Prompts para Visemas & Realismo Dental */}
+        <VisemePromptCompiler characterName={selectedAvatar?.name} />
+
+        {/* Matriz de Emoções Base do Personagem (FACS Standard) */}
+        <BaseEmotionsMatrixPanel
+          avatarId={selectedAvatar?.id}
+          characterName={selectedAvatar?.name}
+        />
+
+        {/* Matriz de Emoções Secundárias & Engajamento Social */}
+        <SecondaryEmotionsMatrixPanel
+          avatarId={selectedAvatar?.id}
+          characterName={selectedAvatar?.name}
+        />
+
+        {/* Visualizador de Expressões em Grade 3x3 com Lupa de Detalhes */}
+        <ExpressionsGrid3x3Viewer
+          characterName={selectedAvatar?.name}
+          sheetImageUrl={selectedAvatar?.face.expressionSheetUrl || selectedAvatar?.avatarUrl}
+        />
+
+        {/* Slider de Intensidade Emocional (Modulador 10% - 100%) */}
+        <EmotionalIntensityModulator characterName={selectedAvatar?.name} />
+
+        {/* Ferramenta de Troca Rápida de Expressão (Flip-Book Test) */}
+        <QuickExpressionSwitcher characterName={selectedAvatar?.name} />
+
+        {/* Gerador de Sprite Sheet Consolidado & Atlas JSON (4x4) */}
+        <SpriteSheetComposerPanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+        />
+
+        {/* Validador Heurístico de Desvios Anatômicos (Anti-Alucinação) */}
+        <AnatomicalDeviationValidatorPanel characterName={selectedAvatar?.name} />
 
         {/* Galeria de Personagens Registrados na Store */}
         <div className="space-y-4">

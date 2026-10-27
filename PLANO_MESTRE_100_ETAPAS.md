@@ -93,16 +93,16 @@ flowchart TD
 ### FASE 4: MATRIZ DE EXPRESSÕES FACIAIS E VISEMAS DE FALA
 *Objetivo: Mapear a dinâmica emocional do rosto e a biblioteca completa de fonemas/visemas para animação labial realista.*
 
-- [ ] **Etapa 031:** Estruturação da Tabela de Visemas Canônicos da Fala (Silêncio, A/I, E, O/U, M/B/P, F/V, L/D/T).
-- [ ] **Etapa 032:** Compilador de Prompts para Visemas com boca aberta natural e visibilidade dental realista.
-- [ ] **Etapa 033:** Matriz de Emoções Base do Personagem (Neutro, Sorriso Aberto, Sorriso Sutil/Irônico, Foco Sério, Surpresa).
-- [ ] **Etapa 034:** Matriz de Emoções Secundárias (Dúvida/Curiosidade, Entusiasmo, Empatia Acolhedora, Autoridade Severa).
-- [ ] **Etapa 035:** Visualizador de Expressões em Grade 3x3 com lupa de detalhes e inspeção de rugas de expressão.
-- [ ] **Etapa 036:** Slider de Intensidade Emocional (Modulador de 10% a 100% de expressividade facial).
-- [ ] **Etapa 037:** Ferramenta de Troca Rápida de Expressão para teste dinâmico de consistência anatômica da face.
-- [ ] **Etapa 038:** Gerador de Sprite Sheet Consolidado de Expressões e Visemas (layout de grade com mapa de coordenadas JSON).
-- [ ] **Etapa 039:** Validador Heurístico de Desvios Anatômicos entre expressões (anti-alucinação de olhos e dentes).
-- [ ] **Etapa 040:** Validação de Integridade e Build de Homologação da Fase 4 (`npm run build` verde com Exit Code 0).
+- [x] **Etapa 031:** Estruturação da Tabela de Visemas Canônicos da Fala (Silêncio, A/I, E, O/U, M/B/P, F/V, L/D/T).
+- [x] **Etapa 032:** Compilador de Prompts para Visemas com boca aberta natural e visibilidade dental realista.
+- [x] **Etapa 033:** Matriz de Emoções Base do Personagem (Neutro, Sorriso Aberto, Sorriso Sutil/Irônico, Foco Sério, Surpresa).
+- [x] **Etapa 034:** Matriz de Emoções Secundárias (Dúvida/Curiosidade, Entusiasmo, Empatia Acolhedora, Autoridade Severa).
+- [x] **Etapa 035:** Visualizador de Expressões em Grade 3x3 com lupa de detalhes e inspeção de rugas de expressão.
+- [x] **Etapa 036:** Slider de Intensidade Emocional (Modulador de 10% a 100% de expressividade facial).
+- [x] **Etapa 037:** Ferramenta de Troca Rápida de Expressão para teste dinâmico de consistência anatômica da face.
+- [x] **Etapa 038:** Gerador de Sprite Sheet Consolidado de Expressões e Visemas (layout de grade com mapa de coordenadas JSON).
+- [x] **Etapa 039:** Validador Heurístico de Desvios Anatômicos entre expressões (anti-alucinação de olhos e dentes).
+- [x] **Etapa 040:** Validação de Integridade e Build de Homologação da Fase 4 (`npm run build` verde com Exit Code 0).
 
 ---
 
