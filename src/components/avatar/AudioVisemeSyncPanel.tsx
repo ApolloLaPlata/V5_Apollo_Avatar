@@ -76,6 +76,7 @@ export default function AudioVisemeSyncPanel({
   const analyzerRef = useRef<WebAudioVisemeAnalyzer | null>(null);
   const animFrameRef = useRef<number | null>(null);
   const previousStateRef = useRef<LiveLipSyncState>(syncState);
+  const lastUiUpdateRef = useRef<number>(0);
 
   // Instancia analisador de áudio e limpeza segura
   useEffect(() => {
@@ -315,7 +316,13 @@ export default function AudioVisemeSyncPanel({
       }
 
       previousStateRef.current = currentState;
-      setSyncState(currentState);
+
+      const now = typeof performance !== 'undefined' ? performance.now() : Date.now();
+      if (now - lastUiUpdateRef.current > 80) {
+        lastUiUpdateRef.current = now;
+        setSyncState(currentState);
+      }
+
       drawMouth(currentState);
       drawSpectrum(freqData, currentState.rmsDb);
 
