@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev -p 3010",
     "build": "next build",
+    "validate:build": "node scripts/validate-build.mjs",
     "start": "next start -p 3010",
     "lint": "next lint"
   },
