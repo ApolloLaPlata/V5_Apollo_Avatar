@@ -119,6 +119,26 @@ export function classifyAcousticSpectrum(
 ): LiveLipSyncState {
   const startTime = Date.now();
 
+  // Guard defensivo: buffers vazios ou não inicializados retornam silêncio imediato sem gerar NaN
+  if (!timeDomainData || timeDomainData.length === 0 || !freqData || freqData.length === 0) {
+    return {
+      activeViseme: 'silence',
+      previousViseme: previousState?.activeViseme || 'silence',
+      confidence: 1.0,
+      rmsDb: -100,
+      rmsLinear: 0,
+      formantF1Energy: 0,
+      formantF2Energy: 0,
+      frictionEnergy: 0,
+      mouthOpen: 0,
+      mouthStretch: 0.5,
+      mouthPucker: 0,
+      latencyMs: 1,
+      isSpeaking: false,
+      sampleTime: Date.now(),
+    };
+  }
+
   // 1. Cálculo de Amplitude RMS a partir do domínio do tempo
   let sumSquares = 0;
   for (let i = 0; i < timeDomainData.length; i++) {
@@ -126,9 +146,9 @@ export function classifyAcousticSpectrum(
     sumSquares += normalized * normalized;
   }
   const rms = Math.sqrt(sumSquares / timeDomainData.length);
-  const rawDb = rms > 0.00001 ? 20 * Math.log10(rms) : -100;
+  const rawDb = Number.isFinite(rms) && rms > 0.00001 ? 20 * Math.log10(rms) : -100;
   const rmsDb = Math.max(-100, Math.min(0, rawDb));
-  const rmsLinear = Math.min(1.0, rms * config.speechGain);
+  const rmsLinear = Math.min(1.0, Math.max(0, rms * config.speechGain));
 
   const isSpeaking = rmsDb > config.noiseGateDb;
 
@@ -158,8 +178,9 @@ export function classifyAcousticSpectrum(
   }
 
   // 3. Decomposição de Bandas Espectrais (Formantes Vocais)
-  // Largura de cada bin de frequência
-  const binWidth = sampleRate / (freqData.length * 2);
+  // Largura de cada bin de frequência com taxa de amostragem sanitizada
+  const safeSampleRate = Number.isFinite(sampleRate) && sampleRate > 0 ? sampleRate : 44100;
+  const binWidth = safeSampleRate / (freqData.length * 2);
 
   let f1Sum = 0;
   let f1Count = 0;
@@ -266,6 +287,9 @@ export class WebAudioVisemeAnalyzer {
 
   public async startMicrophone(fftSize = 512): Promise<boolean> {
     if (typeof window === 'undefined') return false;
+
+    // Garante liberação de contexto e streams prévios antes de instanciar novo microfone
+    this.stop();
 
     try {
       this.mediaStream = await navigator.mediaDevices.getUserMedia({
