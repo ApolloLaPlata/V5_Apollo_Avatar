@@ -67,6 +67,7 @@ import PrismaBatchScriptGeneratorPanel from '@/components/avatar/PrismaBatchScri
 import FaceVerificationIndexPanel from '@/components/avatar/FaceVerificationIndexPanel';
 import V5EditTimelineExporterPanel from '@/components/avatar/V5EditTimelineExporterPanel';
 import UgcProductPoseGeneratorPanel from '@/components/avatar/UgcProductPoseGeneratorPanel';
+import AuthorCardExporterPanel from '@/components/avatar/AuthorCardExporterPanel';
 import AvatarCard from '@/components/avatar/AvatarCard';
 import QuickCreateAvatarModal from '@/components/avatar/QuickCreateAvatarModal';
 import Apollo5RocketLogo from '@/components/ui/Apollo5RocketLogo';
@@ -481,6 +482,12 @@ export default function AvatarHubPage() {
 
         {/* Gerador de Poses de Apresentador UGC com Produtos Minerados do V5 Finders (Fase 9 · Etapa 088) */}
         <UgcProductPoseGeneratorPanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+        />
+
+        {/* Exportador de Card de Autor e Assinatura Digital de Especialista para o V5 Auto Blog (Fase 9 · Etapa 089) */}
+        <AuthorCardExporterPanel
           avatarId={selectedAvatar?.id}
           avatarName={selectedAvatar?.name}
         />

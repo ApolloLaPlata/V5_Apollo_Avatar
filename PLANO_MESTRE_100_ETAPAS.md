@@ -181,7 +181,7 @@ flowchart TD
 - [x] **Etapa 086:** Estimador de Índice de Semelhança Facial Cross-Scene (Face Verification Index).
 - [x] **Etapa 087:** Exportador de Metadados de Timeline para o V5 Edit Web (Marcadores de fala, respiração e ênfase).
 - [x] **Etapa 088:** Gerador de Poses de Apresentador UGC com Produtos Minerados do V5 Finders.
-- [ ] **Etapa 089:** Exportador de Card de Autor e Assinatura Digital de Especialista para o V5 Auto Blog.
+- [x] **Etapa 089:** Exportador de Card de Autor e Assinatura Digital de Especialista para o V5 Auto Blog.
 - [ ] **Etapa 090:** Validação de Integridade e Build de Homologação da Fase 9 (`npm run build` verde com Exit Code 0).
 
 ---
