@@ -70,27 +70,52 @@ export default function IdleLiveCanvasViewer({
   // Imagem carregada do avatar (se disponível)
   const avatarImgRef = useRef<HTMLImageElement | null>(null);
 
+  // Refs de estado para desacoplar a frequência de animação 60 FPS de re-renders
+  const togglesRef = useRef(toggles);
+  togglesRef.current = toggles;
+
+  const currentPoseRef = useRef(currentPose);
+  currentPoseRef.current = currentPose;
+
+  const eyelidProgressRef = useRef(eyelidProgress);
+  eyelidProgressRef.current = eyelidProgress;
+
+  const currentAvatarRef = useRef(currentAvatar);
+  currentAvatarRef.current = currentAvatar;
+
+  const avatarNameRef = useRef(avatarName);
+  avatarNameRef.current = currentAvatar?.name || avatarName;
+
   useEffect(() => {
+    let isCancelled = false;
     if (avatarUrl && avatarUrl !== '/sample-avatar.png') {
       const img = new Image();
       img.crossOrigin = 'anonymous';
       img.src = avatarUrl;
       img.onload = () => {
-        avatarImgRef.current = img;
+        if (!isCancelled) avatarImgRef.current = img;
+      };
+      img.onerror = () => {
+        if (!isCancelled) avatarImgRef.current = null;
       };
     } else {
       avatarImgRef.current = null;
     }
+    return () => {
+      isCancelled = true;
+    };
   }, [avatarUrl]);
 
-  // Loop autônomo de Head Tilts para o Canvas
+  // Loop autônomo de Head Tilts para o Canvas (blindado contra unmount)
   useEffect(() => {
     if (!isPlaying || !toggles.headTilt) return;
 
+    let isMounted = true;
     const headConfig = currentAvatar?.rigging?.headTiltConfig || DEFAULT_HEAD_TILT_CONFIG;
     let timer: NodeJS.Timeout;
 
     const nextTilt = () => {
+      if (!isMounted) return;
       const pose = calculateRandomHeadPose(headConfig);
       setCurrentPose(pose);
       const dwellMs = (headConfig.transitionDurationSeconds + headConfig.dwellTimeSeconds) * 1000;
@@ -98,44 +123,56 @@ export default function IdleLiveCanvasViewer({
     };
 
     nextTilt();
-    return () => clearTimeout(timer);
+    return () => {
+      isMounted = false;
+      clearTimeout(timer);
+    };
   }, [isPlaying, toggles.headTilt, currentAvatar]);
 
-  // Loop autônomo de Piscada para o Canvas
+  // Loop autônomo de Piscada para o Canvas (blindado contra unmount e RAF residual)
   useEffect(() => {
     if (!isPlaying || !toggles.blinking) return;
 
+    let isMounted = true;
+    let animId: number | null = null;
     const blinkConfig = currentAvatar?.rigging?.eyeBlinkConfig || DEFAULT_EYE_BLINK_CONFIG;
     let timer: NodeJS.Timeout;
 
     const scheduleNextBlink = () => {
+      if (!isMounted) return;
       const next = calculateNextBlinkInterval(blinkConfig);
       timer = setTimeout(() => {
+        if (!isMounted) return;
         const start = performance.now();
         const duration = blinkConfig.blinkDurationMs;
 
         const animStep = () => {
+          if (!isMounted) return;
           const elapsed = performance.now() - start;
           const progress = Math.min(100, (elapsed / duration) * 100);
           setEyelidProgress(progress);
 
           if (progress < 100) {
-            requestAnimationFrame(animStep);
+            animId = requestAnimationFrame(animStep);
           } else {
             setEyelidProgress(100);
           }
         };
 
-        requestAnimationFrame(animStep);
+        animId = requestAnimationFrame(animStep);
         scheduleNextBlink();
       }, next.delayMs);
     };
 
     scheduleNextBlink();
-    return () => clearTimeout(timer);
+    return () => {
+      isMounted = false;
+      clearTimeout(timer);
+      if (animId) cancelAnimationFrame(animId);
+    };
   }, [isPlaying, toggles.blinking, currentAvatar]);
 
-  // Render Loop Principal a 60 FPS
+  // Render Loop Principal a 60 FPS (Zero Teardown / Alta Fidelidade)
   useEffect(() => {
     if (!isPlaying) {
       if (animFrameIdRef.current) cancelAnimationFrame(animFrameIdRef.current);
@@ -147,7 +184,6 @@ export default function IdleLiveCanvasViewer({
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
-    let lastTime = performance.now();
     let frameCounter = 0;
     let fpsTimer = performance.now();
 
@@ -155,21 +191,21 @@ export default function IdleLiveCanvasViewer({
       const startRender = performance.now();
 
       const breathingConfig =
-        currentAvatar?.rigging?.breathingConfig || DEFAULT_BREATHING_CONFIG;
+        currentAvatarRef.current?.rigging?.breathingConfig || DEFAULT_BREATHING_CONFIG;
       const eyeBlinkConfig =
-        currentAvatar?.rigging?.eyeBlinkConfig || DEFAULT_EYE_BLINK_CONFIG;
+        currentAvatarRef.current?.rigging?.eyeBlinkConfig || DEFAULT_EYE_BLINK_CONFIG;
       const headTiltConfig =
-        currentAvatar?.rigging?.headTiltConfig || DEFAULT_HEAD_TILT_CONFIG;
+        currentAvatarRef.current?.rigging?.headTiltConfig || DEFAULT_HEAD_TILT_CONFIG;
 
       const state: IdleCanvasSceneState = {
         breathingConfig,
         eyeBlinkConfig,
         headTiltConfig,
-        toggles,
-        currentPose,
-        eyelidProgressPercent: eyelidProgress,
+        toggles: togglesRef.current,
+        currentPose: currentPoseRef.current,
+        eyelidProgressPercent: eyelidProgressRef.current,
         avatarImage: avatarImgRef.current,
-        avatarName: currentAvatar?.name || avatarName,
+        avatarName: avatarNameRef.current,
       };
 
       // Executa o pipeline de renderização
@@ -196,7 +232,7 @@ export default function IdleLiveCanvasViewer({
     return () => {
       if (animFrameIdRef.current) cancelAnimationFrame(animFrameIdRef.current);
     };
-  }, [isPlaying, toggles, currentPose, eyelidProgress, currentAvatar, avatarName]);
+  }, [isPlaying, resolution]);
 
   // Captura Snapshot PNG instantâneo do Canvas a 60 FPS
   const handleCaptureSnapshot = () => {

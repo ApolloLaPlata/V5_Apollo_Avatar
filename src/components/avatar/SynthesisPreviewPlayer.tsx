@@ -63,6 +63,15 @@ export default function SynthesisPreviewPlayer({
   const pausedAtRef = useRef<number>(0);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
+  // Limpeza de síntese de voz nativa no unmount do componente para prevenir áudio órfão
+  useEffect(() => {
+    return () => {
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+    };
+  }, []);
+
   // Recalcula timeline quando o texto, velocidade ou motor mudar
   useEffect(() => {
     const updated = compileSpeechTimeline(scriptText, speedFactor, currentEngine);
