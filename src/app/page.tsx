@@ -52,6 +52,7 @@ import IdleEmbedExporterPanel from '@/components/avatar/IdleEmbedExporterPanel';
 import IdlePerformanceBenchmarkPanel from '@/components/avatar/IdlePerformanceBenchmarkPanel';
 import BroadcasterWebhookPanel from '@/components/avatar/BroadcasterWebhookPanel';
 import VTuberPackageExporterPanel from '@/components/avatar/VTuberPackageExporterPanel';
+import AudioVisemeSyncPanel from '@/components/avatar/AudioVisemeSyncPanel';
 import AvatarCard from '@/components/avatar/AvatarCard';
 import QuickCreateAvatarModal from '@/components/avatar/QuickCreateAvatarModal';
 import Apollo5RocketLogo from '@/components/ui/Apollo5RocketLogo';
@@ -376,6 +377,12 @@ export default function AvatarHubPage() {
 
         {/* Exportador de Pacote VTuber Standard (Fase 8 · Etapa 072) */}
         <VTuberPackageExporterPanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+        />
+
+        {/* Sincronizador de Áudio com Visemas em Tempo Real (Fase 8 · Etapa 073) */}
+        <AudioVisemeSyncPanel
           avatarId={selectedAvatar?.id}
           avatarName={selectedAvatar?.name}
         />
