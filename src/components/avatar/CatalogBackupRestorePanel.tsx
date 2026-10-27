@@ -13,6 +13,7 @@ import {
   RestoreValidationResult,
   LocalSnapshotItem,
 } from '@/utils/catalogBackupEngine';
+import { toast } from '@/store/useToastStore';
 import {
   Database,
   Download,
@@ -54,7 +55,7 @@ export default function CatalogBackupRestorePanel() {
       setFeedbackMessage(`Backup de ${avatars.length} personagens exportado com sucesso!`);
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : String(err);
-      alert(`Erro ao exportar backup: ${msg}`);
+      toast.error('Erro no Backup', `Erro ao exportar backup: ${msg}`);
     } finally {
       setIsExporting(false);
     }
@@ -70,7 +71,7 @@ export default function CatalogBackupRestorePanel() {
       setValidationResult(result);
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : String(err);
-      alert(`Falha ao ler arquivo de backup: ${msg}`);
+      toast.error('Erro de Restauração', `Falha ao ler arquivo de backup: ${msg}`);
     }
   };
 

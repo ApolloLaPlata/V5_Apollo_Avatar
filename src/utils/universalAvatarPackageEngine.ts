@@ -265,6 +265,7 @@ export function validatePackageIntegrity(pkg: V5AvatarPackage): PackageValidatio
  * Exporta o pacote canônico em arquivo .v5avatar.json
  */
 export function downloadUniversalPackageJson(pkg: V5AvatarPackage): void {
+  if (typeof document === 'undefined' || typeof window === 'undefined') return;
   const jsonString = JSON.stringify(pkg, null, 2);
   const blob = new Blob([jsonString], { type: 'application/json' });
   const url = URL.createObjectURL(blob);

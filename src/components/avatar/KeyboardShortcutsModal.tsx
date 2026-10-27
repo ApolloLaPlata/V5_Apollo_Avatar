@@ -38,6 +38,14 @@ export default function KeyboardShortcutsModal({
   const [searchTerm, setSearchTerm] = useState('');
   const [activeCategory, setActiveCategory] = useState<string>('all');
   const [lastExecutedAction, setLastExecutedAction] = useState<string | null>(null);
+  const feedbackTimeoutRef = React.useRef<NodeJS.Timeout | null>(null);
+
+  // Limpeza de timer de feedback no unmount
+  useEffect(() => {
+    return () => {
+      if (feedbackTimeoutRef.current) clearTimeout(feedbackTimeoutRef.current);
+    };
+  }, []);
 
   // Listener global de teclado
   useEffect(() => {
@@ -125,7 +133,8 @@ export default function KeyboardShortcutsModal({
 
   const triggerFeedback = (msg: string) => {
     setLastExecutedAction(msg);
-    setTimeout(() => {
+    if (feedbackTimeoutRef.current) clearTimeout(feedbackTimeoutRef.current);
+    feedbackTimeoutRef.current = setTimeout(() => {
       setLastExecutedAction(null);
     }, 2500);
   };

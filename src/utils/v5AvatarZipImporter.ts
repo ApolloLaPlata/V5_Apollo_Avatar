@@ -115,19 +115,66 @@ export async function unpackAndValidateV5Avatar(
 
   onProgress?.({ stage: 'Reconstruindo perfil AvatarProfile soberano...', percent: 95 });
 
+  // Validação e recuperação defensiva de nós de dados
+  if (!rawPackage.profile || !rawPackage.dnaPillars) {
+    errors.push('O pacote não contém a estrutura canônica completa (profile e dnaPillars requeridos).');
+  }
+
+  const safeProfile = rawPackage.profile || {
+    id: `avatar-restored-${Date.now()}`,
+    name: 'Avatar Restaurado',
+    tagline: 'Personagem Soberano V5',
+    type: 'influencer' as AvatarType,
+    avatarUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80',
+    createdAt: new Date().toISOString(),
+  };
+
+  const safePillars = rawPackage.dnaPillars || {
+    faceDna: {
+      primaryAnchorImage: safeProfile.avatarUrl || '',
+      referenceImages: [safeProfile.avatarUrl || ''],
+      clothingPrompt: 'Traje de estúdio canônico',
+      fixedFeaturesPrompt: 'Expressão neutra de calibração',
+      ethnicityAgeGender: 'Adulto',
+      lightingPreset: 'studio_neutral',
+      diffusionSeed: 42,
+    },
+    voiceDna: {
+      engine: 'qwen-tts' as const,
+      tone: 'neutral' as const,
+      speed: 1.0,
+      pitch: 0,
+      stability: 0.8,
+    },
+    soulDna: {
+      archetype: 'creator' as const,
+      bio: 'Perfil recuperado via pacote soberano.',
+      niche: 'Geral',
+      personalityTraits: ['Soberano'],
+      catchphrases: ['Consistência e identidade soberana.'],
+      forbiddenTopics: ['Mercado cinza'],
+      systemPrompt: 'Você é um personagem soberano da Holding V5 Apollo.',
+    },
+    interactiveChannel: {
+      totalConversations: 0,
+      allowedOrigins: ['http://localhost:3010'],
+      isLiveActive: false,
+    },
+  };
+
   // Reconstrói o AvatarProfile canônico
   const reconstructedProfile: AvatarProfile = {
-    id: rawPackage.profile.id,
-    name: rawPackage.profile.name,
-    tagline: rawPackage.profile.tagline || 'Personagem Soberano V5',
-    type: (rawPackage.profile.type as AvatarType) || 'influencer',
-    avatarUrl: rawPackage.profile.avatarUrl || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80',
-    createdAt: rawPackage.profile.createdAt || new Date().toISOString(),
+    id: safeProfile.id || `avatar-${Date.now()}`,
+    name: safeProfile.name || 'Avatar Sem Nome',
+    tagline: safeProfile.tagline || 'Personagem Soberano V5',
+    type: (safeProfile.type as AvatarType) || 'influencer',
+    avatarUrl: safeProfile.avatarUrl || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80',
+    createdAt: safeProfile.createdAt || new Date().toISOString(),
     updatedAt: new Date().toISOString(),
-    face: rawPackage.dnaPillars.faceDna,
-    voice: rawPackage.dnaPillars.voiceDna,
-    soul: rawPackage.dnaPillars.soulDna,
-    channel: rawPackage.dnaPillars.interactiveChannel,
+    face: safePillars.faceDna,
+    voice: safePillars.voiceDna,
+    soul: safePillars.soulDna,
+    channel: safePillars.interactiveChannel,
     syncedSites: {
       broadcaster: true,
       prisma: true,

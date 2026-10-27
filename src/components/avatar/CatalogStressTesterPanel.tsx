@@ -7,6 +7,7 @@ import {
   generateSyntheticAvatars,
   CatalogStressTestReport,
 } from '@/utils/catalogStressTesterEngine';
+import { toast } from '@/store/useToastStore';
 import {
   Zap,
   Activity,
@@ -48,7 +49,7 @@ export default function CatalogStressTesterPanel() {
       setReport(result);
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : String(err);
-      alert(`Erro durante teste de estresse: ${msg}`);
+      toast.error('Erro no Teste de Estresse', msg);
     } finally {
       setIsRunning(false);
       setProgressPercent(100);

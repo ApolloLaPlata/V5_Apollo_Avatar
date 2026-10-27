@@ -154,27 +154,39 @@ export default function AvatarHubPage() {
               Ator Selecionado:
             </span>
             <div className="flex items-center gap-2 overflow-x-auto py-1">
-              {avatars.map((avatar) => {
-                const isCurrent = avatar.id === selectedAvatar?.id;
-                return (
+              {avatars.length === 0 ? (
+                <div className="flex items-center gap-2 text-xs text-amber-400 font-mono pl-1">
+                  <span>Nenhum ator no catálogo.</span>
                   <button
-                    key={avatar.id}
-                    onClick={() => selectAvatar(avatar.id)}
-                    className={`flex items-center gap-2 px-3 py-1.5 rounded-xl border text-xs font-medium transition-all ${
-                      isCurrent
-                        ? 'bg-cyber-cyan/20 border-cyber-cyan text-white shadow-[0_0_12px_rgba(0,229,255,0.25)]'
-                        : 'bg-black/30 border-white/5 text-slate-400 hover:text-white hover:border-white/20'
-                    }`}
+                    onClick={() => useAvatarStore.getState().resetToDefaults()}
+                    className="px-2 py-0.5 rounded bg-cyber-cyan/10 border border-cyber-cyan/30 text-cyber-cyan hover:bg-cyber-cyan hover:text-black font-bold transition-all"
                   >
-                    <img 
-                      src={avatar.avatarUrl} 
-                      alt={avatar.name} 
-                      className="w-5 h-5 rounded-full object-cover border border-white/10"
-                    />
-                    <span>{avatar.name}</span>
+                    Restaurar Padrões Soberanos
                   </button>
-                );
-              })}
+                </div>
+              ) : (
+                avatars.map((avatar) => {
+                  const isCurrent = avatar.id === selectedAvatar?.id;
+                  return (
+                    <button
+                      key={avatar.id}
+                      onClick={() => selectAvatar(avatar.id)}
+                      className={`flex items-center gap-2 px-3 py-1.5 rounded-xl border text-xs font-medium transition-all ${
+                        isCurrent
+                          ? 'bg-cyber-cyan/20 border-cyber-cyan text-white shadow-[0_0_12px_rgba(0,229,255,0.25)]'
+                          : 'bg-black/30 border-white/5 text-slate-400 hover:text-white hover:border-white/20'
+                      }`}
+                    >
+                      <img 
+                        src={avatar.avatarUrl} 
+                        alt={avatar.name} 
+                        className="w-5 h-5 rounded-full object-cover border border-white/10"
+                      />
+                      <span>{avatar.name}</span>
+                    </button>
+                  );
+                })
+              )}
             </div>
           </div>
 

@@ -252,16 +252,18 @@ export async function downloadV5AvatarZip(
 ): Promise<ZipPackagingResult> {
   const { blob, result } = await createV5AvatarZipPackage(avatar, options, onProgress);
 
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = result.fileName;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  setTimeout(() => {
-    URL.revokeObjectURL(url);
-  }, 4000);
+  if (typeof document !== 'undefined' && typeof window !== 'undefined') {
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = result.fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setTimeout(() => {
+      URL.revokeObjectURL(url);
+    }, 4000);
+  }
 
   return result;
 }

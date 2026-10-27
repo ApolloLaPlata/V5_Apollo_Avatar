@@ -62,6 +62,8 @@ export default function SynthesisPreviewPlayer({
   const startTimeRef = useRef<number | null>(null);
   const pausedAtRef = useRef<number>(0);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const currentTimeSecRef = useRef<number>(0);
+  currentTimeSecRef.current = currentTimeSec;
 
   // Limpeza de síntese de voz nativa no unmount do componente para prevenir áudio órfão
   useEffect(() => {
@@ -144,8 +146,9 @@ export default function SynthesisPreviewPlayer({
 
         let height = 4;
         if (isPlaying) {
-          // Dinâmica de onda baseada no tempo e harmônicos
-          const freqMultiplier = Math.sin(currentTimeSec * 8 + i * 0.4) * 0.5 + 0.5;
+          // Dinâmica de onda desacoplada do re-render React via ref
+          const curTime = currentTimeSecRef.current;
+          const freqMultiplier = Math.sin(curTime * 8 + i * 0.4) * 0.5 + 0.5;
           const noise = Math.random() * 0.25;
           height = Math.max(4, (freqMultiplier + noise) * (canvas.height - 8));
         }
@@ -169,7 +172,7 @@ export default function SynthesisPreviewPlayer({
     return () => {
       if (animId) cancelAnimationFrame(animId);
     };
-  }, [isPlaying, currentTimeSec]);
+  }, [isPlaying]);
 
   // Controle de Play/Pause com suporte à síntese do navegador (Web Speech API)
   const handleTogglePlay = () => {

@@ -178,6 +178,7 @@ export const useAvatarStore = create<AvatarState>()(
                     voice: updates.voice ? { ...av.voice, ...updates.voice } : av.voice,
                     soul: updates.soul ? { ...av.soul, ...updates.soul } : av.soul,
                     channel: updates.channel ? { ...av.channel, ...updates.channel } : av.channel,
+                    syncedSites: updates.syncedSites ? { ...av.syncedSites, ...updates.syncedSites } : av.syncedSites,
                   }
                 : av
             ),
@@ -235,8 +236,12 @@ export const useAvatarStore = create<AvatarState>()(
       {
         name: 'v5_apollo_avatar_storage',
         onRehydrateStorage: () => (state, error) => {
-          if (error) {
-            console.warn('Erro ao reidratar store do avatar do localStorage. Utilizando defaults seguros:', error);
+          if (error || !state || !Array.isArray(state.avatars) || state.avatars.length === 0) {
+            console.warn('Reidratação nula ou inválida do localStorage. Restaurando catálogo canônico soberano.');
+            if (state) {
+              state.avatars = INITIAL_CANONICAL_AVATARS;
+              state.selectedAvatarId = INITIAL_CANONICAL_AVATARS[0]?.id || null;
+            }
           }
         },
       }

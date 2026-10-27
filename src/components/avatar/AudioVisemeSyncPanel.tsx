@@ -12,6 +12,7 @@ import {
 } from '@/utils/audioVisemeSyncEngine';
 import { CANONICAL_VISEMES_CATALOG } from '@/utils/visemesEngine';
 import { VisemeType } from '@/types/avatar';
+import { toast } from '@/store/useToastStore';
 import {
   Mic,
   MicOff,
@@ -76,7 +77,7 @@ export default function AudioVisemeSyncPanel({
   const animFrameRef = useRef<number | null>(null);
   const previousStateRef = useRef<LiveLipSyncState>(syncState);
 
-  // Instancia analisador de áudio
+  // Instancia analisador de áudio e limpeza segura
   useEffect(() => {
     analyzerRef.current = new WebAudioVisemeAnalyzer();
     return () => {
@@ -85,6 +86,9 @@ export default function AudioVisemeSyncPanel({
       }
       if (animFrameRef.current) {
         cancelAnimationFrame(animFrameRef.current);
+      }
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
       }
     };
   }, []);
@@ -109,8 +113,9 @@ export default function AudioVisemeSyncPanel({
       const ok = await analyzerRef.current.startMicrophone(config.fftSize);
       if (ok) {
         setIsMicActive(true);
+        toast.success('Microfone Ativado', 'Análise espectral em tempo real iniciada.');
       } else {
-        alert('Não foi possível acessar o microfone local. Verifique as permissões de áudio do navegador.');
+        toast.error('Erro no Microfone', 'Não foi possível acessar o microfone local. Verifique as permissões de áudio do navegador.');
       }
     }
   };

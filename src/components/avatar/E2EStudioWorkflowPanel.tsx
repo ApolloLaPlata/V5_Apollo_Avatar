@@ -7,6 +7,7 @@ import {
   E2EValidationReport,
   E2EStageResult,
 } from '@/utils/e2eStudioWorkflowValidator';
+import { toast } from '@/store/useToastStore';
 import {
   ShieldCheck,
   CheckCircle2,
@@ -61,7 +62,7 @@ export default function E2EStudioWorkflowPanel({
       setReport(result);
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : String(err);
-      alert(`Falha no teste E2E: ${msg}`);
+      toast.error('Falha no Teste E2E', msg);
     } finally {
       setIsRunning(false);
       setProgressPercent(100);
