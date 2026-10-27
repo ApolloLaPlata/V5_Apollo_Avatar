@@ -161,7 +161,7 @@ flowchart TD
 - [x] **Etapa 072:** Exportador de Pacote VTuber Standard (JSON de configuração + sprites de visemas + loops idle).
 - [x] **Etapa 073:** Módulo de Sincronização de Áudio com Visemas (Troca de boca em tempo real guiada por amplitude/frequência).
 - [x] **Etapa 074:** Sistema de Gatilhos de Emoções em Tempo Real (Disparados por eventos de live: superchats, novos inscritos, alertas).
-- [ ] **Etapa 075:** Conector WebSocket Local de Baixa Latência para o OBS Studio Browser Source.
+- [x] **Etapa 075:** Conector WebSocket Local de Baixa Latência para o OBS Studio Browser Source.
 - [ ] **Etapa 076:** Overlay Web Otimizado para OBS com fundo transparente absoluto e aceleração por hardware.
 - [ ] **Etapa 077:** Painel de Controle de Operador de Live (Dashboard para troca manual de poses, expressões e falas preparadas).
 - [ ] **Etapa 078:** Monitor de Telemetria de Live (Medidor de latência de resposta, FPS da cena e integridade do sinal).
