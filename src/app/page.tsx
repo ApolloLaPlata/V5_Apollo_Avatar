@@ -56,6 +56,7 @@ import AudioVisemeSyncPanel from '@/components/avatar/AudioVisemeSyncPanel';
 import LiveEmotionTriggersPanel from '@/components/avatar/LiveEmotionTriggersPanel';
 import ObsWebSocketConnectorPanel from '@/components/avatar/ObsWebSocketConnectorPanel';
 import ObsTransparentOverlayPanel from '@/components/avatar/ObsTransparentOverlayPanel';
+import LiveOperatorDeckPanel from '@/components/avatar/LiveOperatorDeckPanel';
 import AvatarCard from '@/components/avatar/AvatarCard';
 import QuickCreateAvatarModal from '@/components/avatar/QuickCreateAvatarModal';
 import Apollo5RocketLogo from '@/components/ui/Apollo5RocketLogo';
@@ -404,6 +405,12 @@ export default function AvatarHubPage() {
 
         {/* Overlay Web Otimizado para OBS com Fundo Transparente (Fase 8 · Etapa 076) */}
         <ObsTransparentOverlayPanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+        />
+
+        {/* Painel de Controle de Operador de Live (Fase 8 · Etapa 077) */}
+        <LiveOperatorDeckPanel
           avatarId={selectedAvatar?.id}
           avatarName={selectedAvatar?.name}
         />
