@@ -58,6 +58,7 @@ import ObsWebSocketConnectorPanel from '@/components/avatar/ObsWebSocketConnecto
 import ObsTransparentOverlayPanel from '@/components/avatar/ObsTransparentOverlayPanel';
 import LiveOperatorDeckPanel from '@/components/avatar/LiveOperatorDeckPanel';
 import LiveTelemetryMonitorPanel from '@/components/avatar/LiveTelemetryMonitorPanel';
+import LivePromptFirewallPanel from '@/components/avatar/LivePromptFirewallPanel';
 import AvatarCard from '@/components/avatar/AvatarCard';
 import QuickCreateAvatarModal from '@/components/avatar/QuickCreateAvatarModal';
 import Apollo5RocketLogo from '@/components/ui/Apollo5RocketLogo';
@@ -418,6 +419,12 @@ export default function AvatarHubPage() {
 
         {/* Monitor de Telemetria de Live (Fase 8 · Etapa 078) */}
         <LiveTelemetryMonitorPanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+        />
+
+        {/* Firewall Anti-Hijacking e Defesa Anti-Jailbreak de Live (Fase 8 · Etapa 079) */}
+        <LivePromptFirewallPanel
           avatarId={selectedAvatar?.id}
           avatarName={selectedAvatar?.name}
         />
