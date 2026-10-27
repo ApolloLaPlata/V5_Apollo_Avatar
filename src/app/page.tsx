@@ -55,6 +55,7 @@ import VTuberPackageExporterPanel from '@/components/avatar/VTuberPackageExporte
 import AudioVisemeSyncPanel from '@/components/avatar/AudioVisemeSyncPanel';
 import LiveEmotionTriggersPanel from '@/components/avatar/LiveEmotionTriggersPanel';
 import ObsWebSocketConnectorPanel from '@/components/avatar/ObsWebSocketConnectorPanel';
+import ObsTransparentOverlayPanel from '@/components/avatar/ObsTransparentOverlayPanel';
 import AvatarCard from '@/components/avatar/AvatarCard';
 import QuickCreateAvatarModal from '@/components/avatar/QuickCreateAvatarModal';
 import Apollo5RocketLogo from '@/components/ui/Apollo5RocketLogo';
@@ -397,6 +398,12 @@ export default function AvatarHubPage() {
 
         {/* Conector WebSocket Local de Baixa Latência para OBS Studio (Fase 8 · Etapa 075) */}
         <ObsWebSocketConnectorPanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+        />
+
+        {/* Overlay Web Otimizado para OBS com Fundo Transparente (Fase 8 · Etapa 076) */}
+        <ObsTransparentOverlayPanel
           avatarId={selectedAvatar?.id}
           avatarName={selectedAvatar?.name}
         />
