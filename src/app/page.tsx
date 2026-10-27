@@ -7,6 +7,13 @@ import { CharacterCreator } from '@/components/avatar/CharacterCreator';
 import TurnaroundGridViewer from '@/components/avatar/TurnaroundGridViewer';
 import TurnaroundSheetExporter from '@/components/avatar/TurnaroundSheetExporter';
 import DiffusionParamsInspector from '@/components/avatar/DiffusionParamsInspector';
+import CinematicFramingMatrix from '@/components/avatar/CinematicFramingMatrix';
+import VirtualLensSelector from '@/components/avatar/VirtualLensSelector';
+import AnatomicalProportionGuides from '@/components/avatar/AnatomicalProportionGuides';
+import PoseFidelityComparator from '@/components/avatar/PoseFidelityComparator';
+import JointCoordinatesGenerator from '@/components/avatar/JointCoordinatesGenerator';
+import UtilityPoseCatalog from '@/components/avatar/UtilityPoseCatalog';
+import PoseSheetExporterPanel from '@/components/avatar/PoseSheetExporterPanel';
 import AvatarCard from '@/components/avatar/AvatarCard';
 import QuickCreateAvatarModal from '@/components/avatar/QuickCreateAvatarModal';
 import Apollo5RocketLogo from '@/components/ui/Apollo5RocketLogo';
@@ -74,6 +81,39 @@ export default function AvatarHubPage() {
 
         {/* Inspetor de Seeds e Parâmetros de Difusão */}
         <DiffusionParamsInspector />
+
+        {/* Matriz de Enquadramentos Cinemáticos */}
+        <CinematicFramingMatrix />
+
+        {/* Seletor de Lentes e Distâncias Focais Virtuais */}
+        <VirtualLensSelector />
+
+        {/* Sistema de Guias de Proporção Anatômica */}
+        <AnatomicalProportionGuides previewImageUrl={selectedAvatar?.avatarUrl} />
+
+        {/* Comparador Lado a Lado: Foto Âncora vs T-Pose */}
+        <PoseFidelityComparator
+          anchorPhotoUrl={selectedAvatar?.avatarUrl}
+          tPosePhotoUrl={selectedAvatar?.face.turnaroundSheetUrl || selectedAvatar?.avatarUrl}
+          characterName={selectedAvatar?.name}
+        />
+
+        {/* Gerador de Metadados de Articulação Óssea (Rigging V5 Broadcaster) */}
+        <JointCoordinatesGenerator
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+          previewImageUrl={selectedAvatar?.avatarUrl}
+        />
+
+        {/* Catálogo de Poses Utilitárias (Fines & Auto Blog) */}
+        <UtilityPoseCatalog characterName={selectedAvatar?.name} />
+
+        {/* Exportador de Folha de Poses (Alta Resolução & Canal Alpha) */}
+        <PoseSheetExporterPanel
+          avatarName={selectedAvatar?.name}
+          tPoseUrl={selectedAvatar?.avatarUrl}
+          aPoseUrl={selectedAvatar?.avatarUrl}
+        />
 
         {/* Galeria de Personagens Registrados na Store */}
         <div className="space-y-4">

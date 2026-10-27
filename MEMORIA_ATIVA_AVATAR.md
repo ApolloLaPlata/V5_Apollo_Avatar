@@ -32,4 +32,5 @@ A pasta local `Pesquisa e Conhecimento/Apollo_La_Plata_Character_Base` contém o
 ## 4. Próximos Passos (Plano Mestre de 100 Etapas)
 - [x] **Fase 1 (Etapas 001 a 010):** Fundações concluídas com sucesso (Zustand, Tipos Soberanos, Design System Dark Luxury, StudioHeader, Holographic AvatarCard, Banco de Arquétipos Canônicos, Modal de Criação Rápida e Toasts Nativos).
 - [x] **Fase 2 (Etapas 011 a 020):** Motor de Model Sheet Turnaround 360º concluído (Ingestor Canvas 1024px, Galeria Multi-Ângulos, Compilador de Prompts 4 Ângulos, Visualizador Grid com réguas, Calibrador Eye-Level Laser, 5 Presets de Iluminação, Attire Lock Engine com swatches, Inspetor de Seeds e Compositor de Folha Única 4:1).
-- [ ] **Fase 3 (Etapas 021 a 030):** Matriz de Poses Neutras (T-Pose, A-Pose) e Ângulos de Câmera Cinemática.
+- [x] **Fase 3 (Etapas 021 a 030):** Matriz de Poses Neutras (T-Pose, A-Pose) e Ângulos de Câmera Cinemática concluída (Compiladores T-Pose 90º e A-Pose 45º, Matriz Cinemática, Seletor de Lentes Virtuais 24-135mm e Bokeh, Guias Anatômicas 7/7.5/8 Cabeças e Proporção Áurea, Comparador de Biotipo Foto vs T-Pose, Gerador de Rigging Ósseo 20-Keypoints para Broadcaster :3008, Catálogo de Poses Utilitárias Fines/Autoblog, e Exportador de Folha de Poses com Canal Alpha 32-bit).
+- [ ] **Fase 4 (Etapas 031 a 040):** Matriz de Expressões Faciais e Visemas de Fala.

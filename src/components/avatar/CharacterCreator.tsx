@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import ImageCanvasUploader from '@/components/avatar/ImageCanvasUploader';
 import MultiReferenceGallery, { ReferenceItem } from '@/components/avatar/MultiReferenceGallery';
 import TurnaroundPromptInspector from '@/components/avatar/TurnaroundPromptInspector';
+import TPoseCompilerPanel from '@/components/avatar/TPoseCompilerPanel';
+import APoseCompilerPanel from '@/components/avatar/APoseCompilerPanel';
 import StudioLightingPresetSelector from '@/components/avatar/StudioLightingPresetSelector';
 import AttireLockEnginePanel from '@/components/avatar/AttireLockEnginePanel';
 import { 
@@ -29,7 +31,7 @@ export function CharacterCreator({ onCreated }: { onCreated?: (avatar: AvatarPro
   const [avatarName, setAvatarName] = useState('');
   const [tagline, setTagline] = useState('');
   const [avatarType, setAvatarType] = useState<AvatarType>('influencer');
-  const [sheetMode, setSheetMode] = useState<'turnaround' | 't-pose' | 'expression'>('turnaround');
+  const [sheetMode, setSheetMode] = useState<'turnaround' | 't-pose' | 'a-pose' | 'expression'>('turnaround');
   const [prompt, setPrompt] = useState('');
   const [clothing, setClothing] = useState('');
   const [lightingPreset, setLightingPreset] = useState<LightingPreset>('softbox');
@@ -110,7 +112,17 @@ export function CharacterCreator({ onCreated }: { onCreated?: (avatar: AvatarPro
                 : 'text-slate-400 hover:text-white'
             }`}
           >
-            <Accessibility className="w-3.5 h-3.5" /> T-Pose
+            <Accessibility className="w-3.5 h-3.5" /> T-Pose (90º)
+          </button>
+          <button
+            onClick={() => setSheetMode('a-pose')}
+            className={`px-3 py-1.5 text-xs font-bold rounded-lg transition-all flex items-center gap-1.5 cursor-pointer ${
+              sheetMode === 'a-pose'
+                ? 'bg-cyan-500 text-slate-950 shadow-md shadow-cyan-500/20'
+                : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            <Accessibility className="w-3.5 h-3.5" /> A-Pose (45º)
           </button>
           <button
             onClick={() => setSheetMode('expression')}
@@ -241,17 +253,35 @@ export function CharacterCreator({ onCreated }: { onCreated?: (avatar: AvatarPro
 
         {/* Lado Direito: Preview do Compilador de Prompt & Render */}
         <div className="space-y-4 flex flex-col justify-between">
-          <TurnaroundPromptInspector
-            params={{
-              characterName: avatarName,
-              physicalTraits: prompt,
-              clothing,
-              lightingPreset: lightingPreset,
-              qualityModifier: 'hyperreal_studio',
-            }}
-            onGenerateClick={handleMockGenerate}
-            isGenerating={generating}
-          />
+          {sheetMode === 't-pose' ? (
+            <TPoseCompilerPanel
+              characterName={avatarName}
+              physicalTraits={prompt}
+              customClothing={clothing}
+              onGenerateClick={handleMockGenerate}
+              isGenerating={generating}
+            />
+          ) : sheetMode === 'a-pose' ? (
+            <APoseCompilerPanel
+              characterName={avatarName}
+              physicalTraits={prompt}
+              customClothing={clothing}
+              onGenerateClick={handleMockGenerate}
+              isGenerating={generating}
+            />
+          ) : (
+            <TurnaroundPromptInspector
+              params={{
+                characterName: avatarName,
+                physicalTraits: prompt,
+                clothing,
+                lightingPreset: lightingPreset,
+                qualityModifier: 'hyperreal_studio',
+              }}
+              onGenerateClick={handleMockGenerate}
+              isGenerating={generating}
+            />
+          )}
 
           {generatedPreview && (
             <div className="p-3 bg-slate-950 border border-emerald-500/30 rounded-xl flex items-center gap-3">

@@ -77,16 +77,16 @@ flowchart TD
 ### FASE 3: MATRIZ DE POSES NEUTRAS (T-POSE, A-POSE) E ÂNGULOS DE CÂMERA CINEMÁTICA
 *Objetivo: Criar as folhas de modelagem neutra para prova virtual de roupas, rigging 3D e enquadramentos de estúdio.*
 
-- [ ] **Etapa 021:** Compilador de Prompt Paramétrico para T-Pose Neutra (braços abertos a 90º, palmas para frente, anatomia para rigging).
-- [ ] **Etapa 022:** Compilador de Prompt Paramétrico para A-Pose (braços a 45º, postura relaxada para caimento de vestimentas folgadas).
-- [ ] **Etapa 023:** Matriz de Enquadramentos Cinemáticos (Close-up Rosto, Médio Busto/Americano e Plano Geral de Corpo Inteiro).
-- [ ] **Etapa 024:** Seletor de Lentes e Distâncias Focais Virtuais (35mm editorial, 50mm natural, 85mm retrato clássico com bokeh de estúdio).
-- [ ] **Etapa 025:** Sistema de Guias de Proporção Anatômica (cabeças de altura, largura de ombros e linhas de cintura).
-- [ ] **Etapa 026:** Comparador Lado a Lado: Foto Âncora vs T-Pose gerada (validação de fidelidade de biotipo).
-- [ ] **Etapa 027:** Gerador de Metadados de Articulação Óssea (Joint Coordinates Reference) para alimentar o V5 Broadcaster.
-- [ ] **Etapa 028:** Catálogo de Poses Utilitárias (Segurando Produto do Fines, Apontando, Braços Cruzados, Pose Pensativa).
-- [ ] **Etapa 029:** Exportador de Folha de Poses em Alta Resolução com suporte a fundo transparente (Canal Alpha).
-- [ ] **Etapa 030:** Validação de Integridade e Build de Homologação da Fase 3 (`npm run build` verde com Exit Code 0).
+- [x] **Etapa 021:** Compilador de Prompt Paramétrico para T-Pose Neutra (braços abertos a 90º, palmas para frente, anatomia para rigging).
+- [x] **Etapa 022:** Compilador de Prompt Paramétrico para A-Pose (braços a 45º, postura relaxada para caimento de vestimentas folgadas).
+- [x] **Etapa 023:** Matriz de Enquadramentos Cinemáticos (Close-up Rosto, Médio Busto/Americano e Plano Geral de Corpo Inteiro).
+- [x] **Etapa 024:** Seletor de Lentes e Distâncias Focais Virtuais (35mm editorial, 50mm natural, 85mm retrato clássico com bokeh de estúdio).
+- [x] **Etapa 025:** Sistema de Guias de Proporção Anatômica (cabeças de altura, largura de ombros e linhas de cintura).
+- [x] **Etapa 026:** Comparador Lado a Lado: Foto Âncora vs T-Pose gerada (validação de fidelidade de biotipo).
+- [x] **Etapa 027:** Gerador de Metadados de Articulação Óssea (Joint Coordinates Reference) para alimentar o V5 Broadcaster.
+- [x] **Etapa 028:** Catálogo de Poses Utilitárias (Segurando Produto do Fines, Apontando, Braços Cruzados, Pose Pensativa).
+- [x] **Etapa 029:** Exportador de Folha de Poses em Alta Resolução com suporte a fundo transparente (Canal Alpha).
+- [x] **Etapa 030:** Validação de Integridade e Build de Homologação da Fase 3 (`npm run build` verde com Exit Code 0).
 
 ---
 
