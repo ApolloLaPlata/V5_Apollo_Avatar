@@ -53,6 +53,7 @@ import IdlePerformanceBenchmarkPanel from '@/components/avatar/IdlePerformanceBe
 import BroadcasterWebhookPanel from '@/components/avatar/BroadcasterWebhookPanel';
 import VTuberPackageExporterPanel from '@/components/avatar/VTuberPackageExporterPanel';
 import AudioVisemeSyncPanel from '@/components/avatar/AudioVisemeSyncPanel';
+import LiveEmotionTriggersPanel from '@/components/avatar/LiveEmotionTriggersPanel';
 import AvatarCard from '@/components/avatar/AvatarCard';
 import QuickCreateAvatarModal from '@/components/avatar/QuickCreateAvatarModal';
 import Apollo5RocketLogo from '@/components/ui/Apollo5RocketLogo';
@@ -383,6 +384,12 @@ export default function AvatarHubPage() {
 
         {/* Sincronizador de Áudio com Visemas em Tempo Real (Fase 8 · Etapa 073) */}
         <AudioVisemeSyncPanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+        />
+
+        {/* Sistema de Gatilhos de Emoções em Tempo Real (Fase 8 · Etapa 074) */}
+        <LiveEmotionTriggersPanel
           avatarId={selectedAvatar?.id}
           avatarName={selectedAvatar?.name}
         />
