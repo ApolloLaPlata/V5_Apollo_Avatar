@@ -141,16 +141,16 @@ flowchart TD
 ### FASE 7: MÓDULO DE ANIMAÇÃO IDLE (LOOPS DE RESPIRAÇÃO, PISCAR DE OLHOS E MICRO-MOVIMENTOS)
 *Objetivo: Dar vida orgânica e natural ao avatar quando em estado de espera no navegador ou em cena.*
 
-- [ ] **Etapa 061:** Motor de Loop de Respiração Suave (CSS Keyframes dinâmicos e sutil deformação torácica/ombros).
-- [ ] **Etapa 062:** Sistema de Piscada de Olho Natural com distribuição probabilística e intervalos orgânicos (2.5s a 6s).
-- [ ] **Etapa 063:** Micro-movimentos de Cabeça (Head Tilts e micro-inclinações naturais de escuta e atenção).
-- [ ] **Etapa 064:** Visualizador ao Vivo do Avatar em Estado Idle (Canvas interativo com animação fluida a 60 FPS).
-- [ ] **Etapa 065:** Máquina de Estados de Transição Suave (Repouso -> Iniciando Fala -> Falando -> Concluindo Fala).
-- [ ] **Etapa 066:** Modulador de Dinâmica e Frequência de Micro-Movimentos por Nível de Energia do Avatar.
-- [ ] **Etapa 067:** Gerador de Spritesheets de Animação Idle para transmissão local e overlays leves.
-- [ ] **Etapa 068:** Exportador de Código de Animação CSS/JS para embed rápido em websites da holding.
-- [ ] **Etapa 069:** Benchmark de Consumo de GPU/CPU da animação de repouso (Garantia de overhead inferior a 1%).
-- [ ] **Etapa 070:** Validação de Integridade e Build de Homologação da Fase 7 (`npm run build` verde com Exit Code 0).
+- [x] **Etapa 061:** Motor de Loop de Respiração Suave (CSS Keyframes dinâmicos e sutil deformação torácica/ombros).
+- [x] **Etapa 062:** Sistema de Piscada de Olho Natural com distribuição probabilística e intervalos orgânicos (2.5s a 6s).
+- [x] **Etapa 063:** Micro-movimentos de Cabeça (Head Tilts e micro-inclinações naturais de escuta e atenção).
+- [x] **Etapa 064:** Visualizador ao Vivo do Avatar em Estado Idle (Canvas interativo com animação fluida a 60 FPS).
+- [x] **Etapa 065:** Máquina de Estados de Transição Suave (Repouso -> Iniciando Fala -> Falando -> Concluindo Fala).
+- [x] **Etapa 066:** Modulador de Dinâmica e Frequência de Micro-Movimentos por Nível de Energia do Avatar.
+- [x] **Etapa 067:** Gerador de Spritesheets de Animação Idle para transmissão local e overlays leves.
+- [x] **Etapa 068:** Exportador de Código de Animação CSS/JS para embed rápido em websites da holding.
+- [x] **Etapa 069:** Benchmark de Consumo de GPU/CPU da animação de repouso (Garantia de overhead inferior a 1%).
+- [x] **Etapa 070:** Validação de Integridade e Build de Homologação da Fase 7 (`npm run build` verde com Exit Code 0).
 
 ---
 

@@ -41,6 +41,15 @@ import RAGKnowledgeBasePanel from '@/components/avatar/RAGKnowledgeBasePanel';
 import SocialRepliesSimulatorPanel from '@/components/avatar/SocialRepliesSimulatorPanel';
 import PersonaRetentionValidatorPanel from '@/components/avatar/PersonaRetentionValidatorPanel';
 import SoulPackageExporterPanel from '@/components/avatar/SoulPackageExporterPanel';
+import IdleBreathingPanel from '@/components/avatar/IdleBreathingPanel';
+import NaturalEyeBlinkPanel from '@/components/avatar/NaturalEyeBlinkPanel';
+import HeadTiltPanel from '@/components/avatar/HeadTiltPanel';
+import IdleLiveCanvasViewer from '@/components/avatar/IdleLiveCanvasViewer';
+import AvatarStateMachinePanel from '@/components/avatar/AvatarStateMachinePanel';
+import AvatarEnergyModulatorPanel from '@/components/avatar/AvatarEnergyModulatorPanel';
+import IdleSpritesheetGeneratorPanel from '@/components/avatar/IdleSpritesheetGeneratorPanel';
+import IdleEmbedExporterPanel from '@/components/avatar/IdleEmbedExporterPanel';
+import IdlePerformanceBenchmarkPanel from '@/components/avatar/IdlePerformanceBenchmarkPanel';
 import AvatarCard from '@/components/avatar/AvatarCard';
 import QuickCreateAvatarModal from '@/components/avatar/QuickCreateAvatarModal';
 import Apollo5RocketLogo from '@/components/ui/Apollo5RocketLogo';
@@ -295,6 +304,64 @@ export default function AvatarHubPage() {
 
         {/* Exportador da Ficha Psicológica e Lore Completo (Soul DNA Package .v5soul.json) */}
         <SoulPackageExporterPanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+        />
+
+        {/* Motor de Loop de Respiração Suave (Fase 7 · Etapa 061) */}
+        <IdleBreathingPanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+          avatarUrl={selectedAvatar?.avatarUrl}
+        />
+
+        {/* Sistema de Piscada de Olho Natural (Fase 7 · Etapa 062) */}
+        <NaturalEyeBlinkPanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+        />
+
+        {/* Micro-movimentos de Cabeça (Fase 7 · Etapa 063) */}
+        <HeadTiltPanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+          avatarUrl={selectedAvatar?.avatarUrl}
+        />
+
+        {/* Visualizador ao Vivo do Avatar em Estado Idle 60 FPS (Fase 7 · Etapa 064) */}
+        <IdleLiveCanvasViewer
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+          avatarUrl={selectedAvatar?.avatarUrl}
+        />
+
+        {/* Máquina de Estados de Transição Suave (Fase 7 · Etapa 065) */}
+        <AvatarStateMachinePanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+        />
+
+        {/* Modulador de Dinâmica e Frequência por Nível de Energia (Fase 7 · Etapa 066) */}
+        <AvatarEnergyModulatorPanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+        />
+
+        {/* Gerador de Spritesheets de Animação Idle (Fase 7 · Etapa 067) */}
+        <IdleSpritesheetGeneratorPanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+          avatarUrl={selectedAvatar?.avatarUrl}
+        />
+
+        {/* Exportador de Código de Animação CSS/JS para Embed Rápido (Fase 7 · Etapa 068) */}
+        <IdleEmbedExporterPanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+        />
+
+        {/* Benchmark de Consumo de GPU/CPU (Fase 7 · Etapa 069) */}
+        <IdlePerformanceBenchmarkPanel
           avatarId={selectedAvatar?.id}
           avatarName={selectedAvatar?.name}
         />

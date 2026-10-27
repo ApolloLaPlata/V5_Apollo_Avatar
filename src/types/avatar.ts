@@ -176,12 +176,95 @@ export interface VisemesDNA {
   mouthOpenFactor?: number;
 }
 
+export interface IdleBreathingConfig {
+  bpm: number;                       // Frequência em respirações por minuto (6 a 30)
+  amplitudeYPercent: number;         // Elevação torácica vertical (0.2% a 2.5%)
+  shoulderExpansionXPercent: number; // Expansão horizontal dos ombros/tórax (0.2% a 3.0%)
+  anchorPoint: 'center_bottom' | 'chest_center' | 'waist_center';
+  preset: 'calm' | 'focused' | 'energetic' | 'deep' | 'custom';
+  isActive: boolean;
+}
+
+export interface NaturalEyeBlinkConfig {
+  intervalMin: number;             // Intervalo mínimo em segundos (ex: 2.5s)
+  intervalMax: number;             // Intervalo máximo em segundos (ex: 6.0s)
+  blinkDurationMs: number;         // Duração do fechamento/reabertura em milissegundos (ex: 180ms)
+  doubleBlinkProbability: number;  // Probabilidade de piscada dupla (0 a 0.35, ex: 0.12)
+  preset: 'natural_human' | 'focused_screen' | 'conversational' | 'relaxed' | 'custom';
+  isActive: boolean;
+}
+
+export interface HeadTiltConfig {
+  maxPitchDeg: number;             // Inclinação vertical X em graus (-4º a +4º)
+  maxYawDeg: number;               // Rotação horizontal Y em graus (-5º a +5º)
+  maxRollDeg: number;              // Inclinação lateral Z (tilt orelha-ombro) em graus (-6º a +6º)
+  transitionDurationSeconds: number;// Duração de transição suave entre poses (1.0s a 5.0s)
+  dwellTimeSeconds: number;        // Tempo de permanência na pose antes do próximo micro-movimento (0.5s a 6.0s)
+  preset: 'listening_empathy' | 'analytical_curious' | 'confident_sovereign' | 'neutral_idle' | 'custom';
+  isActive: boolean;
+}
+
+export type AvatarConversationState = 
+  | 'idle_rest'     // Repouso e espera ativa (loop idle 100%)
+  | 'pre_speech'    // Inalação preparatória e alinhamento labial (150-300ms)
+  | 'speaking'      // Discurso ativo e visemas fonéticos sincronizados
+  | 'post_speech';  // Conclusão e retorno suave ao repouso (200-450ms)
+
+export interface AvatarFsmConfig {
+  preSpeechDurationMs: number;    // Duração da inalação preparatória (100 a 500ms)
+  postSpeechDurationMs: number;   // Duração da transição pós-fala (150 a 600ms)
+  breathingDampingFactor: number; // Redução do movimento torácico na fala (0.1 a 0.8)
+  mouthBlendWeight: number;       // Peso de interpolação labial na transição (0.1 a 1.0)
+  autoReturnToIdle: boolean;      // Retorna automaticamente a idle_rest após conclusão
+  isInteractive: boolean;
+}
+
+export type EnergyLevelPreset = 'zen' | 'executive' | 'creator' | 'streamer' | 'custom';
+
+export interface AvatarEnergyConfig {
+  energyLevel: number;        // 0 a 100%
+  preset: EnergyLevelPreset;
+  audioReactive: boolean;
+  sensitivity: number;        // 1 a 5
+}
+
+export interface IdleSpritesheetFrame {
+  index: number;
+  timeSeconds: number;
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+}
+
+export interface IdleSpritesheetManifest {
+  atlasUrl?: string;
+  totalFrames: number;
+  columns: number;
+  rows: number;
+  frameWidth: number;
+  frameHeight: number;
+  atlasWidth: number;
+  atlasHeight: number;
+  fps: number;
+  durationSeconds: number;
+  frames: IdleSpritesheetFrame[];
+  generatedAt: string;
+}
+
 export interface RiggingDNA {
   jointCoordinates?: Record<string, { x: number; y: number }>;
   breathingCycleSeconds?: number;
   blinkIntervalMin?: number;
   blinkIntervalMax?: number;
+  blinkDurationMs?: number;
   idleMotionIntensity?: number;
+  breathingConfig?: IdleBreathingConfig;
+  eyeBlinkConfig?: NaturalEyeBlinkConfig;
+  headTiltConfig?: HeadTiltConfig;
+  fsmConfig?: AvatarFsmConfig;
+  energyConfig?: AvatarEnergyConfig;
+  idleSpritesheetManifest?: IdleSpritesheetManifest;
 }
 
 export interface InteractiveChannel {
