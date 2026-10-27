@@ -61,16 +61,16 @@ flowchart TD
 ### FASE 2: MOTOR DE MODEL SHEET TURNAROUND 360º (FRONTAL, PERFIL, 3/4, COSTAS)
 *Objetivo: Implementar a ingestão de referências e a geração paramétrica da folha de rotação 360º canônica para consistência facial perfeita.*
 
-- [ ] **Etapa 011:** Ingestor de Imagens com Canvas HTML5 (compressão automática, resize maxDim 1024px, sanitização JPEG 0.8).
-- [ ] **Etapa 012:** Galeria de Referências Faciais Múltiplas com eleição de Foto Âncora Principal e tags de ângulo.
-- [ ] **Etapa 013:** Compilador de Prompts para Turnaround 360º (fórmula de 4 ângulos alinhados: Frontal, 3/4, Perfil e Costas).
-- [ ] **Etapa 014:** Visualizador Grid 4 Ângulos interativo com réguas anatômicas e guias de simetria facial.
-- [ ] **Etapa 015:** Ferramenta de Alinhamento de Linha dos Olhos (Eye-level Alignment Guide) para garantir a mesma altura nos 4 cortes.
-- [ ] **Etapa 016:** Presets de Iluminação de Estúdio Uniforme (Rembrandt, Ring Light, Softbox Difuso, Luz Volumétrica Limpa).
-- [ ] **Etapa 017:** Motor de Trava de Vestimenta e Paleta (Attire & Color Lock) garantindo roupas e tecidos idênticos em todos os ângulos.
-- [ ] **Etapa 018:** Painel de Inspeção de Seeds e Parâmetros de Difusão (Flux / SDXL LoRA parameters).
-- [ ] **Etapa 019:** Gerador de Folha Única Consolidada Turnaround (composição horizontal pronta para difusão contínua).
-- [ ] **Etapa 020:** Validação de Integridade e Build de Homologação da Fase 2 (`npm run build` verde com Exit Code 0).
+- [x] **Etapa 011:** Ingestor de Imagens com Canvas HTML5 (compressão automática, resize maxDim 1024px, sanitização JPEG 0.8).
+- [x] **Etapa 012:** Galeria de Referências Faciais Múltiplas com eleição de Foto Âncora Principal e tags de ângulo.
+- [x] **Etapa 013:** Compilador de Prompts para Turnaround 360º (fórmula de 4 ângulos alinhados: Frontal, 3/4, Perfil e Costas).
+- [x] **Etapa 014:** Visualizador Grid 4 Ângulos interativo com réguas anatômicas e guias de simetria facial.
+- [x] **Etapa 015:** Ferramenta de Alinhamento de Linha dos Olhos (Eye-level Alignment Guide) para garantir a mesma altura nos 4 cortes.
+- [x] **Etapa 016:** Presets de Iluminação de Estúdio Uniforme (Rembrandt, Ring Light, Softbox Difuso, Luz Volumétrica Limpa).
+- [x] **Etapa 017:** Motor de Trava de Vestimenta e Paleta (Attire & Color Lock) garantindo roupas e tecidos idênticos em todos os ângulos.
+- [x] **Etapa 018:** Painel de Inspeção de Seeds e Parâmetros de Difusão (Flux / SDXL LoRA parameters).
+- [x] **Etapa 019:** Gerador de Folha Única Consolidada Turnaround (composição horizontal pronta para difusão contínua).
+- [x] **Etapa 020:** Validação de Integridade e Build de Homologação da Fase 2 (`npm run build` verde com Exit Code 0).
 
 ---
 

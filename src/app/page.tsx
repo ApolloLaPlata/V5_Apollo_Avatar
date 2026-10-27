@@ -4,6 +4,9 @@ import React, { useState } from 'react';
 import StudioHeader from '@/components/layout/StudioHeader';
 import V5AppActivationBanner from '@/components/ui/V5AppActivationBanner';
 import { CharacterCreator } from '@/components/avatar/CharacterCreator';
+import TurnaroundGridViewer from '@/components/avatar/TurnaroundGridViewer';
+import TurnaroundSheetExporter from '@/components/avatar/TurnaroundSheetExporter';
+import DiffusionParamsInspector from '@/components/avatar/DiffusionParamsInspector';
 import AvatarCard from '@/components/avatar/AvatarCard';
 import QuickCreateAvatarModal from '@/components/avatar/QuickCreateAvatarModal';
 import Apollo5RocketLogo from '@/components/ui/Apollo5RocketLogo';
@@ -54,6 +57,23 @@ export default function AvatarHubPage() {
 
         {/* Character Studio Interactive Workspace */}
         <CharacterCreator />
+
+        {/* Visualizador Grid 4 Ângulos Turnaround 360º */}
+        <TurnaroundGridViewer
+          sheetImageUrl={selectedAvatar?.face.turnaroundSheetUrl || selectedAvatar?.avatarUrl}
+          characterName={selectedAvatar?.name}
+        />
+
+        {/* Gerador de Folha Única Consolidada Turnaround (4:1) */}
+        <TurnaroundSheetExporter
+          frontUrl={selectedAvatar?.avatarUrl}
+          threeQuarterUrl={selectedAvatar?.avatarUrl}
+          profileUrl={selectedAvatar?.avatarUrl}
+          backUrl={selectedAvatar?.avatarUrl}
+        />
+
+        {/* Inspetor de Seeds e Parâmetros de Difusão */}
+        <DiffusionParamsInspector />
 
         {/* Galeria de Personagens Registrados na Store */}
         <div className="space-y-4">

@@ -1,6 +1,11 @@
 'use client';
 
 import React, { useState } from 'react';
+import ImageCanvasUploader from '@/components/avatar/ImageCanvasUploader';
+import MultiReferenceGallery, { ReferenceItem } from '@/components/avatar/MultiReferenceGallery';
+import TurnaroundPromptInspector from '@/components/avatar/TurnaroundPromptInspector';
+import StudioLightingPresetSelector from '@/components/avatar/StudioLightingPresetSelector';
+import AttireLockEnginePanel from '@/components/avatar/AttireLockEnginePanel';
 import { 
   Sparkles, 
   Upload, 
@@ -18,7 +23,7 @@ import {
   Mic,
   MessageSquare
 } from 'lucide-react';
-import { AvatarProfile, AvatarType } from '@/types/avatar';
+import { AvatarProfile, AvatarType, LightingPreset } from '@/types/avatar';
 
 export function CharacterCreator({ onCreated }: { onCreated?: (avatar: AvatarProfile) => void }) {
   const [avatarName, setAvatarName] = useState('');
@@ -27,6 +32,9 @@ export function CharacterCreator({ onCreated }: { onCreated?: (avatar: AvatarPro
   const [sheetMode, setSheetMode] = useState<'turnaround' | 't-pose' | 'expression'>('turnaround');
   const [prompt, setPrompt] = useState('');
   const [clothing, setClothing] = useState('');
+  const [lightingPreset, setLightingPreset] = useState<LightingPreset>('softbox');
+  const [referenceImage, setReferenceImage] = useState<string | null>(null);
+  const [references, setReferences] = useState<ReferenceItem[]>([]);
   const [copied, setCopied] = useState(false);
   const [generating, setGenerating] = useState(false);
   const [generatedPreview, setGeneratedPreview] = useState<string | null>(null);
@@ -119,8 +127,42 @@ export function CharacterCreator({ onCreated }: { onCreated?: (avatar: AvatarPro
 
       {/* Grid de Configuração */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-        {/* Lado Esquerdo: Ficha Cadastral */}
+        {/* Lado Esquerdo: Ficha Cadastral & Ingestor Canvas */}
         <div className="space-y-4">
+          <ImageCanvasUploader
+            currentPreviewUrl={referenceImage}
+            onImageProcessed={(res) => {
+              setReferenceImage(res.dataUrl);
+              setReferences((prev) => {
+                const hasPrimary = prev.some((r) => r.isPrimary);
+                return [
+                  ...prev,
+                  {
+                    id: `ref-${Date.now()}`,
+                    url: res.dataUrl,
+                    angleTag: 'Frontal',
+                    isPrimary: !hasPrimary,
+                    resolution: `${res.width}x${res.height}`,
+                    sizeBytes: res.processedSize,
+                  },
+                ];
+              });
+            }}
+            onClear={() => {
+              setReferenceImage(null);
+            }}
+          />
+
+          {/* Galeria Multi-Ângulos */}
+          <MultiReferenceGallery
+            references={references}
+            onChange={(newRefs) => {
+              setReferences(newRefs);
+              const primary = newRefs.find((r) => r.isPrimary);
+              if (primary) setReferenceImage(primary.url);
+            }}
+          />
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div>
               <label className="text-[11px] font-mono text-slate-400 block mb-1">
@@ -164,18 +206,16 @@ export function CharacterCreator({ onCreated }: { onCreated?: (avatar: AvatarPro
             />
           </div>
 
-          <div>
-            <label className="text-[11px] font-mono text-slate-400 block mb-1">
-              Vestimenta Padrão (Trava de Roupa):
-            </label>
-            <input
-              type="text"
-              placeholder="Ex: Jaqueta bomber preta com detalhes ciano, camiseta branca e calça jeans escura"
-              value={clothing}
-              onChange={(e) => setClothing(e.target.value)}
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 text-xs text-slate-100 placeholder:text-slate-600 focus:outline-none focus:border-cyan-500 font-medium"
-            />
-          </div>
+          {/* Trava de Figurino & Paleta */}
+          <AttireLockEnginePanel
+            onChange={(compiled) => setClothing(compiled)}
+          />
+
+          {/* Seletor de Presets de Iluminação */}
+          <StudioLightingPresetSelector
+            selectedPreset={lightingPreset}
+            onSelectPreset={setLightingPreset}
+          />
 
           {/* Integração Multi-Capitania Badges */}
           <div className="p-3 bg-slate-950/70 border border-slate-800/80 rounded-xl space-y-2">
@@ -201,44 +241,17 @@ export function CharacterCreator({ onCreated }: { onCreated?: (avatar: AvatarPro
 
         {/* Lado Direito: Preview do Compilador de Prompt & Render */}
         <div className="space-y-4 flex flex-col justify-between">
-          <div className="bg-slate-950/80 border border-cyan-500/20 rounded-xl p-4 space-y-2 flex-1 flex flex-col justify-between">
-            <div>
-              <div className="flex items-center justify-between pb-2 border-b border-slate-800/60">
-                <span className="text-xs font-mono font-bold text-cyan-400 flex items-center gap-1.5">
-                  <Film className="w-3.5 h-3.5" /> Prompt Mestre do Modelo ({sheetMode.toUpperCase()})
-                </span>
-                <button
-                  onClick={handleCopyPrompt}
-                  className="px-2.5 py-1 bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/30 text-cyan-300 rounded text-xs font-mono font-bold flex items-center gap-1 transition-all cursor-pointer"
-                >
-                  {copied ? <Check className="w-3 h-3 text-cyan-400" /> : <Copy className="w-3 h-3" />}
-                  {copied ? 'Copiado!' : 'Copiar'}
-                </button>
-              </div>
-
-              <p className="text-xs font-mono text-slate-300 mt-3 leading-relaxed break-words bg-slate-900/80 p-3 rounded-lg border border-slate-800">
-                {currentCompiledPrompt}
-              </p>
-            </div>
-
-            <div className="mt-4 pt-3 border-t border-slate-800/60">
-              <button
-                onClick={handleMockGenerate}
-                disabled={generating}
-                className="w-full py-2.5 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold text-xs rounded-xl transition-all shadow-md shadow-cyan-500/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
-              >
-                {generating ? (
-                  <>
-                    <RefreshCw className="w-4 h-4 animate-spin text-slate-950" /> Forjando Folha Turnaround na Modal H100...
-                  </>
-                ) : (
-                  <>
-                    <Zap className="w-4 h-4 text-slate-950" /> Gerar Folha de Consistência via API
-                  </>
-                )}
-              </button>
-            </div>
-          </div>
+          <TurnaroundPromptInspector
+            params={{
+              characterName: avatarName,
+              physicalTraits: prompt,
+              clothing,
+              lightingPreset: lightingPreset,
+              qualityModifier: 'hyperreal_studio',
+            }}
+            onGenerateClick={handleMockGenerate}
+            isGenerating={generating}
+          />
 
           {generatedPreview && (
             <div className="p-3 bg-slate-950 border border-emerald-500/30 rounded-xl flex items-center gap-3">
