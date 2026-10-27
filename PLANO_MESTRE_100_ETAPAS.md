@@ -190,7 +190,7 @@ flowchart TD
 *Objetivo: Consolidar todo o acervo do avatar em pacotes soberanos e portáteis para qualquer sistema da Holding.*
 
 - [x] **Etapa 091:** Definição do Schema Canônico `V5AvatarPackage` com integridade criptográfica SHA-256.
-- [ ] **Etapa 092:** Empacotador ZIP Client-Side gerando arquivo portátil `.v5avatar` contendo imagens, áudios e JSONs.
+- [x] **Etapa 092:** Empacotador ZIP Client-Side gerando arquivo portátil `.v5avatar` contendo imagens, áudios e JSONs.
 - [ ] **Etapa 093:** Importador Universal de Pacotes `.v5avatar` com descompactação e restauração completa de perfil no navegador.
 - [ ] **Etapa 094:** Gerador de Ficha de Personagem para Impressão (Ficha técnica executiva com fotos e dados em formato A4/PDF).
 - [ ] **Etapa 095:** Sistema de Backup e Restauração Completa do Catálogo de Personagens em 1 Clique.

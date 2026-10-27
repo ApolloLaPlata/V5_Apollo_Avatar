@@ -69,6 +69,7 @@ import V5EditTimelineExporterPanel from '@/components/avatar/V5EditTimelineExpor
 import UgcProductPoseGeneratorPanel from '@/components/avatar/UgcProductPoseGeneratorPanel';
 import AuthorCardExporterPanel from '@/components/avatar/AuthorCardExporterPanel';
 import UniversalPackageSchemaPanel from '@/components/avatar/UniversalPackageSchemaPanel';
+import V5AvatarZipPackerPanel from '@/components/avatar/V5AvatarZipPackerPanel';
 import AvatarCard from '@/components/avatar/AvatarCard';
 import QuickCreateAvatarModal from '@/components/avatar/QuickCreateAvatarModal';
 import Apollo5RocketLogo from '@/components/ui/Apollo5RocketLogo';
@@ -495,6 +496,12 @@ export default function AvatarHubPage() {
 
         {/* Schema Canônico V5AvatarPackage com Integridade Criptográfica SHA-256 (Fase 10 · Etapa 091) */}
         <UniversalPackageSchemaPanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+        />
+
+        {/* Empacotador ZIP Portátil .v5avatar Client-Side (Fase 10 · Etapa 092) */}
+        <V5AvatarZipPackerPanel
           avatarId={selectedAvatar?.id}
           avatarName={selectedAvatar?.name}
         />
