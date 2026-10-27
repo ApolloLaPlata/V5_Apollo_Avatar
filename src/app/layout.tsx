@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import ToastContainer from "@/components/ui/ToastContainer";
 
 export const metadata: Metadata = {
   title: "V5 Apollo Avatar · Agência Central de Identidades Digitais",
@@ -13,8 +14,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" className="dark">
-      <body className="bg-slate-950 text-slate-100 min-h-screen flex flex-col antialiased">
+      <body className="bg-obsidian-950 text-slate-100 min-h-screen flex flex-col antialiased">
         {children}
+        <ToastContainer />
       </body>
     </html>
   );

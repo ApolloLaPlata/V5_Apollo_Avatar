@@ -30,8 +30,6 @@ A pasta local `Pesquisa e Conhecimento/Apollo_La_Plata_Character_Base` contém o
 ---
 
 ## 4. Próximos Passos (Plano Mestre de 100 Etapas)
-- [x] **Etapa 1:** Scaffold inicial Next.js 14, Tailwind, tipos e componentes base.
-- [ ] **Etapa 2:** Integração com o canvas de upload e recorte de imagem de referência.
-- [ ] **Etapa 3:** Chamada real para a API central `https://api.v5apollo.com` para geração de imagens Flux / MiniMax.
-- [ ] **Etapa 4:** Conexão com o V5 Sound para preview de áudio da voz do avatar.
-- [ ] **Etapa 5:** Construtor de Webhook para exportar o cérebro do avatar para o V5 Poster / ManyChat.
+- [x] **Fase 1 (Etapas 001 a 010):** Fundações concluídas com sucesso (Zustand, Tipos Soberanos, Design System Dark Luxury, StudioHeader, Holographic AvatarCard, Banco de Arquétipos Canônicos, Modal de Criação Rápida e Toasts Nativos).
+- [ ] **Fase 2 (Etapas 011 a 020):** Motor de Model Sheet Turnaround 360º (Frontal, Perfil, 3/4, Costas).
+- [ ] **Fase 3 (Etapas 021 a 030):** Matriz de Poses Neutras (T-Pose, A-Pose) e Ângulos de Câmera Cinemática.
