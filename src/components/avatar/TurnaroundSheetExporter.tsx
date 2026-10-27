@@ -83,8 +83,9 @@ export default function TurnaroundSheetExporter({
         'Folha Turnaround 360º Consolidada!',
         `${result.width}x${result.height}px (${formatBytes(result.sizeBytes)}) salva no DNA do avatar.`
       );
-    } catch (err: any) {
-      toast.error('Erro na Composição', err?.message || 'Falha ao compor folha turnaround.');
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Falha ao compor folha turnaround.';
+      toast.error('Erro na Composição', msg);
     } finally {
       setIsComposing(false);
     }

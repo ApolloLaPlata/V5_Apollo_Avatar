@@ -143,15 +143,15 @@ export default function AuthorCardExporterPanel({
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-obsidian-950/70 p-3 rounded-xl border border-white/5 text-xs font-mono">
         {/* Abas */}
         <div className="flex items-center gap-2">
-          {[
+          {([
             { id: 'preview', label: 'Pré-Visualização', icon: <BookOpen className="w-3.5 h-3.5" /> },
             { id: 'html', label: 'HTML / Tailwind Embed', icon: <Code2 className="w-3.5 h-3.5" /> },
             { id: 'jsonld', label: 'Schema.org JSON-LD', icon: <FileCode className="w-3.5 h-3.5" /> },
             { id: 'signature', label: 'Assinatura Criptográfica', icon: <Fingerprint className="w-3.5 h-3.5" /> },
-          ].map((tab) => (
+          ] as const).map((tab) => (
             <button
               key={tab.id}
-              onClick={() => setActiveTab(tab.id as any)}
+              onClick={() => setActiveTab(tab.id)}
               className={`px-3 py-1.5 rounded-lg border flex items-center gap-1.5 transition-all ${
                 activeTab === tab.id
                   ? 'bg-cyber-cyan/20 border-cyber-cyan text-cyber-cyan font-bold shadow-[0_0_10px_rgba(0,229,255,0.15)]'
@@ -167,14 +167,14 @@ export default function AuthorCardExporterPanel({
         {/* Seletor de Tema */}
         <div className="flex items-center gap-2">
           <span className="text-slate-500 text-[11px]">Tema:</span>
-          {[
+          {([
             { id: 'cyber_dark', label: 'Cyber Dark' },
             { id: 'clean_light', label: 'Clean Light' },
             { id: 'obsidian_gold', label: 'Obsidian Gold' },
-          ].map((theme) => (
+          ] as const).map((theme) => (
             <button
               key={theme.id}
-              onClick={() => setActiveTheme(theme.id as any)}
+              onClick={() => setActiveTheme(theme.id)}
               className={`px-2.5 py-1 rounded text-xs transition-all border ${
                 activeTheme === theme.id
                   ? 'bg-white/15 border-white/40 text-white font-bold'

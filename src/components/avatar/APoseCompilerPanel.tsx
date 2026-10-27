@@ -143,11 +143,11 @@ export default function APoseCompilerPanel({
             Ângulo dos Braços:
           </label>
           <div className="flex items-center gap-1.5 pt-0.5">
-            {[35, 45, 50].map((deg) => (
+            {([35, 45, 50] as const).map((deg) => (
               <button
                 key={deg}
                 type="button"
-                onClick={() => setArmAngle(deg as any)}
+                onClick={() => setArmAngle(deg)}
                 className={`flex-1 py-1.5 rounded-lg text-xs font-bold border transition-colors cursor-pointer ${
                   armAngle === deg
                     ? 'bg-cyber-cyan/20 text-cyber-cyan border-cyber-cyan/40'
@@ -167,7 +167,7 @@ export default function APoseCompilerPanel({
           </label>
           <select
             value={background}
-            onChange={(e) => setBackground(e.target.value as any)}
+            onChange={(e) => setBackground(e.target.value as 'neutral_gray' | 'pure_white' | 'dark_studio')}
             className="w-full bg-obsidian-950 border border-white/10 rounded-lg p-2 text-[11px] text-slate-200 focus:outline-none focus:border-cyber-cyan cursor-pointer"
           >
             <option value="neutral_gray">Cinza Neutro 18% (#808080)</option>

@@ -54,7 +54,13 @@ export async function analyzeAudioFile(file: File): Promise<AudioSanitizationRep
   }
 
   const arrayBuffer = await file.arrayBuffer();
-  const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+  const AudioContextClass =
+    window.AudioContext ||
+    (window as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+  if (!AudioContextClass) {
+    throw new Error('AudioContext não suportado neste navegador.');
+  }
+  const audioContext = new AudioContextClass();
 
   try {
     const audioBuffer = await audioContext.decodeAudioData(arrayBuffer);

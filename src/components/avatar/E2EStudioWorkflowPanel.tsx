@@ -59,8 +59,9 @@ export default function E2EStudioWorkflowPanel({
         setProgressPercent(pct);
       });
       setReport(result);
-    } catch (err: any) {
-      alert(`Falha no teste E2E: ${err.message}`);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err);
+      alert(`Falha no teste E2E: ${msg}`);
     } finally {
       setIsRunning(false);
       setProgressPercent(100);

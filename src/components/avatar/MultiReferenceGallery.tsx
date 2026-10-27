@@ -75,8 +75,9 @@ export default function MultiReferenceGallery({
           resolution: `${processed.width}x${processed.height}`,
           sizeBytes: processed.processedSize,
         });
-      } catch (err: any) {
-        toast.error('Erro na Ingestão', err?.message || 'Falha ao processar arquivo.');
+      } catch (err: unknown) {
+        const msg = err instanceof Error ? err.message : 'Falha ao processar arquivo.';
+        toast.error('Erro na Ingestão', msg);
       }
     }
 

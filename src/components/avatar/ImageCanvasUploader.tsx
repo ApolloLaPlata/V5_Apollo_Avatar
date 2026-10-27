@@ -51,8 +51,9 @@ export default function ImageCanvasUploader({
         'Imagem Otimizada no Canvas!',
         `${result.width}x${result.height}px · ${formatBytes(result.originalSize)} ➔ ${formatBytes(result.processedSize)} (-${result.compressionRatio}%)`
       );
-    } catch (err: any) {
-      toast.error('Erro no Processamento', err?.message || 'Falha ao processar imagem.');
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Falha ao processar imagem.';
+      toast.error('Erro no Processamento', msg);
     } finally {
       setIsProcessing(false);
     }

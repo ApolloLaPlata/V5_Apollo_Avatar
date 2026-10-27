@@ -338,7 +338,7 @@ export default function VocabularyCatchphrasesPanel({
 
               <select
                 value={newPhraseContext}
-                onChange={(e) => setNewPhraseContext(e.target.value as any)}
+                onChange={(e) => setNewPhraseContext(e.target.value as CatchphraseItem['context'])}
                 className="px-3 py-2 rounded-xl bg-black/70 border border-white/15 text-slate-200 text-xs focus:border-cyber-cyan"
               >
                 <option value="intro">Abertura (Intro)</option>
@@ -419,7 +419,7 @@ export default function VocabularyCatchphrasesPanel({
 
               <select
                 value={newTermCategory}
-                onChange={(e) => setNewTermCategory(e.target.value as any)}
+                onChange={(e) => setNewTermCategory(e.target.value as VocabularyItem['category'])}
                 className="px-3 py-2 rounded-xl bg-black/70 border border-white/15 text-slate-200 text-xs focus:border-cyber-gold"
               >
                 <option value="technical">Técnico</option>

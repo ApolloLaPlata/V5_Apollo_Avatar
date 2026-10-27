@@ -259,15 +259,15 @@ export default function AnatomicalProportionGuides({
               Curvatura da Silhueta
             </label>
             <div className="grid grid-cols-3 gap-2">
-              {[
+              {([
                 { id: 'female', label: 'Feminino (Ampulheta)' },
                 { id: 'male', label: 'Masculino (V-Taper)' },
                 { id: 'androgynous', label: 'Andrógino (Harmônico)' },
-              ].map((g) => (
+              ] as const).map((g) => (
                 <button
                   key={g.id}
                   type="button"
-                  onClick={() => setGender(g.id as any)}
+                  onClick={() => setGender(g.id)}
                   className={`py-2 px-3 rounded-xl border text-center text-xs font-bold transition-all cursor-pointer ${
                     gender === g.id
                       ? 'border-luxury-gold bg-luxury-gold/10 text-luxury-gold shadow-glow-gold'

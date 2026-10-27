@@ -286,7 +286,7 @@ export default function EthicalGuardrailsPanel({
 
           <select
             value={newCategory}
-            onChange={(e) => setNewCategory(e.target.value as any)}
+            onChange={(e) => setNewCategory(e.target.value as GuardrailItem['category'])}
             className="px-3 py-2 rounded-xl bg-black/70 border border-white/15 text-slate-200 text-xs focus:border-rose-400"
           >
             <option value="brand_safety">Proteção de Marca</option>
@@ -297,7 +297,7 @@ export default function EthicalGuardrailsPanel({
 
           <select
             value={newSeverity}
-            onChange={(e) => setNewSeverity(e.target.value as any)}
+            onChange={(e) => setNewSeverity(e.target.value as GuardrailItem['severity'])}
             className="px-3 py-2 rounded-xl bg-black/70 border border-white/15 text-slate-200 text-xs focus:border-rose-400 font-bold"
           >
             <option value="critical">Gravidade Crítica</option>

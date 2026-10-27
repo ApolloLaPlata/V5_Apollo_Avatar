@@ -86,8 +86,9 @@ export default function PoseSheetExporterPanel({
         'Folha Composta com Sucesso!',
         `Renderizada em ${resolution.toUpperCase()} (${layout === 'horizontal_strip' ? 'Tira Horizontal' : 'Grid 2x2'}).`
       );
-    } catch (err: any) {
-      toast.error('Erro na Composição', err.message || 'Falha ao renderizar folha.');
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Falha ao renderizar folha.';
+      toast.error('Erro na Composição', msg);
     } finally {
       setIsComposing(false);
     }

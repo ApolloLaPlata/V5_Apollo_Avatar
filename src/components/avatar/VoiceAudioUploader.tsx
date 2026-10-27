@@ -46,7 +46,7 @@ export default function VoiceAudioUploader({
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
-  const timerRef = useRef<any>(null);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const audioPlayerRef = useRef<HTMLAudioElement | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -72,7 +72,7 @@ export default function VoiceAudioUploader({
         'Áudio Carregado!',
         `${file.name} (${rep.durationSeconds}s) sanitizado com sucesso.`
       );
-    } catch (err: any) {
+    } catch (err: unknown) {
       toast.error('Falha na Análise', 'Não foi possível decodificar o arquivo de áudio.');
     } finally {
       setIsProcessing(false);

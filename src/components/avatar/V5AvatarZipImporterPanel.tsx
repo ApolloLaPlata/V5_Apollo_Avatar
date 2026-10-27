@@ -49,9 +49,10 @@ export default function V5AvatarZipImporterPanel({
     try {
       const result = await unpackAndValidateV5Avatar(file, (p) => setProgress(p));
       setUnpackedResult(result);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Erro na descompactação:', err);
-      alert(`Falha ao importar pacote: ${err?.message || 'Arquivo inválido'}`);
+      const msg = err instanceof Error ? err.message : 'Arquivo inválido';
+      alert(`Falha ao importar pacote: ${msg}`);
     } finally {
       setIsProcessing(false);
     }
@@ -85,8 +86,10 @@ export default function V5AvatarZipImporterPanel({
       const { blob } = await createV5AvatarZipPackage(sourceAvatar);
       const result = await unpackAndValidateV5Avatar(blob, (p) => setProgress(p));
       setUnpackedResult(result);
-    } catch (err: any) {
+    } catch (err: unknown) {
       console.error('Erro ao gerar pacote de demonstração:', err);
+      const msg = err instanceof Error ? err.message : 'Falha na demonstração';
+      alert(`Erro: ${msg}`);
     } finally {
       setIsProcessing(false);
     }

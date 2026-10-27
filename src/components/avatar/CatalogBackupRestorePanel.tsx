@@ -52,8 +52,9 @@ export default function CatalogBackupRestorePanel() {
       const payload = generateCatalogBackup(avatars, selectedAvatarId);
       exportCatalogBackupFile(payload);
       setFeedbackMessage(`Backup de ${avatars.length} personagens exportado com sucesso!`);
-    } catch (err: any) {
-      alert(`Erro ao exportar backup: ${err.message}`);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err);
+      alert(`Erro ao exportar backup: ${msg}`);
     } finally {
       setIsExporting(false);
     }
@@ -67,8 +68,9 @@ export default function CatalogBackupRestorePanel() {
       const text = await file.text();
       const result = parseAndValidateCatalogBackup(text);
       setValidationResult(result);
-    } catch (err: any) {
-      alert(`Falha ao ler arquivo de backup: ${err.message}`);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err);
+      alert(`Falha ao ler arquivo de backup: ${msg}`);
     }
   };
 

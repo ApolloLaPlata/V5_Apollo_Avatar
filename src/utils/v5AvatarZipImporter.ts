@@ -8,7 +8,7 @@
  */
 
 import JSZip from 'jszip';
-import { AvatarProfile } from '@/types/avatar';
+import { AvatarProfile, AvatarType } from '@/types/avatar';
 import {
   V5AvatarPackage,
   validatePackageIntegrity,
@@ -89,8 +89,9 @@ export async function unpackAndValidateV5Avatar(
         const jsonText = await mainFile.async('string');
         rawPackage = JSON.parse(jsonText);
       }
-    } catch (err: any) {
-      errors.push(`Falha ao descompactar arquivo ZIP: ${err?.message || 'Arquivo corrompido'}`);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Arquivo corrompido';
+      errors.push(`Falha ao descompactar arquivo ZIP: ${msg}`);
     }
   }
 
@@ -119,7 +120,7 @@ export async function unpackAndValidateV5Avatar(
     id: rawPackage.profile.id,
     name: rawPackage.profile.name,
     tagline: rawPackage.profile.tagline || 'Personagem Soberano V5',
-    type: (rawPackage.profile.type as any) || 'influencer',
+    type: (rawPackage.profile.type as AvatarType) || 'influencer',
     avatarUrl: rawPackage.profile.avatarUrl || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80',
     createdAt: rawPackage.profile.createdAt || new Date().toISOString(),
     updatedAt: new Date().toISOString(),

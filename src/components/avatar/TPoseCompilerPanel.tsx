@@ -127,7 +127,7 @@ export default function TPoseCompilerPanel({
           </label>
           <select
             value={clothingFit}
-            onChange={(e) => setClothingFit(e.target.value as any)}
+            onChange={(e) => setClothingFit(e.target.value as TPoseCompilerParams['clothingFit'])}
             className="w-full bg-obsidian-950 border border-white/10 rounded-lg p-2 text-[11px] text-slate-200 focus:outline-none focus:border-cyber-cyan cursor-pointer"
           >
             <option value="fitted_rigging_attire">Traje Ajustado de Rigging</option>
@@ -160,7 +160,7 @@ export default function TPoseCompilerPanel({
           </label>
           <select
             value={background}
-            onChange={(e) => setBackground(e.target.value as any)}
+            onChange={(e) => setBackground(e.target.value as TPoseCompilerParams['background'])}
             className="w-full bg-obsidian-950 border border-white/10 rounded-lg p-2 text-[11px] text-slate-200 focus:outline-none focus:border-cyber-cyan cursor-pointer"
           >
             <option value="neutral_gray">Cinza Neutro 18% (#808080)</option>

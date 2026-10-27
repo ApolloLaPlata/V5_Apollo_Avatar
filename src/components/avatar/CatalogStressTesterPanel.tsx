@@ -46,8 +46,9 @@ export default function CatalogStressTesterPanel() {
         setProgressPercent(pct);
       });
       setReport(result);
-    } catch (err: any) {
-      alert(`Erro durante teste de estresse: ${err.message}`);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err);
+      alert(`Erro durante teste de estresse: ${msg}`);
     } finally {
       setIsRunning(false);
       setProgressPercent(100);

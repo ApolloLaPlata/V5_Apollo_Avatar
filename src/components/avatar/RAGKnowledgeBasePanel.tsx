@@ -298,7 +298,7 @@ export default function RAGKnowledgeBasePanel({
 
           <select
             value={newCategory}
-            onChange={(e) => setNewCategory(e.target.value as any)}
+            onChange={(e) => setNewCategory(e.target.value as RAGKnowledgeItem['category'])}
             className="px-3 py-2 rounded-xl bg-black/70 border border-white/15 text-slate-200 text-xs focus:border-cyber-cyan"
           >
             <option value="holding_rule">Regras da Holding</option>

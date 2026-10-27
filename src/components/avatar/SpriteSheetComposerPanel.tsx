@@ -55,8 +55,9 @@ export default function SpriteSheetComposerPanel({
         'Sprite Sheet Renderizado!',
         `Atlas 4x4 (${dimension}x${dimension}px) compilado com 16 quadros (9 Expressões + 7 Visemas).`
       );
-    } catch (err: any) {
-      toast.error('Erro na Composição', err.message || 'Falha ao renderizar atlas.');
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Falha ao renderizar atlas.';
+      toast.error('Erro na Composição', msg);
     } finally {
       setIsComposing(false);
     }

@@ -147,13 +147,14 @@ export function parseAndValidateCatalogBackup(rawJsonText: string): RestoreValid
       errors,
       warnings,
     };
-  } catch (err: any) {
+  } catch (err: unknown) {
+    const msg = err instanceof Error ? err.message : String(err);
     return {
       isValid: false,
       avatarsCount: 0,
       niches: [],
       digestMatched: false,
-      errors: [`Falha ao decodificar JSON do backup: ${err.message}`],
+      errors: [`Falha ao decodificar JSON do backup: ${msg}`],
       warnings: [],
     };
   }

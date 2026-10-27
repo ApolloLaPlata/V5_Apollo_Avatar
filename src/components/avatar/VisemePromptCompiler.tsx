@@ -152,15 +152,15 @@ export default function VisemePromptCompiler({
               Hidratação / Brilho dos Lábios:
             </label>
             <div className="grid grid-cols-3 gap-2 text-xs">
-              {[
+              {([
                 { id: 'subtle_matte', label: 'Fosco Calmo' },
                 { id: 'natural_sheen', label: 'Brilho Natural' },
                 { id: 'glossy_studio', label: 'Gloss de Estúdio' },
-              ].map((lm) => (
+              ] as const).map((lm) => (
                 <button
                   key={lm.id}
                   type="button"
-                  onClick={() => setLipMoisture(lm.id as any)}
+                  onClick={() => setLipMoisture(lm.id)}
                   className={`py-2 px-2 rounded-xl border text-center font-bold text-[10px] transition-all cursor-pointer ${
                     lipMoisture === lm.id
                       ? 'border-cyber-cyan bg-cyber-cyan/15 text-cyber-cyan'

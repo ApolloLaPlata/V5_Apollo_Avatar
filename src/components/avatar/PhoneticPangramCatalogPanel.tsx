@@ -222,7 +222,7 @@ export default function PhoneticPangramCatalogPanel({
         {/* Categoria */}
         <div className="flex items-center gap-1.5 flex-wrap">
           <span className="text-[11px] text-slate-500 mr-1">Filtro:</span>
-          {[
+          {([
             { id: 'all', label: 'Todas' },
             { id: 'complete_alphabet', label: 'Alfabeto' },
             { id: 'sibilants', label: 'Sibilantes' },
@@ -231,10 +231,10 @@ export default function PhoneticPangramCatalogPanel({
             { id: 'vowels', label: 'Vogais' },
             { id: 'vibrants', label: 'Vibrantes' },
             { id: 'digraphs', label: 'Dígrafos' },
-          ].map((cat) => (
+          ] as const).map((cat) => (
             <button
               key={cat.id}
-              onClick={() => setSelectedCategory(cat.id as any)}
+              onClick={() => setSelectedCategory(cat.id)}
               className={`px-2 py-0.5 rounded text-[11px] font-mono transition-colors ${
                 selectedCategory === cat.id
                   ? 'bg-cyber-cyan/20 text-cyber-cyan border border-cyber-cyan/40 font-bold'
