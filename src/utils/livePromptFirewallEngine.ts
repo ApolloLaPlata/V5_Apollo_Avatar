@@ -65,7 +65,7 @@ export const LEET_MAP: Record<string, string> = {
  * Remove caracteres invisíveis, normaliza homóglifos e converte leetspeak
  */
 export function deobfuscateInput(text: string): string {
-  if (!text) return '';
+  if (!text || typeof text !== 'string') return '';
 
   // 1. Remove zero-width characters e unicode estranhos
   let clean = text.replace(/[\u200B-\u200D\uFEFF\u00A0]/g, '');
@@ -101,8 +101,9 @@ export function inspectLiveChatMessage(
   strictness: FirewallStrictness = 'sovereign_strict',
   avatarName = 'Maya Vance'
 ): FirewallDecision {
+  const safeInput = typeof rawInput === 'string' ? rawInput : String(rawInput || '');
   const startTime = Date.now();
-  const deobfuscated = deobfuscateInput(rawInput);
+  const deobfuscated = deobfuscateInput(safeInput);
   const matchedRules: string[] = [];
   let threatScore = 0;
   let category: ThreatCategory = 'clean_speech';
@@ -183,7 +184,7 @@ export function inspectLiveChatMessage(
     severity,
     category,
     matchedRules,
-    rawText: rawInput,
+    rawText: safeInput,
     deobfuscatedText: deobfuscated,
     action,
     deflectionPhrase,
