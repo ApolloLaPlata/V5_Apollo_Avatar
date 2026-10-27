@@ -209,7 +209,7 @@ flowchart TD
 - [x] **Etapa 102:** Auditoria de Performance de Renderização React (React.memo, useCallback e lazy loading de imagens/áudios).
 - [x] **Etapa 103:** Auditoria de Acessibilidade, Contraste e Responsividade (WCAG AA, compatibilidade Desktop 4K e Mobile).
 - [x] **Etapa 104:** Varredura de Segurança de Inputs contra XSS, Memory Leaks e Prompt Injection.
-- [ ] **Etapa 105:** Verificação de Isolamento Absoluto (Zero menções ou links ao PixDrop e proteção entre capitanias).
+- [x] **Etapa 105:** Verificação de Isolamento Absoluto (Zero menções ou links ao PixDrop e proteção entre capitanias).
 - [ ] **Etapa 106:** Teste de Regressão de Estado (Persistência, recarregamento de página e recuperação de falhas no navegador).
 - [ ] **Etapa 107:** Otimização de Bundling do Next.js 14 e Limpeza de Dependências Não Utilizadas.
 - [ ] **Etapa 108:** Atualização da Memória Central (`MEMORIA_ATIVA_AVATAR.md`) e registro oficial no `antigravity_hive_bus.md`.
