@@ -61,6 +61,7 @@ import LiveTelemetryMonitorPanel from '@/components/avatar/LiveTelemetryMonitorP
 import LivePromptFirewallPanel from '@/components/avatar/LivePromptFirewallPanel';
 import FaceDnaPackExporterPanel from '@/components/avatar/FaceDnaPackExporterPanel';
 import BatchStylePromptInjectorPanel from '@/components/avatar/BatchStylePromptInjectorPanel';
+import CanonicalEnvironmentsPanel from '@/components/avatar/CanonicalEnvironmentsPanel';
 import AvatarCard from '@/components/avatar/AvatarCard';
 import QuickCreateAvatarModal from '@/components/avatar/QuickCreateAvatarModal';
 import Apollo5RocketLogo from '@/components/ui/Apollo5RocketLogo';
@@ -439,6 +440,12 @@ export default function AvatarHubPage() {
 
         {/* Injetor de Prompts Fixo de Estilo para Lote de Shorts (Fase 9 · Etapa 082) */}
         <BatchStylePromptInjectorPanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+        />
+
+        {/* Tabela de Cenários e Ambientes Canônicos do Avatar (Fase 9 · Etapa 083) */}
+        <CanonicalEnvironmentsPanel
           avatarId={selectedAvatar?.id}
           avatarName={selectedAvatar?.name}
         />
