@@ -51,6 +51,7 @@ import IdleSpritesheetGeneratorPanel from '@/components/avatar/IdleSpritesheetGe
 import IdleEmbedExporterPanel from '@/components/avatar/IdleEmbedExporterPanel';
 import IdlePerformanceBenchmarkPanel from '@/components/avatar/IdlePerformanceBenchmarkPanel';
 import BroadcasterWebhookPanel from '@/components/avatar/BroadcasterWebhookPanel';
+import VTuberPackageExporterPanel from '@/components/avatar/VTuberPackageExporterPanel';
 import AvatarCard from '@/components/avatar/AvatarCard';
 import QuickCreateAvatarModal from '@/components/avatar/QuickCreateAvatarModal';
 import Apollo5RocketLogo from '@/components/ui/Apollo5RocketLogo';
@@ -369,6 +370,12 @@ export default function AvatarHubPage() {
 
         {/* Servidor de Webhook de Entrada Seguro para V5 Broadcaster (Fase 8 · Etapa 071) */}
         <BroadcasterWebhookPanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+        />
+
+        {/* Exportador de Pacote VTuber Standard (Fase 8 · Etapa 072) */}
+        <VTuberPackageExporterPanel
           avatarId={selectedAvatar?.id}
           avatarName={selectedAvatar?.name}
         />
