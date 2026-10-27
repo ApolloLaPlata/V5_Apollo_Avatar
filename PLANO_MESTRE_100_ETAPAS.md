@@ -164,7 +164,7 @@ flowchart TD
 - [x] **Etapa 075:** Conector WebSocket Local de Baixa Latência para o OBS Studio Browser Source.
 - [x] **Etapa 076:** Overlay Web Otimizado para OBS com fundo transparente absoluto e aceleração por hardware.
 - [x] **Etapa 077:** Painel de Controle de Operador de Live (Dashboard para troca manual de poses, expressões e falas preparadas).
-- [ ] **Etapa 078:** Monitor de Telemetria de Live (Medidor de latência de resposta, FPS da cena e integridade do sinal).
+- [x] **Etapa 078:** Monitor de Telemetria de Live (Medidor de latência de resposta, FPS da cena e integridade do sinal).
 - [ ] **Etapa 079:** Protocolo de Proteção contra Hijacking de Prompt e Ataques de Injeção durante transmissões ao vivo.
 - [ ] **Etapa 080:** Validação de Integridade e Build de Homologação da Fase 8 (`npm run build` verde com Exit Code 0).
 

@@ -57,6 +57,7 @@ import LiveEmotionTriggersPanel from '@/components/avatar/LiveEmotionTriggersPan
 import ObsWebSocketConnectorPanel from '@/components/avatar/ObsWebSocketConnectorPanel';
 import ObsTransparentOverlayPanel from '@/components/avatar/ObsTransparentOverlayPanel';
 import LiveOperatorDeckPanel from '@/components/avatar/LiveOperatorDeckPanel';
+import LiveTelemetryMonitorPanel from '@/components/avatar/LiveTelemetryMonitorPanel';
 import AvatarCard from '@/components/avatar/AvatarCard';
 import QuickCreateAvatarModal from '@/components/avatar/QuickCreateAvatarModal';
 import Apollo5RocketLogo from '@/components/ui/Apollo5RocketLogo';
@@ -411,6 +412,12 @@ export default function AvatarHubPage() {
 
         {/* Painel de Controle de Operador de Live (Fase 8 · Etapa 077) */}
         <LiveOperatorDeckPanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+        />
+
+        {/* Monitor de Telemetria de Live (Fase 8 · Etapa 078) */}
+        <LiveTelemetryMonitorPanel
           avatarId={selectedAvatar?.id}
           avatarName={selectedAvatar?.name}
         />
