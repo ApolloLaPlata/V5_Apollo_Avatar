@@ -133,6 +133,16 @@ export async function POST(req: Request) {
     );
   }
 
+  if (!body || typeof body !== 'object' || Array.isArray(body)) {
+    return NextResponse.json(
+      {
+        success: false,
+        error: 'Payload JSON inválido. Esperado um objeto.',
+      },
+      { status: 400, headers: corsHeaders }
+    );
+  }
+
   if (!body.action || !body.avatarId) {
     return NextResponse.json(
       {
