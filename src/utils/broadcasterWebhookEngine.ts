@@ -174,9 +174,27 @@ export function validateBroadcasterOrigin(
  * Validação do carimbo de data/hora para impedir ataques de repetição (replay attacks)
  */
 export function validateReplayTimestamp(
-  timestamp: number | undefined
+  rawTimestamp: number | string | undefined
 ): { valid: boolean; deltaMs: number; reason?: string } {
-  if (typeof timestamp !== 'number' || !Number.isFinite(timestamp) || timestamp <= 0) {
+  let timestamp: number;
+  if (typeof rawTimestamp === 'string') {
+    const trimmed = rawTimestamp.trim();
+    if (/^\d+$/.test(trimmed)) {
+      timestamp = parseInt(trimmed, 10);
+    } else {
+      timestamp = Date.parse(trimmed);
+    }
+  } else if (typeof rawTimestamp === 'number') {
+    timestamp = rawTimestamp;
+  } else {
+    return {
+      valid: false,
+      deltaMs: 0,
+      reason: 'Carimbo de data/hora (timestamp) numérico ausente ou inválido no payload.',
+    };
+  }
+
+  if (!Number.isFinite(timestamp) || timestamp <= 0) {
     return {
       valid: false,
       deltaMs: 0,

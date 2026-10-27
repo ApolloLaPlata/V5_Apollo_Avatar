@@ -145,7 +145,7 @@ export async function POST(req: Request) {
 
   // 4. Validação de Carimbo de Data/Hora (Anti-Replay Attack)
   const timestampHeader = req.headers.get('x-v5-timestamp');
-  const rawTimestamp = timestampHeader ? parseInt(timestampHeader, 10) : body.timestamp;
+  const rawTimestamp = timestampHeader || body.timestamp;
   const replayValidation = validateReplayTimestamp(rawTimestamp);
 
   if (!replayValidation.valid) {
