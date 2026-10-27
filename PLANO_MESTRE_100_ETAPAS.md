@@ -189,7 +189,7 @@ flowchart TD
 ### FASE 10: EXPORTADOR UNIVERSAL DE PACOTES DO AVATAR (JSON ESTRUTURADO, ZIP DE ASSETS E TESTES E2E)
 *Objetivo: Consolidar todo o acervo do avatar em pacotes soberanos e portáteis para qualquer sistema da Holding.*
 
-- [ ] **Etapa 091:** Definição do Schema Canônico `V5AvatarPackage` com integridade criptográfica SHA-256.
+- [x] **Etapa 091:** Definição do Schema Canônico `V5AvatarPackage` com integridade criptográfica SHA-256.
 - [ ] **Etapa 092:** Empacotador ZIP Client-Side gerando arquivo portátil `.v5avatar` contendo imagens, áudios e JSONs.
 - [ ] **Etapa 093:** Importador Universal de Pacotes `.v5avatar` com descompactação e restauração completa de perfil no navegador.
 - [ ] **Etapa 094:** Gerador de Ficha de Personagem para Impressão (Ficha técnica executiva com fotos e dados em formato A4/PDF).

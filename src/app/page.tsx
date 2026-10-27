@@ -68,6 +68,7 @@ import FaceVerificationIndexPanel from '@/components/avatar/FaceVerificationInde
 import V5EditTimelineExporterPanel from '@/components/avatar/V5EditTimelineExporterPanel';
 import UgcProductPoseGeneratorPanel from '@/components/avatar/UgcProductPoseGeneratorPanel';
 import AuthorCardExporterPanel from '@/components/avatar/AuthorCardExporterPanel';
+import UniversalPackageSchemaPanel from '@/components/avatar/UniversalPackageSchemaPanel';
 import AvatarCard from '@/components/avatar/AvatarCard';
 import QuickCreateAvatarModal from '@/components/avatar/QuickCreateAvatarModal';
 import Apollo5RocketLogo from '@/components/ui/Apollo5RocketLogo';
@@ -488,6 +489,12 @@ export default function AvatarHubPage() {
 
         {/* Exportador de Card de Autor e Assinatura Digital de Especialista para o V5 Auto Blog (Fase 9 · Etapa 089) */}
         <AuthorCardExporterPanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+        />
+
+        {/* Schema Canônico V5AvatarPackage com Integridade Criptográfica SHA-256 (Fase 10 · Etapa 091) */}
+        <UniversalPackageSchemaPanel
           avatarId={selectedAvatar?.id}
           avatarName={selectedAvatar?.name}
         />
