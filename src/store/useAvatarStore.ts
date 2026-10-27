@@ -61,8 +61,9 @@ export const INITIAL_CANONICAL_AVATARS: AvatarProfile[] = [
     },
     channel: {
       totalConversations: 1420,
-      allowedOrigins: ['https://broadcaster.v5apollo.com', 'https://prisma.v5apollo.com'],
-      isLiveActive: false
+      allowedOrigins: ['https://broadcaster.v5apollo.com', 'https://prisma.v5apollo.com', 'http://localhost:3008', 'http://127.0.0.1:3008', 'http://localhost:3010'],
+      isLiveActive: false,
+      broadcasterLiveToken: 'v5b_live_maya_vance_8849'
     },
     syncedSites: {
       broadcaster: true,
@@ -114,8 +115,9 @@ export const INITIAL_CANONICAL_AVATARS: AvatarProfile[] = [
     },
     channel: {
       totalConversations: 630,
-      allowedOrigins: ['https://edit.v5apollo.com'],
-      isLiveActive: false
+      allowedOrigins: ['https://edit.v5apollo.com', 'http://localhost:3008', 'http://127.0.0.1:3008', 'http://localhost:3010'],
+      isLiveActive: false,
+      broadcasterLiveToken: 'v5b_live_arthur_narrator_4412'
     },
     syncedSites: {
       broadcaster: true,

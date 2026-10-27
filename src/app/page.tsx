@@ -50,6 +50,7 @@ import AvatarEnergyModulatorPanel from '@/components/avatar/AvatarEnergyModulato
 import IdleSpritesheetGeneratorPanel from '@/components/avatar/IdleSpritesheetGeneratorPanel';
 import IdleEmbedExporterPanel from '@/components/avatar/IdleEmbedExporterPanel';
 import IdlePerformanceBenchmarkPanel from '@/components/avatar/IdlePerformanceBenchmarkPanel';
+import BroadcasterWebhookPanel from '@/components/avatar/BroadcasterWebhookPanel';
 import AvatarCard from '@/components/avatar/AvatarCard';
 import QuickCreateAvatarModal from '@/components/avatar/QuickCreateAvatarModal';
 import Apollo5RocketLogo from '@/components/ui/Apollo5RocketLogo';
@@ -362,6 +363,12 @@ export default function AvatarHubPage() {
 
         {/* Benchmark de Consumo de GPU/CPU (Fase 7 · Etapa 069) */}
         <IdlePerformanceBenchmarkPanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+        />
+
+        {/* Servidor de Webhook de Entrada Seguro para V5 Broadcaster (Fase 8 · Etapa 071) */}
+        <BroadcasterWebhookPanel
           avatarId={selectedAvatar?.id}
           avatarName={selectedAvatar?.name}
         />

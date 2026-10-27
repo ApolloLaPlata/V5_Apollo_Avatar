@@ -157,7 +157,7 @@ flowchart TD
 ### FASE 8: CONECTOR DE LIVE COM O V5 BROADCASTER (SPRITES, FACE-SWAP E WEBHOOKS EM TEMPO REAL)
 *Objetivo: Integrar o avatar ao estúdio de transmissão 24/7 do V5 Broadcaster, permitindo lives autônomas com reações ao chat.*
 
-- [ ] **Etapa 071:** Servidor de Webhook de Entrada seguro para o V5 Broadcaster com validação de token e origem.
+- [x] **Etapa 071:** Servidor de Webhook de Entrada seguro para o V5 Broadcaster com validação de token e origem.
 - [ ] **Etapa 072:** Exportador de Pacote VTuber Standard (JSON de configuração + sprites de visemas + loops idle).
 - [ ] **Etapa 073:** Módulo de Sincronização de Áudio com Visemas (Troca de boca em tempo real guiada por amplitude/frequência).
 - [ ] **Etapa 074:** Sistema de Gatilhos de Emoções em Tempo Real (Disparados por eventos de live: superchats, novos inscritos, alertas).
