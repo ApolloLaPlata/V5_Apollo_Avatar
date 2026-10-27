@@ -173,7 +173,7 @@ flowchart TD
 ### FASE 9: CONECTOR DE NARRATIVA COM O V5 PRISMA / EDIT (EXPORTAÇÃO DE CONSISTÊNCIA DE CENA)
 *Objetivo: Garantir que os vídeos gerados no V5 Prisma e editados no V5 Edit mantenham a mesma identidade cena após cena.*
 
-- [ ] **Etapa 081:** Exportador de Face DNA Pack estruturado para difusores de vídeo (Flux / SDXL LoRA parameters).
+- [x] **Etapa 081:** Exportador de Face DNA Pack estruturado para difusores de vídeo (Flux / SDXL LoRA parameters).
 - [ ] **Etapa 082:** Injetor de Prompts Fixo de Estilo para renderização de lotes de 20+ Shorts preservando rosto e figurino.
 - [ ] **Etapa 083:** Tabela de Cenários e Ambientes Canônicos do Avatar (Home office tech, auditório moderno, estúdio escuro, externa urbana).
 - [ ] **Etapa 084:** Tabela de Cortes e Ângulos de Câmera para Edição Dinâmica de Shorts (Jump Cuts consistentes sem deformação).

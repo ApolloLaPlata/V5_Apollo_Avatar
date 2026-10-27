@@ -59,6 +59,7 @@ import ObsTransparentOverlayPanel from '@/components/avatar/ObsTransparentOverla
 import LiveOperatorDeckPanel from '@/components/avatar/LiveOperatorDeckPanel';
 import LiveTelemetryMonitorPanel from '@/components/avatar/LiveTelemetryMonitorPanel';
 import LivePromptFirewallPanel from '@/components/avatar/LivePromptFirewallPanel';
+import FaceDnaPackExporterPanel from '@/components/avatar/FaceDnaPackExporterPanel';
 import AvatarCard from '@/components/avatar/AvatarCard';
 import QuickCreateAvatarModal from '@/components/avatar/QuickCreateAvatarModal';
 import Apollo5RocketLogo from '@/components/ui/Apollo5RocketLogo';
@@ -425,6 +426,12 @@ export default function AvatarHubPage() {
 
         {/* Firewall Anti-Hijacking e Defesa Anti-Jailbreak de Live (Fase 8 · Etapa 079) */}
         <LivePromptFirewallPanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+        />
+
+        {/* Exportador de Face DNA Pack para Difusores de Vídeo (Fase 9 · Etapa 081) */}
+        <FaceDnaPackExporterPanel
           avatarId={selectedAvatar?.id}
           avatarName={selectedAvatar?.name}
         />
