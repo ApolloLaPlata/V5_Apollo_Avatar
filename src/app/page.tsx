@@ -60,6 +60,7 @@ import LiveOperatorDeckPanel from '@/components/avatar/LiveOperatorDeckPanel';
 import LiveTelemetryMonitorPanel from '@/components/avatar/LiveTelemetryMonitorPanel';
 import LivePromptFirewallPanel from '@/components/avatar/LivePromptFirewallPanel';
 import FaceDnaPackExporterPanel from '@/components/avatar/FaceDnaPackExporterPanel';
+import BatchStylePromptInjectorPanel from '@/components/avatar/BatchStylePromptInjectorPanel';
 import AvatarCard from '@/components/avatar/AvatarCard';
 import QuickCreateAvatarModal from '@/components/avatar/QuickCreateAvatarModal';
 import Apollo5RocketLogo from '@/components/ui/Apollo5RocketLogo';
@@ -432,6 +433,12 @@ export default function AvatarHubPage() {
 
         {/* Exportador de Face DNA Pack para Difusores de Vídeo (Fase 9 · Etapa 081) */}
         <FaceDnaPackExporterPanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+        />
+
+        {/* Injetor de Prompts Fixo de Estilo para Lote de Shorts (Fase 9 · Etapa 082) */}
+        <BatchStylePromptInjectorPanel
           avatarId={selectedAvatar?.id}
           avatarName={selectedAvatar?.name}
         />
