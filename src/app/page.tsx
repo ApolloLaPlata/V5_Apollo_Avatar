@@ -102,12 +102,20 @@ export default function AvatarHubPage() {
   return (
     <div className="min-h-screen bg-obsidian-950 text-slate-100 flex flex-col font-sans selection:bg-cyber-cyan selection:text-obsidian-950">
       {/* Studio Header com Telemetria e Navegação */}
+      {/* Acessibilidade WCAG AA: Link para pular ao conteúdo principal */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-3 focus:left-3 focus:z-50 focus:px-4 focus:py-2 focus:bg-cyber-cyan focus:text-black focus:font-bold focus:rounded-lg focus:shadow-xl focus:outline-none"
+      >
+        Pular para o conteúdo principal
+      </a>
+
       <StudioHeader onOpenCreateModal={() => setIsCreateModalOpen(true)} />
       
       {/* Banner de Ativação Soberana */}
       <V5AppActivationBanner />
 
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-8 space-y-8">
+      <main id="main-content" className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-8 space-y-8">
         {/* Hero Section */}
         <div className="text-center max-w-3xl mx-auto space-y-3">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyber-cyan/30 text-cyber-cyan text-xs font-mono font-bold tracking-wider uppercase shadow-[0_0_15px_rgba(0,229,255,0.15)]">
