@@ -125,16 +125,16 @@ flowchart TD
 ### FASE 6: CONSTRUTOR DE LORE, PERSONALIDADE, BIOGRAFIA E DICIONÁRIO DE BORDÕES
 *Objetivo: Desenvolver a mente e psicologia do avatar para torná-lo um comunicador soberano, consistente e fiel ao nicho.*
 
-- [ ] **Etapa 051:** Arquiteto de Arquétipo Psicológico (Jungiano / MBTI / Traços Big Five de personalidade).
-- [ ] **Etapa 052:** Gerador de Biografia e Lore com história de origem, autoridade de mercado e tom de voz.
-- [ ] **Etapa 053:** Dicionário de Vocabulário Específico e Bordões (Catchphrases com peso de recorrência de 1 a 5).
-- [ ] **Etapa 054:** Tabela de Tópicos Proibidos e Limites Éticos (Guardrails de segurança contra alucinações e polêmicas).
-- [ ] **Etapa 055:** Compilador do System Prompt Supremo para LLMs (compatível com GPT-4o, Claude 3.5 e Gemini 2.0).
-- [ ] **Etapa 056:** Construtor de Base de Conhecimento RAG do Avatar (Ingestão de fatos, produtos e regras de negócio).
-- [ ] **Etapa 057:** Simulador de Respostas Curtas para Redes Sociais (Directs do Instagram, Comentários do YouTube e TikTok).
-- [ ] **Etapa 058:** Validador de Retenção de Persona (Audit Score de fidelidade ao personagem contra jailbreaks).
-- [ ] **Etapa 059:** Exportador da Ficha Psicológica e Lore Completo (Soul DNA Package).
-- [ ] **Etapa 060:** Validação de Integridade e Build de Homologação da Fase 6 (`npm run build` verde com Exit Code 0).
+- [x] **Etapa 051:** Arquiteto de Arquétipo Psicológico (Jungiano / MBTI / Traços Big Five de personalidade).
+- [x] **Etapa 052:** Gerador de Biografia e Lore com história de origem, autoridade de mercado e tom de voz.
+- [x] **Etapa 053:** Dicionário de Vocabulário Específico e Bordões (Catchphrases com peso de recorrência de 1 a 5).
+- [x] **Etapa 054:** Tabela de Tópicos Proibidos e Limites Éticos (Guardrails de segurança contra alucinações e polêmicas).
+- [x] **Etapa 055:** Compilador do System Prompt Supremo para LLMs (compatível com GPT-4o, Claude 3.5 e Gemini 2.0).
+- [x] **Etapa 056:** Construtor de Base de Conhecimento RAG do Avatar (Ingestão de fatos, produtos e regras de negócio).
+- [x] **Etapa 057:** Simulador de Respostas Curtas para Redes Sociais (Directs do Instagram, Comentários do YouTube e TikTok).
+- [x] **Etapa 058:** Validador de Retenção de Persona (Audit Score de fidelidade ao personagem contra jailbreaks).
+- [x] **Etapa 059:** Exportador da Ficha Psicológica e Lore Completo (Soul DNA Package).
+- [x] **Etapa 060:** Validação de Integridade e Build de Homologação da Fase 6 (`npm run build` verde com Exit Code 0).
 
 ---
 

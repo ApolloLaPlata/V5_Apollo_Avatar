@@ -81,23 +81,77 @@ export type ArchetypeCategory =
   | 'caregiver' 
   | 'jester' 
   | 'rebel' 
-  | 'everyman';
+  | 'everyman'
+  | 'magician'
+  | 'explorer';
+
+export interface BigFiveTraits {
+  openness: number;         // 0 a 100 (Abertura a Experiências)
+  conscientiousness: number;// 0 a 100 (Conscienciosidade / Disciplina)
+  extraversion: number;     // 0 a 100 (Extroversão / Projeção Social)
+  agreeableness: number;    // 0 a 100 (Amabilidade / Empatia)
+  emotionalStability: number; // 0 a 100 (Estabilidade Emocional / Resiliência)
+}
 
 export interface CatchphraseItem {
   phrase: string;
-  weight: number; // 1 (raro) a 5 (recorrente)
+  weight: number; // 1 (raro) a 5 (marca registrada recorrente)
+  context?: 'intro' | 'cta' | 'punchline' | 'transition' | 'outro';
+}
+
+export interface VocabularyItem {
+  term: string;
+  category: 'jargon' | 'technical' | 'slang' | 'analogy';
+  meaning: string;
+  weight: number; // 1 (sutil) a 5 (muito frequente)
+}
+
+export interface RAGKnowledgeItem {
+  id: string;
+  title: string;
+  category: 'product_catalog' | 'holding_rule' | 'technical_faq' | 'personal_fact' | 'pricing_policy';
+  content: string;
+  tags: string[];
+  lastUpdated: string;
+  sourceUrl?: string;
+}
+
+export interface GuardrailItem {
+  id: string;
+  topic: string;
+  category: 'holding_law' | 'legal_compliance' | 'brand_safety' | 'jailbreak_defense' | 'niche_specific';
+  severity: 'critical' | 'high' | 'moderate';
+  refusalStrategy: 'silent_redirect' | 'polite_refusal' | 'sovereign_deflection';
+  sampleDeflectionPhrase: string;
+  isLocked?: boolean;
+}
+
+export interface AvatarLoreDetails {
+  bio?: string;                 // Biografia sintética consolidada
+  originStory: string;          // História de origem canônica do personagem
+  marketAuthority: string;      // Conquistas, credenciais e prova de autoridade
+  toneOfVoiceGuideline: string; // Regras de cadência, vocabulário e metáforas
+  coreBeliefs: string[];        // 3 a 5 princípios inabaláveis que guiam as decisões
+  executiveBio?: string;        // Bio para o box de autor do V5 Auto Blog
+  socialBio?: string;           // Bio concisa para Instagram / Twitter (até 160 caracteres)
 }
 
 export interface SoulDNA {
   archetype?: ArchetypeCategory;
+  mbti?: string;
+  bigFive?: BigFiveTraits;
   bio: string;
   niche: string;
+  loreDetails?: AvatarLoreDetails;
   personalityTraits: string[];
   catchphrases: string[];
   weightedCatchphrases?: CatchphraseItem[];
+  vocabularyTerms?: VocabularyItem[];
   forbiddenTopics: string[];
+  structuredGuardrails?: GuardrailItem[];
   systemPrompt: string;
   knowledgeBaseDocs?: string[];
+  structuredKnowledgeBase?: RAGKnowledgeItem[];
   retentionAuditScore?: number;
 }
 

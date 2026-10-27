@@ -32,6 +32,15 @@ import PhoneticPangramCatalogPanel from '@/components/avatar/PhoneticPangramCata
 import SynthesisPreviewPlayer from '@/components/avatar/SynthesisPreviewPlayer';
 import V5SoundConnectorPanel from '@/components/avatar/V5SoundConnectorPanel';
 import VoiceSheetExporterPanel from '@/components/avatar/VoiceSheetExporterPanel';
+import PsychologicalArchetypesPanel from '@/components/avatar/PsychologicalArchetypesPanel';
+import BioLoreGeneratorPanel from '@/components/avatar/BioLoreGeneratorPanel';
+import VocabularyCatchphrasesPanel from '@/components/avatar/VocabularyCatchphrasesPanel';
+import EthicalGuardrailsPanel from '@/components/avatar/EthicalGuardrailsPanel';
+import SystemPromptCompilerPanel from '@/components/avatar/SystemPromptCompilerPanel';
+import RAGKnowledgeBasePanel from '@/components/avatar/RAGKnowledgeBasePanel';
+import SocialRepliesSimulatorPanel from '@/components/avatar/SocialRepliesSimulatorPanel';
+import PersonaRetentionValidatorPanel from '@/components/avatar/PersonaRetentionValidatorPanel';
+import SoulPackageExporterPanel from '@/components/avatar/SoulPackageExporterPanel';
 import AvatarCard from '@/components/avatar/AvatarCard';
 import QuickCreateAvatarModal from '@/components/avatar/QuickCreateAvatarModal';
 import Apollo5RocketLogo from '@/components/ui/Apollo5RocketLogo';
@@ -231,6 +240,61 @@ export default function AvatarHubPage() {
 
         {/* Exportador de Ficha Vocal Canônica em JSON (.v5voice.json) */}
         <VoiceSheetExporterPanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+        />
+
+        {/* Arquiteto de Arquétipos Psicológicos (Jungiano / MBTI / Traços Big Five) */}
+        <PsychologicalArchetypesPanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+        />
+
+        {/* Gerador de Biografia e Lore Canônico (Origin Story & Authority) */}
+        <BioLoreGeneratorPanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+        />
+
+        {/* Dicionário de Vocabulário Específico e Bordões Ponderados (1-5) */}
+        <VocabularyCatchphrasesPanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+        />
+
+        {/* Tabela de Tópicos Proibidos e Limites Éticos (Guardrails Anti-Jailbreak) */}
+        <EthicalGuardrailsPanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+        />
+
+        {/* Compilador do System Prompt Supremo para LLMs (GPT-4o, Claude 3.5, Gemini 2.0) */}
+        <SystemPromptCompilerPanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+        />
+
+        {/* Construtor de Base de Conhecimento RAG do Avatar (Ingestão de Fatos) */}
+        <RAGKnowledgeBasePanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+        />
+
+        {/* Simulador de Respostas Curtas para Redes Sociais (Directs, YouTube, TikTok) */}
+        <SocialRepliesSimulatorPanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+          avatarUrl={selectedAvatar?.avatarUrl}
+        />
+
+        {/* Validador de Retenção de Persona (Audit Score Anti-Jailbreak) */}
+        <PersonaRetentionValidatorPanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+        />
+
+        {/* Exportador da Ficha Psicológica e Lore Completo (Soul DNA Package .v5soul.json) */}
+        <SoulPackageExporterPanel
           avatarId={selectedAvatar?.id}
           avatarName={selectedAvatar?.name}
         />
