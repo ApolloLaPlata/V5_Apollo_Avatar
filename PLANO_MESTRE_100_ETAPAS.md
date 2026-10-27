@@ -194,7 +194,7 @@ flowchart TD
 - [x] **Etapa 093:** Importador Universal de Pacotes `.v5avatar` com descompactação e restauração completa de perfil no navegador.
 - [x] **Etapa 094:** Gerador de Ficha de Personagem para Impressão (Ficha técnica executiva com fotos e dados em formato A4/PDF).
 - [x] **Etapa 095:** Sistema de Backup e Restauração Completa do Catálogo de Personagens em 1 Clique.
-- [ ] **Etapa 096:** Teste de Carga e Estresse de Importação/Exportação com dezenas de avatares simultâneos.
+- [x] **Etapa 096:** Teste de Carga e Estresse de Importação/Exportação com dezenas de avatares simultâneos.
 - [ ] **Etapa 097:** Dashboard Central de Gestão de Personagens com visão em grade, filtros por nicho e status de sincronização.
 - [ ] **Etapa 098:** Central de Atalhos de Teclado Globais para fluxo de trabalho de alta velocidade no estúdio.
 - [ ] **Etapa 099:** Teste E2E de Fluxo Completo: Criação de Avatar -> Turnaround 360º -> Voz -> Lore -> Exportação.

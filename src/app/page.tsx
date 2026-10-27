@@ -73,6 +73,7 @@ import V5AvatarZipPackerPanel from '@/components/avatar/V5AvatarZipPackerPanel';
 import V5AvatarZipImporterPanel from '@/components/avatar/V5AvatarZipImporterPanel';
 import CharacterSheetPrintPanel from '@/components/avatar/CharacterSheetPrintPanel';
 import CatalogBackupRestorePanel from '@/components/avatar/CatalogBackupRestorePanel';
+import CatalogStressTesterPanel from '@/components/avatar/CatalogStressTesterPanel';
 import AvatarCard from '@/components/avatar/AvatarCard';
 import QuickCreateAvatarModal from '@/components/avatar/QuickCreateAvatarModal';
 import Apollo5RocketLogo from '@/components/ui/Apollo5RocketLogo';
@@ -520,6 +521,9 @@ export default function AvatarHubPage() {
 
         {/* Sistema de Backup e Restauração Completa do Catálogo em 1 Clique (Fase 10 · Etapa 095) */}
         <CatalogBackupRestorePanel />
+
+        {/* Teste de Carga e Estresse de Importação/Exportação (Fase 10 · Etapa 096) */}
+        <CatalogStressTesterPanel />
 
         {/* Galeria de Personagens Registrados na Store */}
         <div className="space-y-4">
