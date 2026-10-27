@@ -232,6 +232,11 @@ export const useAvatarStore = create<AvatarState>()(
       }),
       {
         name: 'v5_apollo_avatar_storage',
+        onRehydrateStorage: () => (state, error) => {
+          if (error) {
+            console.warn('Erro ao reidratar store do avatar do localStorage. Utilizando defaults seguros:', error);
+          }
+        },
       }
     ),
     { name: 'V5 Avatar Global Store' }
