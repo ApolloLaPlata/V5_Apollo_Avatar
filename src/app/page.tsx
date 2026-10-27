@@ -65,6 +65,7 @@ import CanonicalEnvironmentsPanel from '@/components/avatar/CanonicalEnvironment
 import CinematicCutsPanel from '@/components/avatar/CinematicCutsPanel';
 import PrismaBatchScriptGeneratorPanel from '@/components/avatar/PrismaBatchScriptGeneratorPanel';
 import FaceVerificationIndexPanel from '@/components/avatar/FaceVerificationIndexPanel';
+import V5EditTimelineExporterPanel from '@/components/avatar/V5EditTimelineExporterPanel';
 import AvatarCard from '@/components/avatar/AvatarCard';
 import QuickCreateAvatarModal from '@/components/avatar/QuickCreateAvatarModal';
 import Apollo5RocketLogo from '@/components/ui/Apollo5RocketLogo';
@@ -467,6 +468,12 @@ export default function AvatarHubPage() {
 
         {/* Estimador de Índice de Semelhança Facial Cross-Scene (Fase 9 · Etapa 086) */}
         <FaceVerificationIndexPanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+        />
+
+        {/* Exportador de Metadados de Timeline para o V5 Edit Web (Fase 9 · Etapa 087) */}
+        <V5EditTimelineExporterPanel
           avatarId={selectedAvatar?.id}
           avatarName={selectedAvatar?.name}
         />

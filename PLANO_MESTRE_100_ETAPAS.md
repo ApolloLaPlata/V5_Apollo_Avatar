@@ -179,7 +179,7 @@ flowchart TD
 - [x] **Etapa 084:** Tabela de Cortes e Ângulos de Câmera para Edição Dinâmica de Shorts (Jump Cuts consistentes sem deformação).
 - [x] **Etapa 085:** Gerador de Batch Prompts para o V5 Prisma (Roteiros com marcadores de pose e expressão correspondentes).
 - [x] **Etapa 086:** Estimador de Índice de Semelhança Facial Cross-Scene (Face Verification Index).
-- [ ] **Etapa 087:** Exportador de Metadados de Timeline para o V5 Edit Web (Marcadores de fala, respiração e ênfase).
+- [x] **Etapa 087:** Exportador de Metadados de Timeline para o V5 Edit Web (Marcadores de fala, respiração e ênfase).
 - [ ] **Etapa 088:** Gerador de Poses de Apresentador UGC com Produtos Minerados do V5 Finders.
 - [ ] **Etapa 089:** Exportador de Card de Autor e Assinatura Digital de Especialista para o V5 Auto Blog.
 - [ ] **Etapa 090:** Validação de Integridade e Build de Homologação da Fase 9 (`npm run build` verde com Exit Code 0).
