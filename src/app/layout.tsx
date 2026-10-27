@@ -1,0 +1,21 @@
+import type { Metadata } from "next";
+import "./globals.css";
+
+export const metadata: Metadata = {
+  title: "V5 Apollo Avatar · Agência Central de Identidades Digitais",
+  description: "Criação de Personagens Consistentes, Turnaround 360º, Voz Clonada e Atuação Multicanal para a Holding V5 Apollo.",
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="pt-BR" className="dark">
+      <body className="bg-slate-950 text-slate-100 min-h-screen flex flex-col antialiased">
+        {children}
+      </body>
+    </html>
+  );
+}
