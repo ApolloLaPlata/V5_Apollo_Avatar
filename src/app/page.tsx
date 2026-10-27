@@ -75,6 +75,7 @@ import CharacterSheetPrintPanel from '@/components/avatar/CharacterSheetPrintPan
 import CatalogBackupRestorePanel from '@/components/avatar/CatalogBackupRestorePanel';
 import CatalogStressTesterPanel from '@/components/avatar/CatalogStressTesterPanel';
 import E2EStudioWorkflowPanel from '@/components/avatar/E2EStudioWorkflowPanel';
+import MilestoneVersion100Banner from '@/components/avatar/MilestoneVersion100Banner';
 import CentralCharacterManagementDashboard from '@/components/avatar/CentralCharacterManagementDashboard';
 import KeyboardShortcutsModal from '@/components/avatar/KeyboardShortcutsModal';
 import AvatarCard from '@/components/avatar/AvatarCard';
@@ -124,6 +125,9 @@ export default function AvatarHubPage() {
             <span className="text-emerald-400 font-bold">V5 Finders</span>.
           </p>
         </div>
+
+        {/* Marco Histórico: Versão 1.0.0 Soberana (Fase 10 · Etapa 100) */}
+        <MilestoneVersion100Banner />
 
         {/* Character Studio Interactive Workspace */}
         <CharacterCreator />
