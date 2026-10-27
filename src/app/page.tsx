@@ -74,6 +74,7 @@ import V5AvatarZipImporterPanel from '@/components/avatar/V5AvatarZipImporterPan
 import CharacterSheetPrintPanel from '@/components/avatar/CharacterSheetPrintPanel';
 import CatalogBackupRestorePanel from '@/components/avatar/CatalogBackupRestorePanel';
 import CatalogStressTesterPanel from '@/components/avatar/CatalogStressTesterPanel';
+import E2EStudioWorkflowPanel from '@/components/avatar/E2EStudioWorkflowPanel';
 import CentralCharacterManagementDashboard from '@/components/avatar/CentralCharacterManagementDashboard';
 import KeyboardShortcutsModal from '@/components/avatar/KeyboardShortcutsModal';
 import AvatarCard from '@/components/avatar/AvatarCard';
@@ -526,6 +527,12 @@ export default function AvatarHubPage() {
 
         {/* Teste de Carga e Estresse de Importação/Exportação (Fase 10 · Etapa 096) */}
         <CatalogStressTesterPanel />
+
+        {/* Teste E2E de Fluxo Completo: Criação -> Turnaround 360º -> Voz -> Lore -> Exportação (Fase 10 · Etapa 099) */}
+        <E2EStudioWorkflowPanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+        />
 
         {/* Dashboard Central de Gestão de Personagens (Fase 10 · Etapa 097) */}
         <CentralCharacterManagementDashboard 
