@@ -34,12 +34,13 @@ export default function StudioHeader({ onOpenCreateModal }: StudioHeaderProps) {
   const selectedAvatar = avatars.find((a) => a.id === selectedAvatarId);
 
   const MODES: { id: StudioViewMode; label: string; icon: React.ElementType }[] = [
-    { id: 'turnaround', label: 'Turnaround 360º', icon: ScanEye },
+    { id: 'turnaround', label: 'Turnaround 360°', icon: ScanEye },
     { id: 't-pose', label: 'T-Pose & Rigging', icon: Accessibility },
-    { id: 'expression', label: 'Expressões & Visemas', icon: Smile },
+    { id: 'expression', label: 'Expressões & FACS', icon: Smile },
     { id: 'voice', label: 'DNA Vocal', icon: Mic },
     { id: 'soul', label: 'Soul & Lore', icon: BrainCircuit },
     { id: 'live', label: 'Conector Live OBS', icon: Radio },
+    { id: 'ecosystem', label: 'Ecossistema & Pacotes', icon: Layers },
   ];
 
   return (

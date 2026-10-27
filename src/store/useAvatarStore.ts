@@ -16,7 +16,9 @@ export type StudioViewMode =
   | 'expression' 
   | 'voice' 
   | 'soul' 
-  | 'live';
+  | 'live'
+  | 'ecosystem'
+  | 'all';
 
 export const INITIAL_CANONICAL_AVATARS: AvatarProfile[] = [
   {
