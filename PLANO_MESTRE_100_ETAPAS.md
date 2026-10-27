@@ -192,7 +192,7 @@ flowchart TD
 - [x] **Etapa 091:** Definição do Schema Canônico `V5AvatarPackage` com integridade criptográfica SHA-256.
 - [x] **Etapa 092:** Empacotador ZIP Client-Side gerando arquivo portátil `.v5avatar` contendo imagens, áudios e JSONs.
 - [x] **Etapa 093:** Importador Universal de Pacotes `.v5avatar` com descompactação e restauração completa de perfil no navegador.
-- [ ] **Etapa 094:** Gerador de Ficha de Personagem para Impressão (Ficha técnica executiva com fotos e dados em formato A4/PDF).
+- [x] **Etapa 094:** Gerador de Ficha de Personagem para Impressão (Ficha técnica executiva com fotos e dados em formato A4/PDF).
 - [ ] **Etapa 095:** Sistema de Backup e Restauração Completa do Catálogo de Personagens em 1 Clique.
 - [ ] **Etapa 096:** Teste de Carga e Estresse de Importação/Exportação com dezenas de avatares simultâneos.
 - [ ] **Etapa 097:** Dashboard Central de Gestão de Personagens com visão em grade, filtros por nicho e status de sincronização.

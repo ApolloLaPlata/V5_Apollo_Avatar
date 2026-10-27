@@ -71,6 +71,7 @@ import AuthorCardExporterPanel from '@/components/avatar/AuthorCardExporterPanel
 import UniversalPackageSchemaPanel from '@/components/avatar/UniversalPackageSchemaPanel';
 import V5AvatarZipPackerPanel from '@/components/avatar/V5AvatarZipPackerPanel';
 import V5AvatarZipImporterPanel from '@/components/avatar/V5AvatarZipImporterPanel';
+import CharacterSheetPrintPanel from '@/components/avatar/CharacterSheetPrintPanel';
 import AvatarCard from '@/components/avatar/AvatarCard';
 import QuickCreateAvatarModal from '@/components/avatar/QuickCreateAvatarModal';
 import Apollo5RocketLogo from '@/components/ui/Apollo5RocketLogo';
@@ -509,6 +510,12 @@ export default function AvatarHubPage() {
 
         {/* Importador Universal de Pacotes .v5avatar (Fase 10 · Etapa 093) */}
         <V5AvatarZipImporterPanel />
+
+        {/* Gerador de Ficha de Personagem para Impressão A4 / PDF (Fase 10 · Etapa 094) */}
+        <CharacterSheetPrintPanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+        />
 
         {/* Galeria de Personagens Registrados na Store */}
         <div className="space-y-4">
