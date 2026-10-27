@@ -176,7 +176,7 @@ flowchart TD
 - [x] **Etapa 081:** Exportador de Face DNA Pack estruturado para difusores de vídeo (Flux / SDXL LoRA parameters).
 - [x] **Etapa 082:** Injetor de Prompts Fixo de Estilo para renderização de lotes de 20+ Shorts preservando rosto e figurino.
 - [x] **Etapa 083:** Tabela de Cenários e Ambientes Canônicos do Avatar (Home office tech, auditório moderno, estúdio escuro, externa urbana).
-- [ ] **Etapa 084:** Tabela de Cortes e Ângulos de Câmera para Edição Dinâmica de Shorts (Jump Cuts consistentes sem deformação).
+- [x] **Etapa 084:** Tabela de Cortes e Ângulos de Câmera para Edição Dinâmica de Shorts (Jump Cuts consistentes sem deformação).
 - [ ] **Etapa 085:** Gerador de Batch Prompts para o V5 Prisma (Roteiros com marcadores de pose e expressão correspondentes).
 - [ ] **Etapa 086:** Estimador de Índice de Semelhança Facial Cross-Scene (Face Verification Index).
 - [ ] **Etapa 087:** Exportador de Metadados de Timeline para o V5 Edit Web (Marcadores de fala, respiração e ênfase).

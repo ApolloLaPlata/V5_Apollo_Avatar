@@ -62,6 +62,7 @@ import LivePromptFirewallPanel from '@/components/avatar/LivePromptFirewallPanel
 import FaceDnaPackExporterPanel from '@/components/avatar/FaceDnaPackExporterPanel';
 import BatchStylePromptInjectorPanel from '@/components/avatar/BatchStylePromptInjectorPanel';
 import CanonicalEnvironmentsPanel from '@/components/avatar/CanonicalEnvironmentsPanel';
+import CinematicCutsPanel from '@/components/avatar/CinematicCutsPanel';
 import AvatarCard from '@/components/avatar/AvatarCard';
 import QuickCreateAvatarModal from '@/components/avatar/QuickCreateAvatarModal';
 import Apollo5RocketLogo from '@/components/ui/Apollo5RocketLogo';
@@ -446,6 +447,12 @@ export default function AvatarHubPage() {
 
         {/* Tabela de Cenários e Ambientes Canônicos do Avatar (Fase 9 · Etapa 083) */}
         <CanonicalEnvironmentsPanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+        />
+
+        {/* Tabela de Cortes e Ângulos de Câmera para Edição Dinâmica de Shorts (Fase 9 · Etapa 084) */}
+        <CinematicCutsPanel
           avatarId={selectedAvatar?.id}
           avatarName={selectedAvatar?.name}
         />
