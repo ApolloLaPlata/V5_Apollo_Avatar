@@ -109,16 +109,16 @@ flowchart TD
 ### FASE 5: ESTÚDIO DE DNA VOCAL (INTEGRAÇÃO QWEN-TTS, XTTS, TOM EMOCIONAL E PITCH)
 *Objetivo: Capturar a essência sonora do avatar, integrando com os motores do V5 Sound e permitindo modulação acústica completa.*
 
-- [ ] **Etapa 041:** Uploader e Gravador Nativo de Áudio de Referência (.wav / .mp3 / .m4a) com sanitização de ruído.
-- [ ] **Etapa 042:** Visualizador de Onda Sonora (Waveform Canvas) interativo com detecção de picos, silêncio e clipping.
-- [ ] **Etapa 043:** Mapeador de Motores de Síntese Vocal (Qwen-TTS, XTTS-v2, CosyVoice) com perfis de latência.
-- [ ] **Etapa 044:** Controles Paramétricos de Voz (Pitch, Velocidade/Speed 0.5x-2.0x, Estabilidade e Temperatura Sonora).
-- [ ] **Etapa 045:** Seletor de Tonalidade Emocional Vocal (Enérgico, Calmo, Autoritário, Amigável, Hipnótico, Noturno).
-- [ ] **Etapa 046:** Catálogo de Pangramas e Frases Canônicas de Teste Fonético por idioma e dialeto.
-- [ ] **Etapa 047:** Player de Preview de Síntese com simulação de fala e sincronização de tempo.
-- [ ] **Etapa 048:** Conector de ID de Voz com o ecossistema do V5 Sound (`v5SoundVoiceId`).
-- [ ] **Etapa 049:** Exportador de Ficha Vocal Canônica em JSON (Voice Specification Sheet).
-- [ ] **Etapa 050:** Validação de Integridade e Build de Homologação da Fase 5 (`npm run build` verde com Exit Code 0).
+- [x] **Etapa 041:** Uploader e Gravador Nativo de Áudio de Referência (.wav / .mp3 / .m4a) com sanitização de ruído.
+- [x] **Etapa 042:** Visualizador de Onda Sonora (Waveform Canvas) interativo com detecção de picos, silêncio e clipping.
+- [x] **Etapa 043:** Mapeador de Motores de Síntese Vocal (Qwen-TTS, XTTS-v2, CosyVoice) com perfis de latência.
+- [x] **Etapa 044:** Controles Paramétricos de Voz (Pitch, Velocidade/Speed 0.5x-2.0x, Estabilidade e Temperatura Sonora).
+- [x] **Etapa 045:** Seletor de Tonalidade Emocional Vocal (Enérgico, Calmo, Autoritário, Amigável, Hipnótico, Noturno).
+- [x] **Etapa 046:** Catálogo de Pangramas e Frases Canônicas de Teste Fonético por idioma e dialeto.
+- [x] **Etapa 047:** Player de Preview de Síntese com simulação de fala e sincronização de tempo.
+- [x] **Etapa 048:** Conector de ID de Voz com o ecossistema do V5 Sound (`v5SoundVoiceId`).
+- [x] **Etapa 049:** Exportador de Ficha Vocal Canônica em JSON (Voice Specification Sheet).
+- [x] **Etapa 050:** Validação de Integridade e Build de Homologação da Fase 5 (`npm run build` verde com Exit Code 0).
 
 ---
 

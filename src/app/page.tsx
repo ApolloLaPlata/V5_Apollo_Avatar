@@ -23,6 +23,15 @@ import EmotionalIntensityModulator from '@/components/avatar/EmotionalIntensityM
 import QuickExpressionSwitcher from '@/components/avatar/QuickExpressionSwitcher';
 import SpriteSheetComposerPanel from '@/components/avatar/SpriteSheetComposerPanel';
 import AnatomicalDeviationValidatorPanel from '@/components/avatar/AnatomicalDeviationValidatorPanel';
+import VoiceAudioUploader from '@/components/avatar/VoiceAudioUploader';
+import WaveformCanvasViewer from '@/components/avatar/WaveformCanvasViewer';
+import VoiceEngineMapperPanel from '@/components/avatar/VoiceEngineMapperPanel';
+import VoiceParametersPanel from '@/components/avatar/VoiceParametersPanel';
+import VoiceToneSelectorPanel from '@/components/avatar/VoiceToneSelectorPanel';
+import PhoneticPangramCatalogPanel from '@/components/avatar/PhoneticPangramCatalogPanel';
+import SynthesisPreviewPlayer from '@/components/avatar/SynthesisPreviewPlayer';
+import V5SoundConnectorPanel from '@/components/avatar/V5SoundConnectorPanel';
+import VoiceSheetExporterPanel from '@/components/avatar/VoiceSheetExporterPanel';
 import AvatarCard from '@/components/avatar/AvatarCard';
 import QuickCreateAvatarModal from '@/components/avatar/QuickCreateAvatarModal';
 import Apollo5RocketLogo from '@/components/ui/Apollo5RocketLogo';
@@ -165,6 +174,66 @@ export default function AvatarHubPage() {
 
         {/* Validador Heurístico de Desvios Anatômicos (Anti-Alucinação) */}
         <AnatomicalDeviationValidatorPanel characterName={selectedAvatar?.name} />
+
+        {/* Uploader & Gravador Nativo de Áudio de Referência (V5 Sound) */}
+        <VoiceAudioUploader
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+          currentAudioUrl={selectedAvatar?.voice.sampleAudioUrl}
+        />
+
+        {/* Visualizador de Onda Sonora (Waveform Canvas Interativo) */}
+        <WaveformCanvasViewer
+          audioUrl={selectedAvatar?.voice.sampleAudioUrl}
+          characterName={selectedAvatar?.name}
+        />
+
+        {/* Mapeador de Motores de Síntese Vocal (V5 Sound Engines) */}
+        <VoiceEngineMapperPanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+          currentEngine={selectedAvatar?.voice.engine}
+        />
+
+        {/* Controles Paramétricos de Voz (Pitch, Velocidade, Estabilidade, Temperatura) */}
+        <VoiceParametersPanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+          currentEngine={selectedAvatar?.voice.engine}
+        />
+
+        {/* Seletor de Tonalidade Emocional Vocal (Enérgico, Calmo, Autoritário, Amigável, Hipnótico, Noturno) */}
+        <VoiceToneSelectorPanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+          currentTone={selectedAvatar?.voice.tone}
+        />
+
+        {/* Catálogo de Pangramas e Frases Canônicas de Teste Fonético */}
+        <PhoneticPangramCatalogPanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+        />
+
+        {/* Player de Preview de Síntese Vocal & Sincronização de Tempo */}
+        <SynthesisPreviewPlayer
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+          avatarUrl={selectedAvatar?.avatarUrl}
+        />
+
+        {/* Conector de ID de Voz com o Ecossistema do V5 Sound (:3008) */}
+        <V5SoundConnectorPanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+          currentVoiceId={selectedAvatar?.voice.v5SoundVoiceId}
+        />
+
+        {/* Exportador de Ficha Vocal Canônica em JSON (.v5voice.json) */}
+        <VoiceSheetExporterPanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+        />
 
         {/* Galeria de Personagens Registrados na Store */}
         <div className="space-y-4">
