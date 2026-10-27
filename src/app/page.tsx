@@ -64,6 +64,7 @@ import BatchStylePromptInjectorPanel from '@/components/avatar/BatchStylePromptI
 import CanonicalEnvironmentsPanel from '@/components/avatar/CanonicalEnvironmentsPanel';
 import CinematicCutsPanel from '@/components/avatar/CinematicCutsPanel';
 import PrismaBatchScriptGeneratorPanel from '@/components/avatar/PrismaBatchScriptGeneratorPanel';
+import FaceVerificationIndexPanel from '@/components/avatar/FaceVerificationIndexPanel';
 import AvatarCard from '@/components/avatar/AvatarCard';
 import QuickCreateAvatarModal from '@/components/avatar/QuickCreateAvatarModal';
 import Apollo5RocketLogo from '@/components/ui/Apollo5RocketLogo';
@@ -460,6 +461,12 @@ export default function AvatarHubPage() {
 
         {/* Gerador de Batch Prompts para o V5 Prisma (Fase 9 · Etapa 085) */}
         <PrismaBatchScriptGeneratorPanel
+          avatarId={selectedAvatar?.id}
+          avatarName={selectedAvatar?.name}
+        />
+
+        {/* Estimador de Índice de Semelhança Facial Cross-Scene (Fase 9 · Etapa 086) */}
+        <FaceVerificationIndexPanel
           avatarId={selectedAvatar?.id}
           avatarName={selectedAvatar?.name}
         />

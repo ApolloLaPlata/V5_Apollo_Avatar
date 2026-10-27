@@ -178,7 +178,7 @@ flowchart TD
 - [x] **Etapa 083:** Tabela de Cenários e Ambientes Canônicos do Avatar (Home office tech, auditório moderno, estúdio escuro, externa urbana).
 - [x] **Etapa 084:** Tabela de Cortes e Ângulos de Câmera para Edição Dinâmica de Shorts (Jump Cuts consistentes sem deformação).
 - [x] **Etapa 085:** Gerador de Batch Prompts para o V5 Prisma (Roteiros com marcadores de pose e expressão correspondentes).
-- [ ] **Etapa 086:** Estimador de Índice de Semelhança Facial Cross-Scene (Face Verification Index).
+- [x] **Etapa 086:** Estimador de Índice de Semelhança Facial Cross-Scene (Face Verification Index).
 - [ ] **Etapa 087:** Exportador de Metadados de Timeline para o V5 Edit Web (Marcadores de fala, respiração e ênfase).
 - [ ] **Etapa 088:** Gerador de Poses de Apresentador UGC com Produtos Minerados do V5 Finders.
 - [ ] **Etapa 089:** Exportador de Card de Autor e Assinatura Digital de Especialista para o V5 Auto Blog.
