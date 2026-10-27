@@ -127,6 +127,8 @@ export default function E2EStudioWorkflowPanel({
             <img
               src={currentAvatar.avatarUrl}
               alt={currentAvatar.name}
+              loading="lazy"
+              decoding="async"
               className="w-10 h-10 rounded-lg object-cover border border-white/10"
             />
             <div>

@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { memo, useCallback } from 'react';
 import { AvatarProfile } from '@/types/avatar';
 import { useAvatarStore } from '@/store/useAvatarStore';
 import { toast } from '@/store/useToastStore';
@@ -24,30 +24,30 @@ interface AvatarCardProps {
   onSelect?: () => void;
 }
 
-export default function AvatarCard({ avatar, isSelected, onSelect }: AvatarCardProps) {
+const AvatarCard = memo(function AvatarCard({ avatar, isSelected, onSelect }: AvatarCardProps) {
   const { duplicateAvatar, deleteAvatar, selectAvatar } = useAvatarStore();
 
-  const handleSelect = () => {
+  const handleSelect = useCallback(() => {
     if (onSelect) onSelect();
     else selectAvatar(avatar.id);
     toast.info('Avatar Selecionado', avatar.name, 2000);
-  };
+  }, [onSelect, selectAvatar, avatar.id, avatar.name]);
 
-  const handleDuplicate = (e: React.MouseEvent) => {
+  const handleDuplicate = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
     const dup = duplicateAvatar(avatar.id);
     if (dup) {
       toast.info('Avatar Clonado', `${dup.name} foi adicionado ao acervo.`, 2500);
     }
-  };
+  }, [duplicateAvatar, avatar.id]);
 
-  const handleDelete = (e: React.MouseEvent) => {
+  const handleDelete = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
     if (confirm(`Tem certeza que deseja remover o avatar "${avatar.name}" do Registro Civil?`)) {
       deleteAvatar(avatar.id);
       toast.warning('Avatar Removido', `${avatar.name} foi excluído do acervo.`, 2500);
     }
-  };
+  }, [deleteAvatar, avatar.id, avatar.name]);
 
   return (
     <div
@@ -70,6 +70,8 @@ export default function AvatarCard({ avatar, isSelected, onSelect }: AvatarCardP
             <img
               src={avatar.avatarUrl}
               alt={avatar.name}
+              loading="lazy"
+              decoding="async"
               className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
             />
             {isSelected && (
@@ -187,4 +189,6 @@ export default function AvatarCard({ avatar, isSelected, onSelect }: AvatarCardP
       </div>
     </div>
   );
-}
+});
+
+export default AvatarCard;

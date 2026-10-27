@@ -138,6 +138,8 @@ export default function CharacterSheetPrintPanel({
                 <img
                   src={sheetData.anchorPhotoUrl}
                   alt={sheetData.name}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover"
                 />
                 <div className="absolute bottom-2 right-2 px-2 py-0.5 rounded bg-black/80 text-[9px] font-mono text-cyber-cyan border border-cyber-cyan/30">

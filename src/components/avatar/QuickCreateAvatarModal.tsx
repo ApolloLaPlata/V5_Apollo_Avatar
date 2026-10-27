@@ -99,6 +99,8 @@ export default function QuickCreateAvatarModal({ isOpen, onClose }: QuickCreateA
                       <img 
                         src={arch.defaultImage} 
                         alt={arch.name} 
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover" 
                       />
                       {isSelected && (
@@ -125,6 +127,8 @@ export default function QuickCreateAvatarModal({ isOpen, onClose }: QuickCreateA
               <img
                 src={selectedPreset.defaultImage}
                 alt={selectedPreset.name}
+                loading="lazy"
+                decoding="async"
                 className="w-20 h-20 rounded-xl object-cover border border-white/10 shrink-0"
               />
               <div className="space-y-1.5 flex-1 min-w-0">

@@ -89,6 +89,8 @@ export default function StudioHeader({ onOpenCreateModal }: StudioHeaderProps) {
                 <img 
                   src={selectedAvatar.avatarUrl} 
                   alt={selectedAvatar.name}
+                  loading="lazy"
+                  decoding="async"
                   className="w-full h-full object-cover" 
                 />
               </div>
