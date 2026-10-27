@@ -74,6 +74,7 @@ import V5AvatarZipImporterPanel from '@/components/avatar/V5AvatarZipImporterPan
 import CharacterSheetPrintPanel from '@/components/avatar/CharacterSheetPrintPanel';
 import CatalogBackupRestorePanel from '@/components/avatar/CatalogBackupRestorePanel';
 import CatalogStressTesterPanel from '@/components/avatar/CatalogStressTesterPanel';
+import CentralCharacterManagementDashboard from '@/components/avatar/CentralCharacterManagementDashboard';
 import AvatarCard from '@/components/avatar/AvatarCard';
 import QuickCreateAvatarModal from '@/components/avatar/QuickCreateAvatarModal';
 import Apollo5RocketLogo from '@/components/ui/Apollo5RocketLogo';
@@ -525,29 +526,10 @@ export default function AvatarHubPage() {
         {/* Teste de Carga e Estresse de Importação/Exportação (Fase 10 · Etapa 096) */}
         <CatalogStressTesterPanel />
 
-        {/* Galeria de Personagens Registrados na Store */}
-        <div className="space-y-4">
-          <div className="flex items-center justify-between pb-3 border-b border-white/10">
-            <h2 className="text-base font-bold text-slate-100 flex items-center gap-2">
-              <Users className="w-5 h-5 text-cyber-cyan" />
-              Atores & Personagens Registrados na Holding
-            </h2>
-            <span className="text-xs font-mono text-slate-400">
-              Total: <strong className="text-cyber-cyan">{avatars.length}</strong>
-            </span>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {avatars.map((av) => (
-              <AvatarCard
-                key={av.id}
-                avatar={av}
-                isSelected={av.id === selectedAvatarId}
-                onSelect={() => selectAvatar(av.id)}
-              />
-            ))}
-          </div>
-        </div>
+        {/* Dashboard Central de Gestão de Personagens (Fase 10 · Etapa 097) */}
+        <CentralCharacterManagementDashboard 
+          onOpenCreateModal={() => setIsCreateModalOpen(true)}
+        />
       </main>
 
       <footer className="border-t border-white/10 bg-obsidian-950 py-6 text-center text-xs text-slate-500 mt-12">
