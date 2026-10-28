@@ -32,6 +32,10 @@ import {
   Cpu,
   Smile,
   Accessibility,
+  ExternalLink,
+  Send,
+  Volume2,
+  Palette,
 } from 'lucide-react';
 
 // Import dos painéis do Laboratório Técnico (acessíveis no Modo Engenheiro)
@@ -176,6 +180,40 @@ export default function AvatarHubPage() {
     setCopiedObs(true);
     toast.success('Copiado para OBS', 'URL do overlay transparente copiada!');
     setTimeout(() => setCopiedObs(false), 2500);
+  };
+
+  // ==============================================================
+  // APOLLO BRIDGE: PONTES DE INTEROPERABILIDADE ENTRE CAPITANIAS
+  // ==============================================================
+  const handleDispatchToPoster = () => {
+    if (!selectedAvatar) return;
+    const catchphrase = selectedAvatar.soul.catchphrases?.[0] || 'Novo conteúdo da holding no ar!';
+    const title = `${selectedAvatar.name}: ${selectedAvatar.tagline}`;
+    const url = `http://localhost:3011/?title=${encodeURIComponent(title)}&content=${encodeURIComponent(catchphrase)}&actor=${encodeURIComponent(selectedAvatar.name)}`;
+    window.open(url, '_blank');
+    toast.success('Ponte Ativada', `Enviando ${selectedAvatar.name} para o V5 Poster (:3011)`);
+  };
+
+  const handleDispatchToBroadcaster = () => {
+    if (!selectedAvatar) return;
+    const url = `http://localhost:3008/dashboard/studio?avatarId=${encodeURIComponent(selectedAvatar.id)}&avatarName=${encodeURIComponent(selectedAvatar.name)}`;
+    window.open(url, '_blank');
+    toast.success('Ponte Ativada', `Acoplando ${selectedAvatar.name} no V5 Broadcaster (:3008)`);
+  };
+
+  const handleDispatchToSound = () => {
+    if (!selectedAvatar) return;
+    const url = `https://v5-apollo-sound-five.vercel.app/studio?voice=${encodeURIComponent(selectedAvatar.name)}&engine=${encodeURIComponent(selectedAvatar.voice.engine)}`;
+    window.open(url, '_blank');
+    toast.success('Ponte Ativada', `Sincronizando voz de ${selectedAvatar.name} no V5 Sound`);
+  };
+
+  const handleDispatchToPrisma = () => {
+    if (!selectedAvatar) return;
+    const prompt = `${selectedAvatar.face.fixedFeaturesPrompt}, wearing ${selectedAvatar.face.clothingPrompt}, cinematic lighting ${selectedAvatar.face.lightingPreset}`;
+    const url = `https://prisma.v5apollo.com/studio?character=${encodeURIComponent(selectedAvatar.name)}&prompt=${encodeURIComponent(prompt)}`;
+    window.open(url, '_blank');
+    toast.success('Ponte Ativada', `Face DNA de ${selectedAvatar.name} despachado para o V5 Prisma`);
   };
 
   return (
@@ -695,54 +733,165 @@ export default function AvatarHubPage() {
               )}
 
               {/* CONTEÚDO DA ABA: EXPORTAÇÃO & ECOSSISTEMA */}
+              {/* CONTEUDO DA ABA: EXPORTACAO & ECOSSISTEMA */}
               {activeTab === 'export' && (
-                <div className="glass-card rounded-2xl p-6 border border-white/10 space-y-5 animate-fadeIn">
+                <div className="glass-card rounded-2xl p-6 border border-white/10 space-y-6 animate-fadeIn">
                   <div className="border-b border-white/10 pb-3">
                     <h3 className="text-base font-bold text-white flex items-center gap-2">
                       <Layers className="w-4 h-4 text-cyber-cyan" />
-                      Exportação Soberana & Conectores
+                      Apollo Bridge: Interoperabilidade da Holding
                     </h3>
                     <p className="text-xs text-slate-400">
-                      Despache a identidade para outras capitanias ou baixe o pacote portátil completo.
+                      Despache a identidade e inteligência de {selectedAvatar.name} diretamente para outras capitanias integradas.
                     </p>
                   </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {/* Card 1: Baixar ZIP .v5avatar */}
-                    <div className="p-4 bg-slate-900/60 border border-white/10 rounded-xl space-y-2.5">
-                      <div className="flex items-center gap-2 text-cyber-cyan font-bold text-sm">
-                        <Download className="w-4 h-4" />
-                        <span>Pacote .v5avatar (ZIP)</span>
-                      </div>
-                      <p className="text-[11px] text-slate-400">
-                        Arquivo binário contendo Face DNA, Voice DNA, prompts e manifestos assinados com SHA-256.
-                      </p>
-                      <button
-                        onClick={handleQuickDownloadZip}
-                        disabled={isExportingZip}
-                        className="w-full py-2 px-3 rounded-lg bg-cyber-cyan hover:bg-cyan-400 text-obsidian-950 font-mono text-xs font-bold transition-all flex items-center justify-center gap-1.5 disabled:opacity-50"
-                      >
-                        <Download className="w-3.5 h-3.5" />
-                        <span>{isExportingZip ? 'Compactando...' : 'Baixar Agora'}</span>
-                      </button>
+                  {/* PONTES DE INTEROPERABILIDADE */}
+                  <div className="space-y-3">
+                    <div className="text-[11px] font-mono uppercase tracking-wider text-slate-400 font-bold flex items-center gap-1.5">
+                      <Send className="w-3 h-3 text-cyber-cyan" />
+                      <span>Handoff Direto para Outras Capitanias</span>
                     </div>
 
-                    {/* Card 2: Link do OBS Studio */}
-                    <div className="p-4 bg-slate-900/60 border border-white/10 rounded-xl space-y-2.5">
-                      <div className="flex items-center gap-2 text-blue-400 font-bold text-sm">
-                        <Radio className="w-4 h-4" />
-                        <span>Overlay para OBS Studio</span>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                      {/* Card Bridge 1: V5 Poster */}
+                      <div className="p-4 bg-slate-900/70 border border-emerald-500/20 hover:border-emerald-500/40 rounded-xl space-y-2.5 transition-all">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2 text-emerald-400 font-bold text-sm">
+                            <Send className="w-4 h-4" />
+                            <span>V5 Poster (:3011)</span>
+                          </div>
+                          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/30">
+                            Social Studio
+                          </span>
+                        </div>
+                        <p className="text-[11px] text-slate-400 leading-relaxed">
+                          Injeta o bordão <span className="text-slate-200 italic font-mono">"{selectedAvatar.soul.catchphrases?.[0] || 'Novo conteúdo no ar!'}"</span> e a persona no compositor multi-canal.
+                        </p>
+                        <button
+                          onClick={handleDispatchToPoster}
+                          className="w-full py-2 px-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-mono text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-lg shadow-emerald-950/40"
+                        >
+                          <ExternalLink className="w-3.5 h-3.5" />
+                          <span>Despachar para o V5 Poster</span>
+                        </button>
                       </div>
-                      <p className="text-[11px] text-slate-400">
-                        URL do browser source com fundo transparente para o V5 Broadcaster (:3008).
-                      </p>
-                      <button
-                        onClick={handleCopyObsUrl}
-                        className="w-full py-2 px-3 rounded-lg bg-blue-500/20 hover:bg-blue-500/30 border border-blue-500/40 text-blue-300 font-mono text-xs font-bold transition-all flex items-center justify-center gap-1.5"
-                      >
-                        {copiedObs ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-                        <span>{copiedObs ? 'Copiado!' : 'Copiar URL OBS'}</span>
-                      </button>
+
+                      {/* Card Bridge 2: V5 Broadcaster */}
+                      <div className="p-4 bg-slate-900/70 border border-purple-500/20 hover:border-purple-500/40 rounded-xl space-y-2.5 transition-all">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2 text-purple-400 font-bold text-sm">
+                            <Radio className="w-4 h-4" />
+                            <span>V5 Broadcaster (:3008)</span>
+                          </div>
+                          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-500/10 text-purple-300 border border-purple-500/30">
+                            Live MCR
+                          </span>
+                        </div>
+                        <p className="text-[11px] text-slate-400 leading-relaxed">
+                          Acopla {selectedAvatar.name} como VTuber / Host com lipsync e reações a presentes no estúdio 24/7.
+                        </p>
+                        <button
+                          onClick={handleDispatchToBroadcaster}
+                          className="w-full py-2 px-3 rounded-lg bg-purple-600 hover:bg-purple-500 text-white font-mono text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-lg shadow-purple-950/40"
+                        >
+                          <ExternalLink className="w-3.5 h-3.5" />
+                          <span>Acoplar no V5 Broadcaster</span>
+                        </button>
+                      </div>
+
+                      {/* Card Bridge 3: V5 Sound */}
+                      <div className="p-4 bg-slate-900/70 border border-amber-500/20 hover:border-amber-500/40 rounded-xl space-y-2.5 transition-all">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2 text-amber-400 font-bold text-sm">
+                            <Volume2 className="w-4 h-4" />
+                            <span>V5 Sound (Áudio & Voz)</span>
+                          </div>
+                          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/30">
+                            Voice DNA
+                          </span>
+                        </div>
+                        <p className="text-[11px] text-slate-400 leading-relaxed">
+                          Abre o estúdio de áudio sincronizando o motor neural ({selectedAvatar.voice.engine}) e os timbres cadastrados.
+                        </p>
+                        <button
+                          onClick={handleDispatchToSound}
+                          className="w-full py-2 px-3 rounded-lg bg-amber-600 hover:bg-amber-500 text-white font-mono text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-lg shadow-amber-950/40"
+                        >
+                          <ExternalLink className="w-3.5 h-3.5" />
+                          <span>Sintonizar no V5 Sound</span>
+                        </button>
+                      </div>
+
+                      {/* Card Bridge 4: V5 Prisma */}
+                      <div className="p-4 bg-slate-900/70 border border-blue-500/20 hover:border-blue-500/40 rounded-xl space-y-2.5 transition-all">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2 text-blue-400 font-bold text-sm">
+                            <Palette className="w-4 h-4" />
+                            <span>V5 Prisma (Vídeo & Render)</span>
+                          </div>
+                          <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-500/10 text-blue-300 border border-blue-500/30">
+                            Face DNA
+                          </span>
+                        </div>
+                        <p className="text-[11px] text-slate-400 leading-relaxed">
+                          Envia a trava facial permanente e vestimentas para geração de cenas e clipes com consistência visual 100%.
+                        </p>
+                        <button
+                          onClick={handleDispatchToPrisma}
+                          className="w-full py-2 px-3 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-mono text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-lg shadow-blue-950/40"
+                        >
+                          <ExternalLink className="w-3.5 h-3.5" />
+                          <span>Renderizar no V5 Prisma</span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* ARQUIVOS LOCAIS & OVERLAY */}
+                  <div className="space-y-3 pt-2 border-t border-white/10">
+                    <div className="text-[11px] font-mono uppercase tracking-wider text-slate-400 font-bold flex items-center gap-1.5">
+                      <Download className="w-3 h-3 text-cyan-400" />
+                      <span>Arquivos Soberanos & Integração Local</span>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                      {/* Card 1: Baixar ZIP .v5avatar */}
+                      <div className="p-4 bg-slate-900/60 border border-white/10 rounded-xl space-y-2.5">
+                        <div className="flex items-center gap-2 text-cyber-cyan font-bold text-sm">
+                          <Download className="w-4 h-4" />
+                          <span>Pacote .v5avatar (ZIP)</span>
+                        </div>
+                        <p className="text-[11px] text-slate-400">
+                          Arquivo binário contendo Face DNA, Voice DNA, prompts e manifestos assinados com SHA-256.
+                        </p>
+                        <button
+                          onClick={handleQuickDownloadZip}
+                          disabled={isExportingZip}
+                          className="w-full py-2 px-3 rounded-lg bg-cyber-cyan hover:bg-cyan-400 text-obsidian-950 font-mono text-xs font-bold transition-all flex items-center justify-center gap-1.5 disabled:opacity-50"
+                        >
+                          <Download className="w-3.5 h-3.5" />
+                          <span>{isExportingZip ? 'Compactando...' : 'Baixar Agora'}</span>
+                        </button>
+                      </div>
+
+                      {/* Card 2: Link do OBS Studio */}
+                      <div className="p-4 bg-slate-900/60 border border-white/10 rounded-xl space-y-2.5">
+                        <div className="flex items-center gap-2 text-cyan-300 font-bold text-sm">
+                          <Radio className="w-4 h-4" />
+                          <span>Overlay para OBS Studio</span>
+                        </div>
+                        <p className="text-[11px] text-slate-400">
+                          URL do browser source com fundo transparente para o V5 Broadcaster (:3008).
+                        </p>
+                        <button
+                          onClick={handleCopyObsUrl}
+                          className="w-full py-2 px-3 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/40 text-cyan-300 font-mono text-xs font-bold transition-all flex items-center justify-center gap-1.5"
+                        >
+                          {copiedObs ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                          <span>{copiedObs ? 'Copiado!' : 'Copiar URL OBS'}</span>
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
