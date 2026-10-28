@@ -13,16 +13,21 @@ import {
   Music,
   Clapperboard,
   DollarSign,
-  ExternalLink
+  ExternalLink,
+  Gamepad2,
+  ShoppingBag
 } from 'lucide-react';
 
 const APOLLO_BRIDGE_LINKS = [
   { name: 'Broadcaster Live', port: ':3008', url: 'http://localhost:3008', icon: Radio, color: 'text-sky-400 border-sky-500/30 bg-sky-500/10 hover:bg-sky-500/20' },
+  { name: 'Games 9:16', port: ':3012', url: 'http://localhost:3012', icon: Gamepad2, color: 'text-pink-400 border-pink-500/30 bg-pink-500/10 hover:bg-pink-500/20' },
   { name: 'Sound Studio', port: ':3005', url: 'http://localhost:3005', icon: Music, color: 'text-amber-400 border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/20' },
   { name: 'Poster Social', port: ':3011', url: 'http://localhost:3011', icon: Send, color: 'text-rose-400 border-rose-500/30 bg-rose-500/10 hover:bg-rose-500/20' },
   { name: 'Pocket Director', port: ':3007', url: 'http://localhost:3007', icon: Clapperboard, color: 'text-emerald-400 border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500/20' },
+  { name: 'Finders', port: ':3001', url: 'http://localhost:3001', icon: ShoppingBag, color: 'text-rose-400 border-rose-500/30 bg-rose-500/10 hover:bg-rose-500/20' },
+  { name: 'AutoBlog', port: ':3002', url: 'http://localhost:3002', icon: Sparkles, color: 'text-blue-400 border-blue-500/30 bg-blue-500/10 hover:bg-blue-500/20' },
   { name: 'Finance Hub', port: ':3009', url: 'http://localhost:3009', icon: DollarSign, color: 'text-emerald-400 border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500/20' },
-  { name: 'Edit Web', port: ':3000', url: 'http://localhost:3000', icon: Sparkles, color: 'text-purple-400 border-purple-500/30 bg-purple-500/10 hover:bg-purple-500/20' },
+  { name: 'Tools', port: ':3014', url: 'http://localhost:3014', icon: Layers, color: 'text-cyan-400 border-cyan-500/30 bg-cyan-500/10 hover:bg-cyan-500/20' },
 ];
 
 interface StudioHeaderProps {
