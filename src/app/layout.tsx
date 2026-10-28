@@ -5,6 +5,9 @@ import ToastContainer from "@/components/ui/ToastContainer";
 export const metadata: Metadata = {
   title: "V5 Apollo Avatar · Agência Central de Identidades Digitais",
   description: "Criação de Personagens Consistentes, Turnaround 360º, Voz Clonada e Atuação Multicanal para a Holding V5 Apollo.",
+  icons: {
+    icon: "/icon.svg",
+  },
 };
 
 export default function RootLayout({

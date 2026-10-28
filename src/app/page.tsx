@@ -2,7 +2,39 @@
 
 import React, { useState } from 'react';
 import StudioHeader from '@/components/layout/StudioHeader';
-import V5AppActivationBanner from '@/components/ui/V5AppActivationBanner';
+import AvatarCard from '@/components/avatar/AvatarCard';
+import QuickCreateAvatarModal from '@/components/avatar/QuickCreateAvatarModal';
+import KeyboardShortcutsModal from '@/components/avatar/KeyboardShortcutsModal';
+import { useAvatarStore } from '@/store/useAvatarStore';
+import { toast } from '@/store/useToastStore';
+import { downloadV5AvatarZip } from '@/utils/v5AvatarZipPacker';
+import {
+  Sparkles,
+  ScanEye,
+  Mic,
+  BrainCircuit,
+  Radio,
+  Layers,
+  ChevronDown,
+  ChevronUp,
+  Download,
+  Printer,
+  Copy,
+  Check,
+  Play,
+  Square,
+  Wand2,
+  Sliders,
+  ShieldCheck,
+  Activity,
+  Plus,
+  Compass,
+  Cpu,
+  Smile,
+  Accessibility,
+} from 'lucide-react';
+
+// Import dos painéis do Laboratório Técnico (acessíveis no Modo Engenheiro)
 import { CharacterCreator } from '@/components/avatar/CharacterCreator';
 import TurnaroundGridViewer from '@/components/avatar/TurnaroundGridViewer';
 import TurnaroundSheetExporter from '@/components/avatar/TurnaroundSheetExporter';
@@ -78,37 +110,73 @@ import E2EStudioWorkflowPanel from '@/components/avatar/E2EStudioWorkflowPanel';
 import SecurityAuditPanel from '@/components/avatar/SecurityAuditPanel';
 import MilestoneVersion100Banner from '@/components/avatar/MilestoneVersion100Banner';
 import CentralCharacterManagementDashboard from '@/components/avatar/CentralCharacterManagementDashboard';
-import KeyboardShortcutsModal from '@/components/avatar/KeyboardShortcutsModal';
-import QuickCreateAvatarModal from '@/components/avatar/QuickCreateAvatarModal';
-import Apollo5RocketLogo from '@/components/ui/Apollo5RocketLogo';
-import { useAvatarStore, StudioViewMode } from '@/store/useAvatarStore';
-import { 
-  Sparkles, 
-  ScanEye, 
-  Accessibility, 
-  Smile, 
-  Mic, 
-  BrainCircuit, 
-  Radio, 
-  Layers,
-  LayoutGrid
-} from 'lucide-react';
+
+type StudioTab = 'face' | 'voice' | 'soul' | 'export';
 
 export default function AvatarHubPage() {
-  const { avatars, selectedAvatarId, selectAvatar, activeMode, setActiveMode } = useAvatarStore();
+  const { avatars, selectedAvatarId, selectAvatar, updateAvatar, resetToDefaults } = useAvatarStore();
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<StudioTab>('face');
+  const [selectedAngle, setSelectedAngle] = useState<'front' | 'threeQuarter' | 'profile' | 'back'>('front');
+  const [isSpeaking, setIsSpeaking] = useState(false);
+  const [isExportingZip, setIsExportingZip] = useState(false);
+  const [copiedObs, setCopiedObs] = useState(false);
+  const [showAdvancedLab, setShowAdvancedLab] = useState(false);
+  const [advancedCategory, setAdvancedCategory] = useState<string>('all');
+
   const selectedAvatar = avatars.find((a) => a.id === selectedAvatarId) || avatars[0];
 
-  const TABS: { id: StudioViewMode; label: string; icon: React.ElementType; badge?: string }[] = [
-    { id: 'turnaround', label: 'Turnaround 360°', icon: ScanEye, badge: 'Visual' },
-    { id: 't-pose', label: 'T-Pose & Rigging', icon: Accessibility, badge: 'Anatomia' },
-    { id: 'expression', label: 'Expressões & FACS', icon: Smile, badge: 'FACS' },
-    { id: 'voice', label: 'DNA Vocal', icon: Mic, badge: 'V5 Sound' },
-    { id: 'soul', label: 'Soul & Lore', icon: BrainCircuit, badge: 'LLM' },
-    { id: 'live', label: 'Live OBS & Idle', icon: Radio, badge: 'Broadcaster' },
-    { id: 'ecosystem', label: 'Ecossistema & Pacotes', icon: Layers, badge: 'Vault' },
-    { id: 'all', label: 'Visão Panorâmica', icon: LayoutGrid, badge: 'Tudo' }
-  ];
+  // Teste de Fala Instantânea com Web Speech API
+  const handleTestVoice = () => {
+    if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
+      toast.warning('Navegador Incompatível', 'Web Speech API não suportada neste browser.');
+      return;
+    }
+
+    if (isSpeaking) {
+      window.speechSynthesis.cancel();
+      setIsSpeaking(false);
+      return;
+    }
+
+    window.speechSynthesis.cancel();
+    const catchphrase = selectedAvatar?.soul?.catchphrases?.[0] || 'Olá! Sou um personagem soberano da Holding V5.';
+    const utterance = new SpeechSynthesisUtterance(catchphrase);
+    utterance.lang = 'pt-BR';
+    utterance.rate = selectedAvatar?.voice?.speed || 1.0;
+    utterance.pitch = (selectedAvatar?.voice?.pitch || 0) * 0.1 + 1.0;
+
+    utterance.onstart = () => setIsSpeaking(true);
+    utterance.onend = () => setIsSpeaking(false);
+    utterance.onerror = () => setIsSpeaking(false);
+
+    window.speechSynthesis.speak(utterance);
+    toast.info('Voz Ativa', `Reproduzindo bordão de ${selectedAvatar?.name || 'Avatar'}`);
+  };
+
+  // Download Rápido do Pacote .v5avatar
+  const handleQuickDownloadZip = async () => {
+    if (!selectedAvatar) return;
+    setIsExportingZip(true);
+    try {
+      await downloadV5AvatarZip(selectedAvatar);
+      toast.success('Pacote Baixado', `Arquivo .v5avatar gerado com sucesso para ${selectedAvatar.name}.`);
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : String(err);
+      toast.error('Erro no Download', msg);
+    } finally {
+      setIsExportingZip(false);
+    }
+  };
+
+  // Copiar URL do OBS Studio
+  const handleCopyObsUrl = () => {
+    const url = `${window.location.origin}/live/overlay`;
+    navigator.clipboard.writeText(url);
+    setCopiedObs(true);
+    toast.success('Copiado para OBS', 'URL do overlay transparente copiada!');
+    setTimeout(() => setCopiedObs(false), 2500);
+  };
 
   return (
     <div className="min-h-screen bg-obsidian-950 text-slate-100 flex flex-col font-sans selection:bg-cyber-cyan selection:text-obsidian-950">
@@ -120,45 +188,23 @@ export default function AvatarHubPage() {
         Pular para o conteúdo principal
       </a>
 
+      {/* Header Soberano */}
       <StudioHeader onOpenCreateModal={() => setIsCreateModalOpen(true)} />
-      
-      {/* Banner de Ativação Soberana */}
-      <V5AppActivationBanner />
 
-      <main id="main-content" className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-8 space-y-8">
-        {/* Hero Section */}
-        <div className="text-center max-w-3xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyber-cyan/30 text-cyber-cyan text-xs font-mono font-bold tracking-wider uppercase shadow-[0_0_15px_rgba(0,229,255,0.15)]">
-            <Sparkles className="w-3.5 h-3.5" />
-            Capitania #12 • Registro Civil de Pessoas Digitais
-          </div>
-          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight cyber-gradient-text">
-            V5 Apollo Avatar
-          </h1>
-          <p className="text-sm sm:text-base text-slate-400">
-            Forja de atores digitais soberanos com consistência 360° absoluta. Conecte um único personagem ao{' '}
-            <span className="text-cyber-cyan font-bold">V5 Broadcaster</span>,{' '}
-            <span className="text-blue-400 font-bold">V5 Prisma</span>,{' '}
-            <span className="text-luxury-gold font-bold">V5 Sound</span> e{' '}
-            <span className="text-emerald-400 font-bold">V5 Finders</span>.
-          </p>
-        </div>
-
-        {/* Marco Histórico: Versão 1.0.0 Soberana (Fase 10 • Etapa 100) */}
-        <MilestoneVersion100Banner />
-
-        {/* Seletor Rápido de Personagem em Foco */}
-        <div className="p-3 bg-slate-900/60 border border-white/10 rounded-2xl flex flex-wrap items-center justify-between gap-3">
+      <main id="main-content" className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-6 space-y-8">
+        
+        {/* Barra de Ator em Foco & Criar Novo */}
+        <div className="p-3 bg-slate-900/60 border border-white/10 rounded-2xl flex flex-wrap items-center justify-between gap-3 shadow-sm">
           <div className="flex items-center gap-3">
             <span className="text-xs font-mono text-slate-400 uppercase tracking-wider pl-2">
-              Ator Selecionado:
+              Ator Ativo:
             </span>
             <div className="flex items-center gap-2 overflow-x-auto py-1">
               {avatars.length === 0 ? (
                 <div className="flex items-center gap-2 text-xs text-amber-400 font-mono pl-1">
-                  <span>Nenhum ator no catálogo.</span>
+                  <span>Nenhum ator cadastrado.</span>
                   <button
-                    onClick={() => useAvatarStore.getState().resetToDefaults()}
+                    onClick={() => resetToDefaults()}
                     className="px-2 py-0.5 rounded bg-cyber-cyan/10 border border-cyber-cyan/30 text-cyber-cyan hover:bg-cyber-cyan hover:text-black font-bold transition-all"
                   >
                     Restaurar Padrões Soberanos
@@ -177,9 +223,9 @@ export default function AvatarHubPage() {
                           : 'bg-black/30 border-white/5 text-slate-400 hover:text-white hover:border-white/20'
                       }`}
                     >
-                      <img 
-                        src={avatar.avatarUrl} 
-                        alt={avatar.name} 
+                      <img
+                        src={avatar.avatarUrl}
+                        alt={avatar.name}
                         className="w-5 h-5 rounded-full object-cover border border-white/10"
                       />
                       <span>{avatar.name}</span>
@@ -192,581 +238,761 @@ export default function AvatarHubPage() {
 
           <button
             onClick={() => setIsCreateModalOpen(true)}
-            className="text-xs px-3 py-1.5 rounded-xl bg-cyber-cyan/10 hover:bg-cyber-cyan/20 border border-cyber-cyan/30 text-cyber-cyan font-mono transition-all ml-auto"
+            className="text-xs px-3.5 py-1.5 rounded-xl bg-cyber-cyan hover:bg-cyan-400 text-obsidian-950 font-bold font-mono transition-all ml-auto shadow-[0_0_15px_rgba(0,229,255,0.2)] flex items-center gap-1.5"
           >
-            + Novo Ator
+            <Plus className="w-3.5 h-3.5" />
+            <span>Novo Personagem</span>
           </button>
         </div>
 
-        {/* Navegador de Modos do Studio (Sub-Nav Interativo) */}
-        <div className="flex items-center gap-1.5 p-1.5 bg-obsidian-950 border border-white/10 rounded-2xl overflow-x-auto shadow-inner">
-          {TABS.map((tab) => {
-            const Icon = tab.icon;
-            const isActive = activeMode === tab.id || (tab.id === 'turnaround' && !activeMode);
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setActiveMode(tab.id)}
-                className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all ${
-                  isActive
-                    ? 'bg-gradient-to-r from-cyber-cyan/20 to-blue-500/20 border border-cyber-cyan/50 text-white shadow-[0_0_15px_rgba(0,229,255,0.2)]'
-                    : 'text-slate-400 hover:text-slate-200 hover:bg-white/5 border border-transparent'
-                }`}
-              >
-                <Icon className={`w-4 h-4 ${isActive ? 'text-cyber-cyan' : 'text-slate-500'}`} />
-                <span>{tab.label}</span>
-                {tab.badge && (
-                  <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
-                    isActive ? 'bg-cyber-cyan/30 text-cyber-cyan font-bold' : 'bg-white/5 text-slate-500'
-                  }`}>
-                    {tab.badge}
-                  </span>
-                )}
-              </button>
-            );
-          })}
+        {/* ============================================================== */}
+        {/* PALCO CENTRAL DO PERSONAGEM (CHARACTER STUDIO WORKBENCH)       */}
+        {/* ============================================================== */}
+        {selectedAvatar ? (
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            {/* COLUNA ESQUERDA: PALCO VISUAL & CONTROLES DO ATOR (5 Colunas) */}
+            <div className="lg:col-span-5 space-y-4">
+              <div className="glass-card rounded-2xl p-6 border border-white/10 relative overflow-hidden group shadow-2xl">
+                {/* Glow de fundo */}
+                <div className="absolute -top-24 -left-24 w-64 h-64 bg-cyber-cyan/10 rounded-full blur-3xl pointer-events-none" />
+
+                {/* Imagem do Palco com Proporção Otimizada */}
+                <div className="relative rounded-xl overflow-hidden aspect-[4/5] bg-obsidian-900 border border-white/10 flex items-center justify-center">
+                  <img
+                    src={selectedAvatar.avatarUrl}
+                    alt={selectedAvatar.name}
+                    className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                  />
+
+                  {/* Tag do Nicho */}
+                  <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-obsidian-950/80 backdrop-blur-md border border-cyber-cyan/40 text-[10px] font-mono text-cyber-cyan font-bold uppercase tracking-wider">
+                    {selectedAvatar.soul.niche}
+                  </div>
+
+                  {/* Seletor Rápido de Ângulos */}
+                  <div className="absolute bottom-3 inset-x-3 p-1.5 rounded-xl bg-obsidian-950/90 backdrop-blur-md border border-white/10 flex items-center justify-between text-[11px] font-mono">
+                    <button
+                      onClick={() => setSelectedAngle('front')}
+                      className={`flex-1 py-1 rounded-lg text-center transition-all ${
+                        selectedAngle === 'front'
+                          ? 'bg-cyber-cyan text-obsidian-950 font-bold'
+                          : 'text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      Frente
+                    </button>
+                    <button
+                      onClick={() => setSelectedAngle('threeQuarter')}
+                      className={`flex-1 py-1 rounded-lg text-center transition-all ${
+                        selectedAngle === 'threeQuarter'
+                          ? 'bg-cyber-cyan text-obsidian-950 font-bold'
+                          : 'text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      3/4
+                    </button>
+                    <button
+                      onClick={() => setSelectedAngle('profile')}
+                      className={`flex-1 py-1 rounded-lg text-center transition-all ${
+                        selectedAngle === 'profile'
+                          ? 'bg-cyber-cyan text-obsidian-950 font-bold'
+                          : 'text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      Perfil
+                    </button>
+                    <button
+                      onClick={() => setSelectedAngle('back')}
+                      className={`flex-1 py-1 rounded-lg text-center transition-all ${
+                        selectedAngle === 'back'
+                          ? 'bg-cyber-cyan text-obsidian-950 font-bold'
+                          : 'text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      Costas
+                    </button>
+                  </div>
+                </div>
+
+                {/* Informações Resumidas do Personagem */}
+                <div className="mt-4 space-y-1">
+                  <div className="flex items-center justify-between">
+                    <h2 className="text-xl font-extrabold text-white">{selectedAvatar.name}</h2>
+                    <span className="text-xs font-mono px-2 py-0.5 rounded bg-white/5 border border-white/10 text-slate-300">
+                      ID: {selectedAvatar.id.slice(0, 14)}
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-400 line-clamp-2">{selectedAvatar.tagline}</p>
+                </div>
+
+                {/* Status dos 4 Pilares do Kernel */}
+                <div className="grid grid-cols-2 gap-2 mt-4 pt-4 border-t border-white/10 text-[11px] font-mono">
+                  <div className="flex items-center gap-1.5 text-emerald-400">
+                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                    <span>Face DNA 360°: Pronto</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 text-cyber-cyan">
+                    <Mic className="w-3.5 h-3.5 text-cyber-cyan" />
+                    <span>{selectedAvatar.voice.engine.toUpperCase()} • {selectedAvatar.voice.tone}</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 text-purple-400">
+                    <BrainCircuit className="w-3.5 h-3.5 text-purple-400" />
+                    <span>Soul: {selectedAvatar.soul.archetype}</span>
+                  </div>
+                  <div className="flex items-center gap-1.5 text-blue-400">
+                    <Radio className="w-3.5 h-3.5 text-blue-400" />
+                    <span>OBS Live: Conectado</span>
+                  </div>
+                </div>
+
+                {/* Ações Primárias Rápidas */}
+                <div className="grid grid-cols-2 gap-2.5 mt-5">
+                  <button
+                    onClick={handleTestVoice}
+                    className={`py-2 px-3 rounded-xl border text-xs font-mono font-bold flex items-center justify-center gap-1.5 transition-all ${
+                      isSpeaking
+                        ? 'bg-rose-500/20 border-rose-500 text-rose-300 animate-pulse'
+                        : 'bg-white/5 hover:bg-white/10 border-white/10 text-white'
+                    }`}
+                  >
+                    {isSpeaking ? <Square className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5 text-cyber-cyan" />}
+                    <span>{isSpeaking ? 'Parar Voz' : 'Ouvir Voz'}</span>
+                  </button>
+
+                  <button
+                    onClick={handleQuickDownloadZip}
+                    disabled={isExportingZip}
+                    className="py-2 px-3 rounded-xl bg-cyber-cyan hover:bg-cyan-400 text-obsidian-950 font-bold text-xs font-mono flex items-center justify-center gap-1.5 transition-all shadow-md disabled:opacity-50"
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                    <span>{isExportingZip ? 'Gerando...' : 'Exportar .v5avatar'}</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* COLUNA DIREITA: ABAS DE PERSONALIZAÇÃO LIMPAS (7 Colunas) */}
+            <div className="lg:col-span-7 space-y-6">
+              
+              {/* Barra de Abas do Estúdio */}
+              <div className="flex items-center gap-1 p-1.5 bg-slate-900/80 border border-white/10 rounded-2xl">
+                <button
+                  onClick={() => setActiveTab('face')}
+                  className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-xl text-xs font-medium transition-all ${
+                    activeTab === 'face'
+                      ? 'bg-cyber-cyan text-obsidian-950 font-bold shadow-md'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  <ScanEye className="w-4 h-4" />
+                  <span>Aparência & Rosto</span>
+                </button>
+                <button
+                  onClick={() => setActiveTab('voice')}
+                  className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-xl text-xs font-medium transition-all ${
+                    activeTab === 'voice'
+                      ? 'bg-cyber-cyan text-obsidian-950 font-bold shadow-md'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  <Mic className="w-4 h-4" />
+                  <span>Voz & Fala</span>
+                </button>
+                <button
+                  onClick={() => setActiveTab('soul')}
+                  className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-xl text-xs font-medium transition-all ${
+                    activeTab === 'soul'
+                      ? 'bg-cyber-cyan text-obsidian-950 font-bold shadow-md'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  <BrainCircuit className="w-4 h-4" />
+                  <span>Personalidade</span>
+                </button>
+                <button
+                  onClick={() => setActiveTab('export')}
+                  className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-xl text-xs font-medium transition-all ${
+                    activeTab === 'export'
+                      ? 'bg-cyber-cyan text-obsidian-950 font-bold shadow-md'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  <Layers className="w-4 h-4" />
+                  <span>Exportação</span>
+                </button>
+              </div>
+
+              {/* CONTEÚDO DA ABA: APARÊNCIA & ROSTO */}
+              {activeTab === 'face' && (
+                <div className="glass-card rounded-2xl p-6 border border-white/10 space-y-5 animate-fadeIn">
+                  <div className="border-b border-white/10 pb-3">
+                    <h3 className="text-base font-bold text-white flex items-center gap-2">
+                      <ScanEye className="w-4 h-4 text-cyber-cyan" />
+                      Face DNA • Identidade Visual & Trajes
+                    </h3>
+                    <p className="text-xs text-slate-400">
+                      Configure a descrição visual imutável para renderizar vídeos no V5 Prisma e no Broadcaster.
+                    </p>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div>
+                      <label className="text-xs font-mono text-slate-300 block mb-1.5">
+                        Vestimenta & Figurino Canônico:
+                      </label>
+                      <input
+                        type="text"
+                        value={selectedAvatar.face.clothingPrompt}
+                        onChange={(e) =>
+                          updateAvatar(selectedAvatar.id, {
+                            face: { ...selectedAvatar.face, clothingPrompt: e.target.value },
+                          })
+                        }
+                        className="w-full bg-slate-900 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-cyber-cyan"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-xs font-mono text-slate-300 block mb-1.5">
+                        Traços Faciais Fixos (Anti-Distorção):
+                      </label>
+                      <textarea
+                        rows={2}
+                        value={selectedAvatar.face.fixedFeaturesPrompt}
+                        onChange={(e) =>
+                          updateAvatar(selectedAvatar.id, {
+                            face: { ...selectedAvatar.face, fixedFeaturesPrompt: e.target.value },
+                          })
+                        }
+                        className="w-full bg-slate-900 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-cyber-cyan"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className="text-xs font-mono text-slate-300 block mb-1.5">
+                          Iluminação de Estúdio:
+                        </label>
+                        <select
+                          value={selectedAvatar.face.lightingPreset}
+                          onChange={(e) =>
+                            updateAvatar(selectedAvatar.id, {
+                              face: { ...selectedAvatar.face, lightingPreset: e.target.value as any },
+                            })
+                          }
+                          className="w-full bg-slate-900 border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyber-cyan"
+                        >
+                          <option value="volumetric_neon">Volumétrica Neon (Tech)</option>
+                          <option value="rembrandt">Rembrandt Clássica</option>
+                          <option value="studio_soft">Estúdio Suave (Comercial)</option>
+                          <option value="cyberpunk_rim">Cyberpunk Rim Light</option>
+                          <option value="cinematic_warm">Cinemática Quente</option>
+                        </select>
+                      </div>
+
+                      <div>
+                        <label className="text-xs font-mono text-slate-300 block mb-1.5">
+                          Seed Imutável (Diffusion):
+                        </label>
+                        <input
+                          type="number"
+                          value={selectedAvatar.face.diffusionSeed || 428912301}
+                          onChange={(e) =>
+                            updateAvatar(selectedAvatar.id, {
+                              face: { ...selectedAvatar.face, diffusionSeed: parseInt(e.target.value) || 0 },
+                            })
+                          }
+                          className="w-full bg-slate-900 border border-white/10 rounded-xl px-3 py-2 text-xs font-mono text-white focus:outline-none focus:border-cyber-cyan"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* CONTEÚDO DA ABA: VOZ & FALA */}
+              {activeTab === 'voice' && (
+                <div className="glass-card rounded-2xl p-6 border border-white/10 space-y-5 animate-fadeIn">
+                  <div className="border-b border-white/10 pb-3">
+                    <h3 className="text-base font-bold text-white flex items-center gap-2">
+                      <Mic className="w-4 h-4 text-cyber-cyan" />
+                      Voice DNA • Motor de Voz & Entonação
+                    </h3>
+                    <p className="text-xs text-slate-400">
+                      Conectado diretamente ao V5 Sound (:3008) para clonagem Qwen-TTS e XTTS-v2.
+                    </p>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className="text-xs font-mono text-slate-300 block mb-1.5">
+                          Motor de Síntese:
+                        </label>
+                        <select
+                          value={selectedAvatar.voice.engine}
+                          onChange={(e) =>
+                            updateAvatar(selectedAvatar.id, {
+                              voice: { ...selectedAvatar.voice, engine: e.target.value as any },
+                            })
+                          }
+                          className="w-full bg-slate-900 border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyber-cyan"
+                        >
+                          <option value="qwen-tts">Qwen-TTS (Alta Fidelidade)</option>
+                          <option value="xtts">XTTS-v2 (Clonagem Zero-Shot)</option>
+                          <option value="cosyvoice">CosyVoice (Latência Ultra-Baixa)</option>
+                        </select>
+                      </div>
+
+                      <div>
+                        <label className="text-xs font-mono text-slate-300 block mb-1.5">
+                          Tonalidade Emocional:
+                        </label>
+                        <select
+                          value={selectedAvatar.voice.tone}
+                          onChange={(e) =>
+                            updateAvatar(selectedAvatar.id, {
+                              voice: { ...selectedAvatar.voice, tone: e.target.value as any },
+                            })
+                          }
+                          className="w-full bg-slate-900 border border-white/10 rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-cyber-cyan"
+                        >
+                          <option value="energetic">Energético / Vendas</option>
+                          <option value="authoritative">Autoritário / Noticiário</option>
+                          <option value="calm">Calmo / Documentário</option>
+                          <option value="didactic">Didático / Educativo</option>
+                          <option value="mysterious">Misterioso / Narrador</option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <div className="flex justify-between text-xs font-mono text-slate-300 mb-1">
+                          <span>Velocidade:</span>
+                          <span className="text-cyber-cyan">{selectedAvatar.voice.speed}x</span>
+                        </div>
+                        <input
+                          type="range"
+                          min="0.75"
+                          max="1.5"
+                          step="0.05"
+                          value={selectedAvatar.voice.speed}
+                          onChange={(e) =>
+                            updateAvatar(selectedAvatar.id, {
+                              voice: { ...selectedAvatar.voice, speed: parseFloat(e.target.value) },
+                            })
+                          }
+                          className="w-full accent-cyber-cyan cursor-pointer"
+                        />
+                      </div>
+
+                      <div>
+                        <div className="flex justify-between text-xs font-mono text-slate-300 mb-1">
+                          <span>Estabilidade Sonora:</span>
+                          <span className="text-cyber-cyan">{Math.round((selectedAvatar.voice.stability || 0.8) * 100)}%</span>
+                        </div>
+                        <input
+                          type="range"
+                          min="0.4"
+                          max="1.0"
+                          step="0.05"
+                          value={selectedAvatar.voice.stability || 0.8}
+                          onChange={(e) =>
+                            updateAvatar(selectedAvatar.id, {
+                              voice: { ...selectedAvatar.voice, stability: parseFloat(e.target.value) },
+                            })
+                          }
+                          className="w-full accent-cyber-cyan cursor-pointer"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* CONTEÚDO DA ABA: PERSONALIDADE & SOUL */}
+              {activeTab === 'soul' && (
+                <div className="glass-card rounded-2xl p-6 border border-white/10 space-y-5 animate-fadeIn">
+                  <div className="border-b border-white/10 pb-3">
+                    <h3 className="text-base font-bold text-white flex items-center gap-2">
+                      <BrainCircuit className="w-4 h-4 text-cyber-cyan" />
+                      Soul DNA • Psicologia, Arquétipo & Bordões
+                    </h3>
+                    <p className="text-xs text-slate-400">
+                      Cérebro cognitivo utilizado pelo V5 Broadcaster no chat ao vivo e pelo V5 Poster nas redes sociais.
+                    </p>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div className="grid grid-cols-2 gap-3">
+                      <div>
+                        <label className="text-xs font-mono text-slate-300 block mb-1.5">
+                          Nome do Personagem:
+                        </label>
+                        <input
+                          type="text"
+                          value={selectedAvatar.name}
+                          onChange={(e) => updateAvatar(selectedAvatar.id, { name: e.target.value })}
+                          className="w-full bg-slate-900 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-cyber-cyan"
+                        />
+                      </div>
+
+                      <div>
+                        <label className="text-xs font-mono text-slate-300 block mb-1.5">
+                          Nicho / Mercado:
+                        </label>
+                        <input
+                          type="text"
+                          value={selectedAvatar.soul.niche}
+                          onChange={(e) =>
+                            updateAvatar(selectedAvatar.id, {
+                              soul: { ...selectedAvatar.soul, niche: e.target.value },
+                            })
+                          }
+                          className="w-full bg-slate-900 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-cyber-cyan"
+                        />
+                      </div>
+                    </div>
+
+                    <div>
+                      <label className="text-xs font-mono text-slate-300 block mb-1.5">
+                        Biografia & Lore Canônico:
+                      </label>
+                      <textarea
+                        rows={3}
+                        value={selectedAvatar.soul.bio}
+                        onChange={(e) =>
+                          updateAvatar(selectedAvatar.id, {
+                            soul: { ...selectedAvatar.soul, bio: e.target.value },
+                          })
+                        }
+                        className="w-full bg-slate-900 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-cyber-cyan"
+                      />
+                    </div>
+
+                    <div>
+                      <label className="text-xs font-mono text-slate-300 block mb-1.5">
+                        Bordões Frequentes (Separados por vírgula):
+                      </label>
+                      <input
+                        type="text"
+                        value={selectedAvatar.soul.catchphrases.join(', ')}
+                        onChange={(e) =>
+                          updateAvatar(selectedAvatar.id, {
+                            soul: {
+                              ...selectedAvatar.soul,
+                              catchphrases: e.target.value.split(',').map((s) => s.trim()).filter(Boolean),
+                            },
+                          })
+                        }
+                        className="w-full bg-slate-900 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-cyber-cyan"
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* CONTEÚDO DA ABA: EXPORTAÇÃO & ECOSSISTEMA */}
+              {activeTab === 'export' && (
+                <div className="glass-card rounded-2xl p-6 border border-white/10 space-y-5 animate-fadeIn">
+                  <div className="border-b border-white/10 pb-3">
+                    <h3 className="text-base font-bold text-white flex items-center gap-2">
+                      <Layers className="w-4 h-4 text-cyber-cyan" />
+                      Exportação Soberana & Conectores
+                    </h3>
+                    <p className="text-xs text-slate-400">
+                      Despache a identidade para outras capitanias ou baixe o pacote portátil completo.
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {/* Card 1: Baixar ZIP .v5avatar */}
+                    <div className="p-4 bg-slate-900/60 border border-white/10 rounded-xl space-y-2.5">
+                      <div className="flex items-center gap-2 text-cyber-cyan font-bold text-sm">
+                        <Download className="w-4 h-4" />
+                        <span>Pacote .v5avatar (ZIP)</span>
+                      </div>
+                      <p className="text-[11px] text-slate-400">
+                        Arquivo binário contendo Face DNA, Voice DNA, prompts e manifestos assinados com SHA-256.
+                      </p>
+                      <button
+                        onClick={handleQuickDownloadZip}
+                        disabled={isExportingZip}
+                        className="w-full py-2 px-3 rounded-lg bg-cyber-cyan hover:bg-cyan-400 text-obsidian-950 font-mono text-xs font-bold transition-all flex items-center justify-center gap-1.5 disabled:opacity-50"
+                      >
+                        <Download className="w-3.5 h-3.5" />
+                        <span>{isExportingZip ? 'Compactando...' : 'Baixar Agora'}</span>
+                      </button>
+                    </div>
+
+                    {/* Card 2: Link do OBS Studio */}
+                    <div className="p-4 bg-slate-900/60 border border-white/10 rounded-xl space-y-2.5">
+                      <div className="flex items-center gap-2 text-blue-400 font-bold text-sm">
+                        <Radio className="w-4 h-4" />
+                        <span>Overlay para OBS Studio</span>
+                      </div>
+                      <p className="text-[11px] text-slate-400">
+                        URL do browser source com fundo transparente para o V5 Broadcaster (:3008).
+                      </p>
+                      <button
+                        onClick={handleCopyObsUrl}
+                        className="w-full py-2 px-3 rounded-lg bg-blue-500/20 hover:bg-blue-500/30 border border-blue-500/40 text-blue-300 font-mono text-xs font-bold transition-all flex items-center justify-center gap-1.5"
+                      >
+                        {copiedObs ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                        <span>{copiedObs ? 'Copiado!' : 'Copiar URL OBS'}</span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        ) : null}
+
+        {/* ============================================================== */}
+        {/* SEÇÃO: GALERIA DE PERSONAGENS DO REGISTRO CIVIL                 */}
+        {/* ============================================================== */}
+        <div className="space-y-4 pt-6 border-t border-white/10">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-lg font-bold text-white flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-cyber-cyan" />
+                Catálogo de Atores Virtuais ({avatars.length})
+              </h2>
+              <p className="text-xs text-slate-400">Clique para selecionar, editar ou clonar qualquer ator.</p>
+            </div>
+
+            <button
+              onClick={() => setIsCreateModalOpen(true)}
+              className="text-xs px-3 py-1.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-slate-300 hover:text-white transition-all flex items-center gap-1.5"
+            >
+              <Plus className="w-3.5 h-3.5" />
+              <span>Adicionar Ator</span>
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {avatars.map((avatar) => (
+              <AvatarCard
+                key={avatar.id}
+                avatar={avatar}
+                isSelected={avatar.id === selectedAvatar?.id}
+                onSelect={() => selectAvatar(avatar.id)}
+              />
+            ))}
+          </div>
         </div>
 
         {/* ============================================================== */}
-        {/* SEÇÃO 1: TURNAROUND 360° & VISÃO COMPUTACIONAL                */}
+        {/* GAVETA RECOLHÍVEL: MODO ENGENHEIRO & DIAGNÓSTICO AVANÇADO       */}
+        {/* Mantém todas as 70+ ferramentas técnicas sem poluir a tela      */}
         {/* ============================================================== */}
-        {(activeMode === 'turnaround' || activeMode === 'all') && (
-          <section className="space-y-8 animate-fadeIn">
-            <div className="border-b border-cyber-cyan/20 pb-2">
-              <h2 className="text-xl font-bold text-cyber-cyan flex items-center gap-2">
-                <ScanEye className="w-5 h-5" /> 1. Turnaround 360° & Visão Computacional
-              </h2>
-              <p className="text-xs text-slate-400">Model sheets multidimensionais, parâmetros de difusão e ótica cinematográfica.</p>
+        <div className="pt-8 border-t border-white/10">
+          <div className="p-4 rounded-2xl bg-obsidian-900/60 border border-white/10 flex flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <Cpu className="w-5 h-5 text-slate-500" />
+              <div>
+                <h3 className="text-xs font-mono font-bold text-slate-300">
+                  Laboratório Técnico & Diagnósticos de Engenharia (Modo Avançado)
+                </h3>
+                <p className="text-[11px] text-slate-500">
+                  Acesse os benchmarks de CPU, atlas de sprites FACS, rigging ósseo, matrizes e ferramentas internas.
+                </p>
+              </div>
             </div>
 
-            {/* Character Studio Interactive Workspace */}
-            <CharacterCreator />
+            <button
+              onClick={() => setShowAdvancedLab((prev) => !prev)}
+              className="text-xs px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-600 text-slate-200 font-mono flex items-center gap-2 transition-all"
+            >
+              <span>{showAdvancedLab ? 'Ocultar Laboratório' : 'Abrir Laboratório (70+ Tools)'}</span>
+              {showAdvancedLab ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+            </button>
+          </div>
 
-            {/* Visualizador Grid 4 Ângulos Turnaround 360° */}
-            <TurnaroundGridViewer
-              sheetImageUrl={selectedAvatar?.face.turnaroundSheetUrl || selectedAvatar?.avatarUrl}
-              characterName={selectedAvatar?.name}
-            />
+          {/* PAINEL TÉCNICO EXPANDIDO (APENAS SOB DEMANDA) */}
+          {showAdvancedLab && (
+            <div className="mt-6 p-6 rounded-2xl bg-black/50 border border-cyber-cyan/20 space-y-8 animate-fadeIn">
+              <div className="flex flex-wrap items-center gap-2 pb-4 border-b border-white/10">
+                <span className="text-xs font-mono text-slate-400 mr-2">Filtrar Categoria:</span>
+                {[
+                  { id: 'all', label: 'Todos os Painéis' },
+                  { id: 'turnaround', label: 'Visão 360°' },
+                  { id: 'tpose', label: 'T-Pose & Rig' },
+                  { id: 'facs', label: 'FACS & Expressões' },
+                  { id: 'audio', label: 'Áudio & Visemas' },
+                  { id: 'soul', label: 'Soul & RAG' },
+                  { id: 'live', label: 'Live & OBS' },
+                  { id: 'vault', label: 'Vault & Testes' },
+                ].map((cat) => (
+                  <button
+                    key={cat.id}
+                    onClick={() => setAdvancedCategory(cat.id)}
+                    className={`px-3 py-1 rounded-lg text-xs font-mono transition-all ${
+                      advancedCategory === cat.id
+                        ? 'bg-cyber-cyan/20 border border-cyber-cyan text-cyber-cyan font-bold'
+                        : 'bg-white/5 border border-white/5 text-slate-400 hover:text-white'
+                    }`}
+                  >
+                    {cat.label}
+                  </button>
+                ))}
+              </div>
 
-            {/* Gerador de Folha Única Consolidada Turnaround (4:1) */}
-            <TurnaroundSheetExporter
-              frontUrl={selectedAvatar?.avatarUrl}
-              threeQuarterUrl={selectedAvatar?.avatarUrl}
-              profileUrl={selectedAvatar?.avatarUrl}
-              backUrl={selectedAvatar?.avatarUrl}
-            />
+              {/* SEÇÃO TÉCNICA 1: TURNAROUND & VISÃO */}
+              {(advancedCategory === 'all' || advancedCategory === 'turnaround') && (
+                <div className="space-y-6">
+                  <h4 className="text-sm font-bold font-mono text-cyber-cyan"># Visual & Ótica Cinemática</h4>
+                  <TurnaroundGridViewer
+                    sheetImageUrl={selectedAvatar?.face.turnaroundSheetUrl || selectedAvatar?.avatarUrl}
+                    characterName={selectedAvatar?.name}
+                  />
+                  <TurnaroundSheetExporter
+                    frontUrl={selectedAvatar?.avatarUrl}
+                    threeQuarterUrl={selectedAvatar?.avatarUrl}
+                    profileUrl={selectedAvatar?.avatarUrl}
+                    backUrl={selectedAvatar?.avatarUrl}
+                  />
+                  <DiffusionParamsInspector />
+                  <CinematicFramingMatrix />
+                  <VirtualLensSelector />
+                </div>
+              )}
 
-            {/* Inspetor de Seeds e Parâmetros de Difusão */}
-            <DiffusionParamsInspector />
+              {/* SEÇÃO TÉCNICA 2: T-POSE & RIGGING */}
+              {(advancedCategory === 'all' || advancedCategory === 'tpose') && (
+                <div className="space-y-6">
+                  <h4 className="text-sm font-bold font-mono text-cyber-cyan"># Poses & Rigging Ósseo</h4>
+                  <AnatomicalProportionGuides previewImageUrl={selectedAvatar?.avatarUrl} />
+                  <PoseFidelityComparator
+                    anchorPhotoUrl={selectedAvatar?.avatarUrl}
+                    tPosePhotoUrl={selectedAvatar?.face.turnaroundSheetUrl || selectedAvatar?.avatarUrl}
+                    characterName={selectedAvatar?.name}
+                  />
+                  <JointCoordinatesGenerator
+                    avatarId={selectedAvatar?.id}
+                    avatarName={selectedAvatar?.name}
+                    previewImageUrl={selectedAvatar?.avatarUrl}
+                  />
+                  <UtilityPoseCatalog characterName={selectedAvatar?.name} />
+                  <PoseSheetExporterPanel
+                    avatarName={selectedAvatar?.name}
+                    tPoseUrl={selectedAvatar?.avatarUrl}
+                    aPoseUrl={selectedAvatar?.avatarUrl}
+                  />
+                </div>
+              )}
 
-            {/* Matriz de Enquadramentos Cinematográficos */}
-            <CinematicFramingMatrix />
+              {/* SEÇÃO TÉCNICA 3: FACS & EXPRESSÕES */}
+              {(advancedCategory === 'all' || advancedCategory === 'facs') && (
+                <div className="space-y-6">
+                  <h4 className="text-sm font-bold font-mono text-cyber-cyan"># FACS Facial & Visemas</h4>
+                  <VisemesCanonicalTable avatarId={selectedAvatar?.id} avatarName={selectedAvatar?.name} />
+                  <VisemePromptCompiler characterName={selectedAvatar?.name} />
+                  <BaseEmotionsMatrixPanel characterName={selectedAvatar?.name} />
+                  <SecondaryEmotionsMatrixPanel characterName={selectedAvatar?.name} />
+                  <ExpressionsGrid3x3Viewer characterName={selectedAvatar?.name} />
+                  <EmotionalIntensityModulator characterName={selectedAvatar?.name} />
+                  <QuickExpressionSwitcher characterName={selectedAvatar?.name} />
+                  <SpriteSheetComposerPanel />
+                  <AnatomicalDeviationValidatorPanel />
+                </div>
+              )}
 
-            {/* Seletor de Lentes e Distâncias Focais Virtuais */}
-            <VirtualLensSelector />
+              {/* SEÇÃO TÉCNICA 4: ÁUDIO & VOZ */}
+              {(advancedCategory === 'all' || advancedCategory === 'audio') && (
+                <div className="space-y-6">
+                  <h4 className="text-sm font-bold font-mono text-cyber-cyan"># Acústica & FFT Espectral</h4>
+                  <VoiceAudioUploader avatarId={selectedAvatar?.id} avatarName={selectedAvatar?.name} />
+                  <WaveformCanvasViewer />
+                  <VoiceEngineMapperPanel avatarId={selectedAvatar?.id} avatarName={selectedAvatar?.name} />
+                  <VoiceParametersPanel avatarId={selectedAvatar?.id} avatarName={selectedAvatar?.name} />
+                  <VoiceToneSelectorPanel avatarId={selectedAvatar?.id} avatarName={selectedAvatar?.name} />
+                  <PhoneticPangramCatalogPanel avatarId={selectedAvatar?.id} avatarName={selectedAvatar?.name} />
+                  <SynthesisPreviewPlayer avatarId={selectedAvatar?.id} avatarName={selectedAvatar?.name} />
+                  <V5SoundConnectorPanel avatarId={selectedAvatar?.id} avatarName={selectedAvatar?.name} />
+                  <VoiceSheetExporterPanel avatarId={selectedAvatar?.id} avatarName={selectedAvatar?.name} />
+                </div>
+              )}
 
-            {/* Sistema de Guias de Proporção Anatômica */}
-            <AnatomicalProportionGuides previewImageUrl={selectedAvatar?.avatarUrl} />
+              {/* SEÇÃO TÉCNICA 5: SOUL & RAG */}
+              {(advancedCategory === 'all' || advancedCategory === 'soul') && (
+                <div className="space-y-6">
+                  <h4 className="text-sm font-bold font-mono text-cyber-cyan"># Soul, RAG & LLM</h4>
+                  <PsychologicalArchetypesPanel avatarId={selectedAvatar?.id} avatarName={selectedAvatar?.name} />
+                  <BioLoreGeneratorPanel avatarId={selectedAvatar?.id} avatarName={selectedAvatar?.name} />
+                  <VocabularyCatchphrasesPanel avatarId={selectedAvatar?.id} avatarName={selectedAvatar?.name} />
+                  <EthicalGuardrailsPanel avatarId={selectedAvatar?.id} avatarName={selectedAvatar?.name} />
+                  <SystemPromptCompilerPanel avatarId={selectedAvatar?.id} avatarName={selectedAvatar?.name} />
+                  <RAGKnowledgeBasePanel avatarId={selectedAvatar?.id} avatarName={selectedAvatar?.name} />
+                  <SocialRepliesSimulatorPanel avatarId={selectedAvatar?.id} avatarName={selectedAvatar?.name} />
+                  <PersonaRetentionValidatorPanel avatarId={selectedAvatar?.id} avatarName={selectedAvatar?.name} />
+                  <SoulPackageExporterPanel avatarId={selectedAvatar?.id} avatarName={selectedAvatar?.name} />
+                </div>
+              )}
 
-            {/* Estimador de Índice de Semelhança Facial Cross-Scene */}
-            <FaceVerificationIndexPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-            />
-          </section>
-        )}
+              {/* SEÇÃO TÉCNICA 6: LIVE & OBS */}
+              {(advancedCategory === 'all' || advancedCategory === 'live') && (
+                <div className="space-y-6">
+                  <h4 className="text-sm font-bold font-mono text-cyber-cyan"># Live Streaming & Webhooks</h4>
+                  <IdleBreathingPanel avatarName={selectedAvatar?.name} />
+                  <NaturalEyeBlinkPanel avatarName={selectedAvatar?.name} />
+                  <HeadTiltPanel avatarName={selectedAvatar?.name} />
+                  <IdleLiveCanvasViewer avatarName={selectedAvatar?.name} avatarUrl={selectedAvatar?.avatarUrl} />
+                  <AvatarStateMachinePanel avatarName={selectedAvatar?.name} />
+                  <AvatarEnergyModulatorPanel avatarName={selectedAvatar?.name} />
+                  <IdleSpritesheetGeneratorPanel avatarName={selectedAvatar?.name} avatarUrl={selectedAvatar?.avatarUrl} />
+                  <IdleEmbedExporterPanel avatarId={selectedAvatar?.id} avatarName={selectedAvatar?.name} />
+                  <IdlePerformanceBenchmarkPanel />
+                  <BroadcasterWebhookPanel avatarId={selectedAvatar?.id} avatarName={selectedAvatar?.name} />
+                  <VTuberPackageExporterPanel avatarId={selectedAvatar?.id} avatarName={selectedAvatar?.name} />
+                  <AudioVisemeSyncPanel avatarId={selectedAvatar?.id} avatarName={selectedAvatar?.name} />
+                  <LiveEmotionTriggersPanel avatarId={selectedAvatar?.id} avatarName={selectedAvatar?.name} />
+                  <ObsWebSocketConnectorPanel avatarId={selectedAvatar?.id} avatarName={selectedAvatar?.name} />
+                  <ObsTransparentOverlayPanel avatarId={selectedAvatar?.id} avatarName={selectedAvatar?.name} />
+                  <LiveOperatorDeckPanel avatarId={selectedAvatar?.id} avatarName={selectedAvatar?.name} />
+                  <LiveTelemetryMonitorPanel avatarId={selectedAvatar?.id} avatarName={selectedAvatar?.name} />
+                  <LivePromptFirewallPanel avatarId={selectedAvatar?.id} avatarName={selectedAvatar?.name} />
+                </div>
+              )}
 
-        {/* ============================================================== */}
-        {/* SEÇÃO 2: T-POSE, A-POSE & RIGGING ANATÔMICO                    */}
-        {/* ============================================================== */}
-        {(activeMode === 't-pose' || activeMode === 'a-pose' || activeMode === 'all') && (
-          <section className="space-y-8 animate-fadeIn">
-            <div className="border-b border-indigo-500/20 pb-2">
-              <h2 className="text-xl font-bold text-indigo-400 flex items-center gap-2">
-                <Accessibility className="w-5 h-5" /> 2. T-Pose, A-Pose & Rigging Esquelético
-              </h2>
-              <p className="text-xs text-slate-400">Padronização anatômica, coordenadas ósseas para V5 Broadcaster e canal alpha.</p>
+              {/* SEÇÃO TÉCNICA 7: VAULT & TESTES */}
+              {(advancedCategory === 'all' || advancedCategory === 'vault') && (
+                <div className="space-y-6">
+                  <h4 className="text-sm font-bold font-mono text-cyber-cyan"># Vault, Certificados & Benchmarks</h4>
+                  <FaceDnaPackExporterPanel avatarId={selectedAvatar?.id} avatarName={selectedAvatar?.name} />
+                  <BatchStylePromptInjectorPanel avatarId={selectedAvatar?.id} avatarName={selectedAvatar?.name} />
+                  <CanonicalEnvironmentsPanel avatarId={selectedAvatar?.id} avatarName={selectedAvatar?.name} />
+                  <CinematicCutsPanel avatarId={selectedAvatar?.id} avatarName={selectedAvatar?.name} />
+                  <PrismaBatchScriptGeneratorPanel avatarId={selectedAvatar?.id} avatarName={selectedAvatar?.name} />
+                  <FaceVerificationIndexPanel avatarId={selectedAvatar?.id} avatarName={selectedAvatar?.name} />
+                  <V5EditTimelineExporterPanel avatarId={selectedAvatar?.id} avatarName={selectedAvatar?.name} />
+                  <UgcProductPoseGeneratorPanel avatarId={selectedAvatar?.id} avatarName={selectedAvatar?.name} />
+                  <AuthorCardExporterPanel avatarId={selectedAvatar?.id} avatarName={selectedAvatar?.name} />
+                  <UniversalPackageSchemaPanel />
+                  <V5AvatarZipPackerPanel />
+                  <V5AvatarZipImporterPanel />
+                  <CharacterSheetPrintPanel />
+                  <CatalogBackupRestorePanel />
+                  <CatalogStressTesterPanel />
+                  <E2EStudioWorkflowPanel />
+                  <SecurityAuditPanel />
+                  <MilestoneVersion100Banner />
+                  <CentralCharacterManagementDashboard />
+                </div>
+              )}
             </div>
-
-            {/* Comparador Lado a Lado: Foto Âncora vs T-Pose */}
-            <PoseFidelityComparator
-              anchorPhotoUrl={selectedAvatar?.avatarUrl}
-              tPosePhotoUrl={selectedAvatar?.face.turnaroundSheetUrl || selectedAvatar?.avatarUrl}
-              characterName={selectedAvatar?.name}
-            />
-
-            {/* Gerador de Metadados de Articulação Óssea (Rigging V5 Broadcaster) */}
-            <JointCoordinatesGenerator
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-              previewImageUrl={selectedAvatar?.avatarUrl}
-            />
-
-            {/* Catálogo de Poses Utilitárias (Fines & Auto Blog) */}
-            <UtilityPoseCatalog characterName={selectedAvatar?.name} />
-
-            {/* Exportador de Folha de Poses (Alta Resolução & Canal Alpha) */}
-            <PoseSheetExporterPanel
-              avatarName={selectedAvatar?.name}
-              tPoseUrl={selectedAvatar?.avatarUrl}
-              aPoseUrl={selectedAvatar?.avatarUrl}
-            />
-
-            {/* Validador Heurístico de Desvios Anatômicos (Anti-Alucinação) */}
-            <AnatomicalDeviationValidatorPanel characterName={selectedAvatar?.name} />
-
-            {/* Gerador de Poses UGC com Produtos Minerados do V5 Finders */}
-            <UgcProductPoseGeneratorPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-            />
-          </section>
-        )}
-
-        {/* ============================================================== */}
-        {/* SEÇÃO 3: EXPRESSÕES FACS & LIP-SYNC VISEMES                    */}
-        {/* ============================================================== */}
-        {(activeMode === 'expression' || activeMode === 'all') && (
-          <section className="space-y-8 animate-fadeIn">
-            <div className="border-b border-amber-500/20 pb-2">
-              <h2 className="text-xl font-bold text-amber-400 flex items-center gap-2">
-                <Smile className="w-5 h-5" /> 3. Expressões FACS & Visemas de Fala
-              </h2>
-              <p className="text-xs text-slate-400">Tabela de visemas para Lip-Sync, matriz emocional FACS e spritesheets de animação.</p>
-            </div>
-
-            {/* Tabela de Visemas Canônicos da Fala (Lip-Sync Engine) */}
-            <VisemesCanonicalTable
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-            />
-
-            {/* Compilador de Prompts para Visemas & Realismo Dental */}
-            <VisemePromptCompiler characterName={selectedAvatar?.name} />
-
-            {/* Matriz de Emoções Base do Personagem (FACS Standard) */}
-            <BaseEmotionsMatrixPanel
-              avatarId={selectedAvatar?.id}
-              characterName={selectedAvatar?.name}
-            />
-
-            {/* Matriz de Emoções Secundárias & Engajamento Social */}
-            <SecondaryEmotionsMatrixPanel
-              avatarId={selectedAvatar?.id}
-              characterName={selectedAvatar?.name}
-            />
-
-            {/* Visualizador de Expressões em Grade 3x3 com Lupa de Detalhes */}
-            <ExpressionsGrid3x3Viewer
-              characterName={selectedAvatar?.name}
-              sheetImageUrl={selectedAvatar?.face.expressionSheetUrl || selectedAvatar?.avatarUrl}
-            />
-
-            {/* Slider de Intensidade Emocional (Modulador 10% - 100%) */}
-            <EmotionalIntensityModulator characterName={selectedAvatar?.name} />
-
-            {/* Ferramenta de Troca Rápida de Expressão (Flip-Book Test) */}
-            <QuickExpressionSwitcher characterName={selectedAvatar?.name} />
-
-            {/* Gerador de Sprite Sheet Consolidado & Atlas JSON (4x4) */}
-            <SpriteSheetComposerPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-            />
-          </section>
-        )}
-
-        {/* ============================================================== */}
-        {/* SEÇÃO 4: DNA VOCAL & V5 SOUND                                  */}
-        {/* ============================================================== */}
-        {(activeMode === 'voice' || activeMode === 'all') && (
-          <section className="space-y-8 animate-fadeIn">
-            <div className="border-b border-emerald-500/20 pb-2">
-              <h2 className="text-xl font-bold text-emerald-400 flex items-center gap-2">
-                <Mic className="w-5 h-5" /> 4. DNA Vocal & Integração V5 Sound
-              </h2>
-              <p className="text-xs text-slate-400">Clonagem de voz, Qwen-TTS, XTTS, controles acústicos e conexão com a porta :3008.</p>
-            </div>
-
-            {/* Uploader & Gravador Nativo de Áudio de Referência (V5 Sound) */}
-            <VoiceAudioUploader
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-              currentAudioUrl={selectedAvatar?.voice.sampleAudioUrl}
-            />
-
-            {/* Visualizador de Onda Sonora (Waveform Canvas Interativo) */}
-            <WaveformCanvasViewer
-              audioUrl={selectedAvatar?.voice.sampleAudioUrl}
-              characterName={selectedAvatar?.name}
-            />
-
-            {/* Mapeador de Motores de Síntese Vocal (V5 Sound Engines) */}
-            <VoiceEngineMapperPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-              currentEngine={selectedAvatar?.voice.engine}
-            />
-
-            {/* Controles Paramétricos de Voz (Pitch, Velocidade, Estabilidade, Temperatura) */}
-            <VoiceParametersPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-              currentEngine={selectedAvatar?.voice.engine}
-            />
-
-            {/* Seletor de Tonalidade Emocional Vocal */}
-            <VoiceToneSelectorPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-              currentTone={selectedAvatar?.voice.tone}
-            />
-
-            {/* Catálogo de Pangramas e Frases Canônicas de Teste Fonético */}
-            <PhoneticPangramCatalogPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-            />
-
-            {/* Player de Preview de Síntese Vocal & Sincronização de Tempo */}
-            <SynthesisPreviewPlayer
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-              avatarUrl={selectedAvatar?.avatarUrl}
-            />
-
-            {/* Conector de ID de Voz com o Ecossistema do V5 Sound (:3008) */}
-            <V5SoundConnectorPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-              currentVoiceId={selectedAvatar?.voice.v5SoundVoiceId}
-            />
-
-            {/* Exportador de Ficha Vocal Canônica em JSON (.v5voice.json) */}
-            <VoiceSheetExporterPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-            />
-          </section>
-        )}
-
-        {/* ============================================================== */}
-        {/* SEÇÃO 5: SOUL, LORE & PROMPT ENGINEERING                       */}
-        {/* ============================================================== */}
-        {(activeMode === 'soul' || activeMode === 'all') && (
-          <section className="space-y-8 animate-fadeIn">
-            <div className="border-b border-purple-500/20 pb-2">
-              <h2 className="text-xl font-bold text-purple-400 flex items-center gap-2">
-                <BrainCircuit className="w-5 h-5" /> 5. Soul, Lore & Engenharia de Persona
-              </h2>
-              <p className="text-xs text-slate-400">Arquétipos psicológicos, guardrails anti-jailbreak, compilador de System Prompt e RAG.</p>
-            </div>
-
-            {/* Arquiteto de Arquétipos Psicológicos (Jungiano / MBTI / Big Five) */}
-            <PsychologicalArchetypesPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-            />
-
-            {/* Gerador de Biografia e Lore Canônico (Origin Story & Authority) */}
-            <BioLoreGeneratorPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-            />
-
-            {/* Dicionário de Vocabulário Específico e Bordões Ponderados */}
-            <VocabularyCatchphrasesPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-            />
-
-            {/* Tabela de Tópicos Proibidos e Limites Éticos (Guardrails Anti-Jailbreak) */}
-            <EthicalGuardrailsPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-            />
-
-            {/* Compilador do System Prompt Supremo para LLMs (GPT-4o, Claude 3.5, Gemini 2.0) */}
-            <SystemPromptCompilerPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-            />
-
-            {/* Construtor de Base de Conhecimento RAG do Avatar (Ingestão de Fatos) */}
-            <RAGKnowledgeBasePanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-            />
-
-            {/* Simulador de Respostas Curtas para Redes Sociais */}
-            <SocialRepliesSimulatorPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-              avatarUrl={selectedAvatar?.avatarUrl}
-            />
-
-            {/* Validador de Retenção de Persona (Audit Score Anti-Jailbreak) */}
-            <PersonaRetentionValidatorPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-            />
-
-            {/* Exportador da Ficha Psicológica e Lore Completo (.v5soul.json) */}
-            <SoulPackageExporterPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-            />
-
-            {/* Exportador de Card de Autor e Assinatura Digital para V5 Auto Blog */}
-            <AuthorCardExporterPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-            />
-          </section>
-        )}
-
-        {/* ============================================================== */}
-        {/* SEÇÃO 6: LIVE OBS, IDLE ANIMATION & BROADCASTER                */}
-        {/* ============================================================== */}
-        {(activeMode === 'live' || activeMode === 'all') && (
-          <section className="space-y-8 animate-fadeIn">
-            <div className="border-b border-rose-500/20 pb-2">
-              <h2 className="text-xl font-bold text-rose-400 flex items-center gap-2">
-                <Radio className="w-5 h-5" /> 6. Live OBS Studio, Animação Idle & Broadcaster
-              </h2>
-              <p className="text-xs text-slate-400">Micro-movimentos a 60 FPS, overlay transparente, WebSocket OBS e firewall de live.</p>
-            </div>
-
-            {/* Motor de Loop de Respiração Suave */}
-            <IdleBreathingPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-              avatarUrl={selectedAvatar?.avatarUrl}
-            />
-
-            {/* Sistema de Piscada de Olho Natural */}
-            <NaturalEyeBlinkPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-            />
-
-            {/* Micro-movimentos de Cabeça */}
-            <HeadTiltPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-              avatarUrl={selectedAvatar?.avatarUrl}
-            />
-
-            {/* Visualizador ao Vivo do Avatar em Estado Idle 60 FPS */}
-            <IdleLiveCanvasViewer
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-              avatarUrl={selectedAvatar?.avatarUrl}
-            />
-
-            {/* Máquina de Estados de Transição Suave */}
-            <AvatarStateMachinePanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-            />
-
-            {/* Modulador de Dinâmica e Frequência por Nível de Energia */}
-            <AvatarEnergyModulatorPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-            />
-
-            {/* Gerador de Spritesheets de Animação Idle */}
-            <IdleSpritesheetGeneratorPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-              avatarUrl={selectedAvatar?.avatarUrl}
-            />
-
-            {/* Exportador de Código de Animação CSS/JS para Embed Rápido */}
-            <IdleEmbedExporterPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-            />
-
-            {/* Benchmark de Consumo de GPU/CPU */}
-            <IdlePerformanceBenchmarkPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-            />
-
-            {/* Servidor de Webhook de Entrada Seguro para V5 Broadcaster */}
-            <BroadcasterWebhookPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-            />
-
-            {/* Exportador de Pacote VTuber Standard */}
-            <VTuberPackageExporterPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-            />
-
-            {/* Sincronizador de Áudio com Visemas em Tempo Real */}
-            <AudioVisemeSyncPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-            />
-
-            {/* Sistema de Gatilhos de Emoções em Tempo Real */}
-            <LiveEmotionTriggersPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-            />
-
-            {/* Conector WebSocket Local de Baixa Latência para OBS Studio */}
-            <ObsWebSocketConnectorPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-            />
-
-            {/* Overlay Web Otimizado para OBS com Fundo Transparente */}
-            <ObsTransparentOverlayPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-            />
-
-            {/* Painel de Controle de Operador de Live */}
-            <LiveOperatorDeckPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-            />
-
-            {/* Monitor de Telemetria de Live */}
-            <LiveTelemetryMonitorPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-            />
-
-            {/* Firewall Anti-Hijacking e Defesa Anti-Jailbreak de Live */}
-            <LivePromptFirewallPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-            />
-          </section>
-        )}
-
-        {/* ============================================================== */}
-        {/* SEÇÃO 7: ECOSSISTEMA, PACOTES .V5AVATAR & BACKUP               */}
-        {/* ============================================================== */}
-        {(activeMode === 'ecosystem' || activeMode === 'all') && (
-          <section className="space-y-8 animate-fadeIn">
-            <div className="border-b border-cyan-500/20 pb-2">
-              <h2 className="text-xl font-bold text-cyber-cyan flex items-center gap-2">
-                <Layers className="w-5 h-5" /> 7. Ecossistema V5 Apollo, Pacotes .v5avatar & Vault
-              </h2>
-              <p className="text-xs text-slate-400">Exportação em lote, scripts para V5 Prisma, integração V5 Edit Web e gestão do catálogo.</p>
-            </div>
-
-            {/* Exportador de Face DNA Pack para Difusores de Vídeo */}
-            <FaceDnaPackExporterPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-            />
-
-            {/* Injetor de Prompts Fixo de Estilo para Lote de Shorts */}
-            <BatchStylePromptInjectorPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-            />
-
-            {/* Tabela de Cenários e Ambientes Canônicos do Avatar */}
-            <CanonicalEnvironmentsPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-            />
-
-            {/* Tabela de Cortes e Ângulos de Câmera para Edição de Shorts */}
-            <CinematicCutsPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-            />
-
-            {/* Gerador de Batch Prompts para o V5 Prisma */}
-            <PrismaBatchScriptGeneratorPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-            />
-
-            {/* Exportador de Metadados de Timeline para o V5 Edit Web */}
-            <V5EditTimelineExporterPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-            />
-
-            {/* Schema Canônico V5AvatarPackage com Integridade Criptográfica SHA-256 */}
-            <UniversalPackageSchemaPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-            />
-
-            {/* Empacotador ZIP Portátil .v5avatar Client-Side */}
-            <V5AvatarZipPackerPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-            />
-
-            {/* Importador Universal de Pacotes .v5avatar */}
-            <V5AvatarZipImporterPanel />
-
-            {/* Gerador de Ficha de Personagem para Impressão A4 / PDF */}
-            <CharacterSheetPrintPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-            />
-
-            {/* Sistema de Backup e Restauração Completa do Catálogo em 1 Clique */}
-            <CatalogBackupRestorePanel />
-
-            {/* Teste de Carga e Estresse de Importação/Exportação */}
-            <CatalogStressTesterPanel />
-
-            {/* Teste E2E de Fluxo Completo */}
-            <E2EStudioWorkflowPanel
-              avatarId={selectedAvatar?.id}
-              avatarName={selectedAvatar?.name}
-            />
-
-            {/* Varredura de Segurança de Inputs */}
-            <SecurityAuditPanel />
-
-            {/* Dashboard Central de Gestão de Personagens */}
-            <CentralCharacterManagementDashboard 
-              onOpenCreateModal={() => setIsCreateModalOpen(true)}
-            />
-          </section>
-        )}
+          )}
+        </div>
       </main>
 
-      <footer className="border-t border-white/10 bg-obsidian-950 py-6 text-center text-xs text-slate-500 mt-12">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-2">
-            <Apollo5RocketLogo size="sm" showText={false} />
-            <span className="font-mono text-slate-400">
-              Holding V5 Apollo • Capitania #12 (V5 Avatar)
-            </span>
-          </div>
-          <p className="font-mono text-[11px] text-slate-500">
-            Soberania de Personagens • Consistência 360° • Turnaround • Voice DNA
-          </p>
-        </div>
-      </footer>
+      {/* Modal de Criação Rápida */}
+      <QuickCreateAvatarModal isOpen={isCreateModalOpen} onClose={() => setIsCreateModalOpen(false)} />
 
-      {/* Modal de Criação Rápida de Avatar */}
-      <QuickCreateAvatarModal 
-        isOpen={isCreateModalOpen} 
-        onClose={() => setIsCreateModalOpen(false)} 
-      />
-
-      {/* Central de Atalhos de Teclado Globais */}
-      <KeyboardShortcutsModal
-        onOpenCreateModal={() => setIsCreateModalOpen(true)}
-      />
+      {/* Modal Global de Atalhos de Teclado (?) */}
+      <KeyboardShortcutsModal onOpenCreateModal={() => setIsCreateModalOpen(true)} />
     </div>
   );
 }
