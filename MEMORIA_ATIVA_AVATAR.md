@@ -141,3 +141,25 @@ Centraliza o "Registro Civil de Personagens Soberanos", gerando especificações
   - udioProcessor.ts: Rejeição imediata de arquivo nulo, execução segura em SSR (	ypeof window === 'undefined'), tratamento preventivo para buffers sem canais (channels === 0) e cleanup seguro com .catch(() => {}) no udioContext.close().
   - Suíte scripts/test_audio_waveform_hardening.ts aprovada com 100% de sucesso (4/4 testes).
   - Next.js 14 Build: Compilado com Exit Code 0 em todas as 6 rotas.
+
+
+---
+
+## 6. DIRETRIZ ESTRATÉGICA DE PRODUTO & UX: O ESTÚDIO SOBERANO MINIMALISTA
+
+**Princípio Fundamental:** *"O grosso roda no backend de forma invisível; no frontend, o usuário tem uma experiência visual minimalista, rápida e focada 100% no personagem."*
+
+### 6.1 Missão de Negócio do V5 Avatar
+O V5 Apollo Avatar não é uma vitrine de diagnósticos de laboratório, mas sim a **Agência Central & Cofre Soberano de Personagens Digitais**.
+Nele, criadores, marcas e agências armazenam, gerenciam e refinam todos os seus avatares virtuais que aparecem de forma consistente em todos os seus canais:
+- Canais Dark de Histórias e Curiosidades (YouTube/TikTok)
+- Apresentadores de Afiliados e UGC (V5 Finders / Shopee / Mercado Livre)
+- Streamers e Apresentadores de Rádio e Live 24/7 (V5 Broadcaster / OBS Studio)
+- Autores e Especialistas com Autoridade E-E-A-T (V5 Auto Blog)
+- Protagonistas de VSLs e Treinamentos (V5 Prisma / Hotmart)
+
+### 6.2 Pilares da Experiência do Usuário (Design System)
+1. **Palco Visual em Destaque (Studio Stage):** O personagem em alta resolução com carrossel 360º suave (<kbd>Frente</kbd>, <kbd>3/4</kbd>, <kbd>Perfil</kbd>, <kbd>Costas</kbd>) e player de voz instantâneo com síntese em 1 clique.
+2. **Personalização Sem Ruído:** Apenas 4 abas práticas (Aparência, Voz, Personalidade e Exportação/Conexões).
+3. **Multi-Modelos no Backend:** Seleção transparente de motores de geração visual (Flux.1, SDXL, ComfyUI local) e vocal (Qwen-TTS, XTTS-v2, CosyVoice).
+4. **Laboratório Avançado Oculto:** As 70+ ferramentas técnicas, benchmarks e medidores de orquestração continuam ativas no código, mas recolhidas no rodapé sob demanda para não poluir a criação.
