@@ -4,27 +4,8 @@ import React from 'react';
 import Apollo5RocketLogo from '@/components/ui/Apollo5RocketLogo';
 import { useAvatarStore } from '@/store/useAvatarStore';
 import {
-  Plus, Radio, Layers, Sparkles, HelpCircle, Send, Music, Clapperboard, DollarSign, ExternalLink, Gamepad2, ShoppingBag, Globe, Store, CreditCard, Coins, GraduationCap, Bot
+  Plus, Radio, Layers, Sparkles, HelpCircle
 } from 'lucide-react';
-
-const APOLLO_BRIDGE_LINKS = [
-  { name: 'Hub V5', port: ':3000', url: 'http://localhost:3000', icon: Globe, color: 'text-zinc-300 border-zinc-700 bg-zinc-800/60 hover:bg-zinc-800' },
-  { name: 'PixDrop Store', port: ':3000', url: 'http://localhost:3000', icon: Store, color: 'text-emerald-400 border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500/20' },
-  { name: 'Finders', port: ':3001', url: 'http://localhost:3001', icon: ShoppingBag, color: 'text-rose-400 border-rose-500/30 bg-rose-500/10 hover:bg-rose-500/20' },
-  { name: 'AutoBlog', port: ':3002', url: 'http://localhost:3002', icon: Sparkles, color: 'text-blue-400 border-blue-500/30 bg-blue-500/10 hover:bg-blue-500/20' },
-  { name: 'Sound', port: ':3005', url: 'http://localhost:3005', icon: Music, color: 'text-purple-400 border-purple-500/30 bg-purple-500/10 hover:bg-purple-500/20' },
-  { name: 'Payment', port: ':3006', url: 'http://localhost:3006', icon: CreditCard, color: 'text-emerald-400 border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500/20' },
-  { name: 'Pocket Director', port: ':3007', url: 'http://localhost:3007', icon: Clapperboard, color: 'text-amber-400 border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/20' },
-  { name: 'Avatar', port: ':3010', url: 'http://localhost:3010', icon: Bot, color: 'text-violet-400 border-violet-500/30 bg-violet-500/10 hover:bg-violet-500/20' },
-  { name: 'Poster', port: ':3011', url: 'http://localhost:3011', icon: Send, color: 'text-rose-400 border-rose-500/30 bg-rose-500/10 hover:bg-rose-500/20' },
-  { name: 'Finance', port: ':3009', url: 'http://localhost:3009', icon: DollarSign, color: 'text-emerald-400 border-emerald-500/30 bg-emerald-500/10 hover:bg-emerald-500/20' },
-  { name: 'Prisma', port: ':3013', url: 'http://localhost:3013', icon: Sparkles, color: 'text-violet-400 border-violet-500/30 bg-violet-500/10 hover:bg-violet-500/20' },
-  { name: 'Broadcaster', port: ':3014', url: 'http://localhost:3014', icon: Radio, color: 'text-sky-400 border-sky-500/30 bg-sky-500/10 hover:bg-sky-500/20' },
-  { name: 'Tools', port: ':3014', url: 'http://localhost:3014', icon: Layers, color: 'text-cyan-400 border-cyan-500/30 bg-cyan-500/10 hover:bg-cyan-500/20' },
-  { name: 'RMT', port: ':3015', url: 'http://localhost:3015', icon: Coins, color: 'text-amber-400 border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/20' },
-  { name: 'Academy', port: ':3016', url: 'http://localhost:3016', icon: GraduationCap, color: 'text-indigo-400 border-indigo-500/30 bg-indigo-500/10 hover:bg-indigo-500/20' },
-  { name: 'Games 9:16', port: ':3012', url: 'http://localhost:3012', icon: Gamepad2, color: 'text-pink-400 border-pink-500/30 bg-pink-500/10 hover:bg-pink-500/20' },
-];
 
 interface StudioHeaderProps {
   onOpenCreateModal?: () => void;
@@ -36,41 +17,14 @@ export default function StudioHeader({ onOpenCreateModal }: StudioHeaderProps) {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-obsidian-950/85 backdrop-blur-xl">
-      {/* Apollo Bridge Holding Federation Bar */}
-      <div className="border-b border-white/5 bg-black/40 px-4 sm:px-6 py-1.5 flex items-center justify-between text-[11px] overflow-x-auto gap-3">
-        <div className="flex items-center gap-2 font-mono text-slate-400 shrink-0">
-          <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
-          <span className="font-bold text-slate-300">Apollo Bridge (Holding V5):</span>
-        </div>
-        <div className="flex items-center gap-1.5 shrink-0">
-          {APOLLO_BRIDGE_LINKS.map((b) => {
-            const Icon = b.icon;
-            return (
-              <a
-                key={b.name}
-                href={b.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-lg border text-[10px] font-mono font-semibold transition-all ${b.color}`}
-              >
-                <Icon className="w-3 h-3" />
-                <span>{b.name}</span>
-                <span className="opacity-70">{b.port}</span>
-                <ExternalLink className="w-2.5 h-2.5 opacity-50" />
-              </a>
-            );
-          })}
-        </div>
-      </div>
+      
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
         
         {/* Brand / Logo */}
         <div className="flex items-center gap-3">
           <Apollo5RocketLogo size="sm" showText={true} />
-          <span className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-cyber-cyan/10 border border-cyber-cyan/30 text-[10px] font-mono text-cyber-cyan font-bold uppercase tracking-wider">
-            Capitania #12 · :3010
-          </span>
+          
         </div>
 
         {/* Center Nav / Links Rápidos */}
