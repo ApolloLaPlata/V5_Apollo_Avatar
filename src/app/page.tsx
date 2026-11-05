@@ -133,6 +133,24 @@ export default function AvatarHubPage() {
 
   const selectedAvatar = avatars.find((a) => a.id === selectedAvatarId) || avatars[0];
 
+  // Dynamic Angle Image Resolver (Frente, 3/4, Perfil, Costas)
+  const currentAngleImage = React.useMemo(() => {
+    if (!selectedAvatar) return '';
+    const refs = selectedAvatar.face?.referenceImages || [];
+    switch (selectedAngle) {
+      case 'front':
+        return selectedAvatar.face?.primaryAnchorImage || refs[0] || selectedAvatar.avatarUrl;
+      case 'threeQuarter':
+        return refs[1] || selectedAvatar.face?.turnaroundSheetUrl || selectedAvatar.avatarUrl;
+      case 'profile':
+        return refs[2] || selectedAvatar.face?.tPoseSheetUrl || selectedAvatar.avatarUrl;
+      case 'back':
+        return refs[3] || selectedAvatar.face?.aPoseSheetUrl || selectedAvatar.avatarUrl;
+      default:
+        return selectedAvatar.avatarUrl;
+    }
+  }, [selectedAvatar, selectedAngle]);
+
   // Teste de Fala Instantânea com Web Speech API
   const handleTestVoice = () => {
     if (typeof window === 'undefined' || !('speechSynthesis' in window)) {
@@ -303,10 +321,19 @@ export default function AvatarHubPage() {
                 {/* Imagem do Palco com Proporção Otimizada */}
                 <div className="relative rounded-xl overflow-hidden aspect-[4/5] bg-obsidian-900 border border-white/10 flex items-center justify-center">
                   <img
-                    src={selectedAvatar.avatarUrl}
-                    alt={selectedAvatar.name}
-                    className="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                    key={currentAngleImage}
+                    src={currentAngleImage}
+                    alt={`${selectedAvatar.name} - ${selectedAngle}`}
+                    className="w-full h-full object-cover object-top transition-all duration-500 group-hover:scale-105 animate-fadeIn"
                   />
+
+                  {/* Badge de Ângulo Dinâmico */}
+                  <div className="absolute top-3 right-3 px-2 py-0.5 rounded-full bg-obsidian-950/80 backdrop-blur-md border border-white/20 text-[10px] font-mono text-purple-300 font-bold uppercase tracking-wider">
+                    {selectedAngle === 'front' && '0° Frente'}
+                    {selectedAngle === 'threeQuarter' && '45° 3/4'}
+                    {selectedAngle === 'profile' && '90° Perfil'}
+                    {selectedAngle === 'back' && '180° Costas'}
+                  </div>
 
                   {/* Tag do Nicho */}
                   <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-obsidian-950/80 backdrop-blur-md border border-cyber-cyan/40 text-[10px] font-mono text-cyber-cyan font-bold uppercase tracking-wider">

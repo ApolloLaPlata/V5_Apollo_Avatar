@@ -32,7 +32,10 @@ export const INITIAL_CANONICAL_AVATARS: AvatarProfile[] = [
     face: {
       primaryAnchorImage: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80',
       referenceImages: [
-        'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80'
+        'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80',
+        'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80',
+        'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&q=80',
+        'https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?auto=format&fit=crop&w=600&q=80'
       ],
       clothingPrompt: 'Jaqueta bomber futurista ciano e preta com detalhes luminosos',
       fixedFeaturesPrompt: 'Olhos castanhos claros amendoados, cabelo castanho ondulado médio com mechas sutis, traços brasileiros expressivos',
@@ -86,7 +89,10 @@ export const INITIAL_CANONICAL_AVATARS: AvatarProfile[] = [
     face: {
       primaryAnchorImage: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80',
       referenceImages: [
-        'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80'
+        'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80',
+        'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=600&q=80',
+        'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=600&q=80',
+        'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=600&q=80'
       ],
       clothingPrompt: 'Blazer cinza chumbo clássico sobre camisa social branca sem gravata',
       fixedFeaturesPrompt: 'Homem maduro de 48 anos, barba grisalha alinhada, olhar sereno, óculos de aro fino titânio',
