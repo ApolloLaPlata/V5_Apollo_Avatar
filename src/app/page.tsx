@@ -42,6 +42,8 @@ import {
 import VideoCharacterSwapStudio from '@/components/avatar/VideoCharacterSwapStudio';
 import CustomAngleUploadModal from '@/components/avatar/CustomAngleUploadModal';
 import MultiModelGenerateModal from '@/components/avatar/MultiModelGenerateModal';
+import ContentPipelineStudio from '@/components/avatar/ContentPipelineStudio';
+import { Calendar } from 'lucide-react';
 import { Camera, Tv, MessageSquare } from 'lucide-react';
 
 // Import dos painéis do Laboratório Técnico (acessíveis no Modo Engenheiro)
@@ -121,7 +123,7 @@ import SecurityAuditPanel from '@/components/avatar/SecurityAuditPanel';
 import MilestoneVersion100Banner from '@/components/avatar/MilestoneVersion100Banner';
 import CentralCharacterManagementDashboard from '@/components/avatar/CentralCharacterManagementDashboard';
 
-type StudioTab = 'face' | 'voice' | 'soul' | 'jutsu' | 'export';
+type StudioTab = 'face' | 'voice' | 'soul' | 'jutsu' | 'pipeline' | 'export';
 
 export default function AvatarHubPage() {
   const { avatars, selectedAvatarId, selectAvatar, updateAvatar, resetToDefaults } = useAvatarStore();
@@ -704,6 +706,17 @@ export default function AvatarHubPage() {
                   <span>Video Swap (Jutsu)</span>
                 </button>
                 <button
+                  onClick={() => setActiveTab('pipeline')}
+                  className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-xl text-xs font-medium transition-all ${
+                    activeTab === 'pipeline'
+                      ? 'bg-emerald-500 text-obsidian-950 font-bold shadow-md ring-1 ring-emerald-400'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  <Calendar className="w-4 h-4 text-emerald-400" />
+                  <span>Esteira (7 Dias)</span>
+                </button>
+                <button
                   onClick={() => setActiveTab('export')}
                   className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-xl text-xs font-medium transition-all ${
                     activeTab === 'export'
@@ -1046,6 +1059,20 @@ export default function AvatarHubPage() {
               {activeTab === 'jutsu' && (
                 <div className="glass-card rounded-2xl p-6 border border-white/10 space-y-6 animate-fadeIn">
                   <VideoCharacterSwapStudio avatar={selectedAvatar} />
+                </div>
+              )}
+
+              {/* CONTEÚDO DA ABA: ESTEIRA DE CONSTÂNCIA (7 DIAS) */}
+              {activeTab === 'pipeline' && (
+                <div className="glass-card rounded-2xl p-6 border border-white/10 space-y-6 animate-fadeIn">
+                  <ContentPipelineStudio
+                    avatar={selectedAvatar}
+                    onSpeakPhrase={(phrase) => handleTestVoice(phrase)}
+                    onDispatchToVideoSwap={(topic) => {
+                      setActiveTab('jutsu');
+                      toast.info('Modo Jutsu Ativado', 'Tema carregado para Video Character Swap.');
+                    }}
+                  />
                 </div>
               )}
             </div>
