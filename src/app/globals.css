@@ -124,3 +124,33 @@ body {
     }
   }
 }
+
+
+/* Animações Soberanas do Avatar em Modo Vivo (Idle & Visemas) */
+@keyframes avatarBreathe {
+  0%, 100% {
+    transform: scale(1.0) translateY(0);
+  }
+  50% {
+    transform: scale(1.018) translateY(-3px);
+  }
+}
+
+.animate-avatar-breathe {
+  animation: avatarBreathe 4.2s ease-in-out infinite;
+}
+
+@keyframes visemePulse {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(0.95);
+  }
+  50% {
+    opacity: 0.9;
+    transform: scale(1.08);
+  }
+}
+
+.animate-viseme-pulse {
+  animation: visemePulse 0.22s ease-in-out infinite;
+}

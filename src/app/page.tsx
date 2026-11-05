@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import StudioHeader from '@/components/layout/StudioHeader';
 import AvatarCard from '@/components/avatar/AvatarCard';
 import QuickCreateAvatarModal from '@/components/avatar/QuickCreateAvatarModal';
@@ -146,6 +146,22 @@ export default function AvatarHubPage() {
   const [currentSpokenText, setCurrentSpokenText] = useState<string>('');
   const [customSpeechText, setCustomSpeechText] = useState<string>('');
   const [showCustomSpeechInput, setShowCustomSpeechInput] = useState<boolean>(false);
+  const [isLiveIdle, setIsLiveIdle] = useState<boolean>(true);
+  const [isBlinking, setIsBlinking] = useState<boolean>(false);
+
+  // Micro-movimentos orgânicos e piscada estocástica no Modo Vivo
+  useEffect(() => {
+    if (!isLiveIdle) return;
+    const interval = setInterval(() => {
+      setIsBlinking(true);
+      const timeout = setTimeout(() => {
+        setIsBlinking(false);
+      }, 150);
+      return () => clearTimeout(timeout);
+    }, 4200);
+
+    return () => clearInterval(interval);
+  }, [isLiveIdle]);
 
   const selectedAvatar = avatars.find((a) => a.id === selectedAvatarId) || avatars[0];
 
@@ -432,12 +448,28 @@ export default function AvatarHubPage() {
 
                 {/* Imagem do Palco com Proporção Otimizada */}
                 <div className="relative rounded-xl overflow-hidden aspect-[4/5] bg-obsidian-900 border border-white/10 flex items-center justify-center">
-                  <img
-                    key={currentAngleImage}
-                    src={currentAngleImage}
-                    alt={`${selectedAvatar.name} - ${selectedAngle}`}
-                    className="w-full h-full object-cover object-top transition-all duration-500 group-hover:scale-105 animate-fadeIn"
-                  />
+                  <div className={`w-full h-full transition-transform duration-700 ${isLiveIdle ? 'animate-avatar-breathe' : ''}`}>
+                    <img
+                      key={currentAngleImage}
+                      src={currentAngleImage}
+                      alt={`${selectedAvatar.name} - ${selectedAngle}`}
+                      className={`w-full h-full object-cover object-top transition-all duration-500 group-hover:scale-105 animate-fadeIn ${
+                        isBlinking ? 'brightness-90 contrast-105' : ''
+                      }`}
+                    />
+                  </div>
+
+                  {/* Micro-piscar orgânico (Eyelid blink effect) */}
+                  {isLiveIdle && isBlinking && (
+                    <div className="absolute inset-0 bg-obsidian-950/25 pointer-events-none transition-opacity duration-100" />
+                  )}
+
+                  {/* Efeito de Visema Labial Ativo quando estiver falando */}
+                  {isSpeaking && (
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                      <div className="w-28 h-20 rounded-full bg-cyber-cyan/20 blur-xl animate-viseme-pulse" />
+                    </div>
+                  )}
 
                   {/* Equalizador e Closed Captions quando fala */}
                   {isSpeaking && currentSpokenText && (
@@ -467,9 +499,23 @@ export default function AvatarHubPage() {
                     {selectedAngle === 'back' && '180° Costas'}
                   </div>
 
-                  {/* Tag do Nicho */}
-                  <div className="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-obsidian-950/80 backdrop-blur-md border border-cyber-cyan/40 text-[10px] font-mono text-cyber-cyan font-bold uppercase tracking-wider">
-                    {selectedAvatar.soul.niche}
+                  {/* Tag do Nicho & Seletor de Modo Vivo */}
+                  <div className="absolute top-3 left-3 flex items-center gap-1.5 z-20">
+                    <div className="px-2.5 py-1 rounded-full bg-obsidian-950/80 backdrop-blur-md border border-cyber-cyan/40 text-[10px] font-mono text-cyber-cyan font-bold uppercase tracking-wider">
+                      {selectedAvatar.soul.niche}
+                    </div>
+                    <button
+                      onClick={() => setIsLiveIdle((prev) => !prev)}
+                      title={isLiveIdle ? 'Pausar micro-movimentos e respiração' : 'Ativar micro-movimentos e respiração'}
+                      className={`px-2 py-1 rounded-full backdrop-blur-md border text-[10px] font-mono flex items-center gap-1.5 transition-all ${
+                        isLiveIdle
+                          ? 'bg-emerald-950/85 border-emerald-500/50 text-emerald-300 shadow-[0_0_10px_rgba(16,185,129,0.35)]'
+                          : 'bg-obsidian-950/80 border-white/20 text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      <span className={`w-1.5 h-1.5 rounded-full ${isLiveIdle ? 'bg-emerald-400 animate-pulse' : 'bg-slate-500'}`} />
+                      <span>{isLiveIdle ? 'Modo Vivo: ON' : 'Modo Vivo: OFF'}</span>
+                    </button>
                   </div>
 
                   {/* Seletor Rápido de Ângulos + Botão Upload */}

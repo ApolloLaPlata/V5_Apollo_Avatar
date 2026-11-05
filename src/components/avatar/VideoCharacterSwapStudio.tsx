@@ -30,6 +30,12 @@ import {
   Check,
   Clock,
   Trash2,
+  ShoppingBag,
+  TrendingUp,
+  Tag,
+  Flame,
+  DollarSign,
+  Volume2,
 } from 'lucide-react';
 
 interface VideoCharacterSwapStudioProps {
@@ -38,6 +44,108 @@ interface VideoCharacterSwapStudioProps {
 
 export type JutsuMode = 'full_swap' | 'face_relight' | 'motion_retarget';
 export type ComputeBackend = 'modal_h100' | 'comfy_local' | 'fleet_swarm';
+
+export interface MinedProduct {
+  id: string;
+  name: string;
+  category: string;
+  platform: 'Shopee' | 'TikTok Shop' | 'AliExpress';
+  price: string;
+  commission: string;
+  viralityScore: number;
+  sourcePreviewUrl: string;
+  duration: string;
+  hook: string;
+  body: string;
+  cta: string;
+}
+
+export const MINED_FINDERS_PRODUCTS: MinedProduct[] = [
+  {
+    id: 'prod-seladora-portatil',
+    name: 'Mini Seladora Térmica Portátil USB',
+    category: 'Achadinhos de Cozinha',
+    platform: 'Shopee',
+    price: 'R$ 18,90',
+    commission: '14% (R$ 2,64)',
+    viralityScore: 99,
+    duration: '0:16',
+    sourcePreviewUrl: 'https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=640&q=80',
+    hook: '(0-3s • Expressão Espantada) "Você ainda joga comida fora porque o saco ficou aberto? Olha essa mini seladora que veda em 2 segundos!"',
+    body: '(3-18s • Demonstração Dinâmica) "Ela esquenta no mesmo segundo, sela qualquer pacote de alimento e cabe na palma da mão. É recarregável USB e não deixa murchar salgadinho nem biscoito."',
+    cta: '(18-25s • Expressão Confiante) "O link oficial com frete grátis tá na minha bio! Clica agora antes que acabe o estoque promocional."',
+  },
+  {
+    id: 'prod-escova-secadora-3em1',
+    name: 'Escova Secadora & Alisadora 3 em 1 Cerâmica',
+    category: 'Beleza & Cabelo',
+    platform: 'TikTok Shop',
+    price: 'R$ 49,90',
+    commission: '12% (R$ 5,98)',
+    viralityScore: 97,
+    duration: '0:22',
+    sourcePreviewUrl: 'https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=640&q=80',
+    hook: '(0-3s • Expressão Provocativa) "Sequei e alisei meu cabelo em menos de 8 minutos usando esse achadinho que viralizou na gringa!"',
+    body: '(3-18s • Demonstração de Cerdas) "As cerdas são ionizadas com turmalina, tiram o frizz na primeira passada e dão brilho espelhado sem queimar os fios. Parece escova de salão."',
+    cta: '(18-25s • Expressão Sorridente) "Comprei pelo link com 40% de desconto que fixei no meu perfil! Corre que tá acabando."',
+  },
+  {
+    id: 'prod-projetor-4k-magcubic',
+    name: 'Projetor Smart Portátil 4K Magcubic',
+    category: 'Tecnologia & Cinema',
+    platform: 'AliExpress',
+    price: 'R$ 219,00',
+    commission: '9% (R$ 19,71)',
+    viralityScore: 98,
+    duration: '0:24',
+    sourcePreviewUrl: 'https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=640&q=80',
+    hook: '(0-3s • Expressão Hipnotizada) "Transformei a parede do meu quarto em uma tela de cinema de 130 polegadas gastando quase nada!"',
+    body: '(3-18s • Demonstração Noturna) "Já roda Netflix e YouTube direto com Wi-Fi 6, tem auto-foco e você pode girar 180 graus pra projetar no teto enquanto fica deitado na cama."',
+    cta: '(18-25s • Expressão Confiante) "Deixei o fornecedor verificado com entrega rápida no link da bio. Comenta EU QUERO pra receber no direct!"',
+  },
+  {
+    id: 'prod-luminaria-sunset-rgb',
+    name: 'Luminária Sunset Rainbow LED Rotativa 360°',
+    category: 'Decoração & Quarto',
+    platform: 'Shopee',
+    price: 'R$ 24,50',
+    commission: '15% (R$ 3,67)',
+    viralityScore: 95,
+    duration: '0:15',
+    sourcePreviewUrl: 'https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=640&q=80',
+    hook: '(0-3s • Expressão Encantada) "O segredo por trás dos vídeos mais aesthetics do TikTok é essa luminária de 24 reais!"',
+    body: '(3-18s • Demonstração de Luzes) "Ela projeta o pôr do sol perfeito na parede, tem 16 cores no controle remoto e deixa qualquer quarto com cara de estúdio de gravação."',
+    cta: '(18-25s • Expressão Confiante) "Link direto com frete grátis na minha bio! Aproveita o cupom de primeira compra."',
+  },
+  {
+    id: 'prod-triturador-eletrico-usb',
+    name: 'Mini Processador & Triturador Elétrico USB',
+    category: 'Achadinhos de Cozinha',
+    platform: 'Shopee',
+    price: 'R$ 29,90',
+    commission: '12% (R$ 3,58)',
+    viralityScore: 96,
+    duration: '0:18',
+    sourcePreviewUrl: 'https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=640&q=80',
+    hook: '(0-3s • Expressão Aliviada) "Nunca mais fiquei com cheiro de alho e cebola na mão depois que descobri esse mini triturador!"',
+    body: '(3-18s • Demonstração Rápida) "Três lâminas de aço cirúrgico, bate tudo em 5 segundos apertando apenas um botão. É sem fio, fácil de lavar e a carga dura mais de 30 dias."',
+    cta: '(18-25s • Expressão Sorridente) "Indispensável pra economizar tempo na cozinha. O link com desconto tá salvo na minha bio!"',
+  },
+  {
+    id: 'prod-fone-bluetooth-powerbank',
+    name: 'Fone Bluetooth 5.3 com Display LED & Powerbank',
+    category: 'Tecnologia & Som',
+    platform: 'TikTok Shop',
+    price: 'R$ 39,90',
+    commission: '14% (R$ 5,58)',
+    viralityScore: 94,
+    duration: '0:20',
+    sourcePreviewUrl: 'https://images.unsplash.com/photo-1590658268037-6bf12165a8df?auto=format&fit=crop&w=640&q=80',
+    hook: '(0-3s • Expressão Surpresa) "Paguei menos de 40 reais nesse fone e a case ainda carrega meu celular se faltar bateria na rua!"',
+    body: '(3-18s • Demonstração de Áudio) "Graves ultra pesados, pareamento instantâneo e display digital marcando a bateria em tempo real. Além de ser à prova de suor."',
+    cta: '(18-25s • Expressão Confiante) "O link com desconto direto do fabricante tá na bio! Aproveita que o frete tá grátis hoje."',
+  },
+];
 
 interface SampleVideo {
   id: string;
@@ -79,6 +187,8 @@ export default function VideoCharacterSwapStudio({ avatar }: VideoCharacterSwapS
   const { updateAvatar } = useAvatarStore();
   const [selectedVideo, setSelectedVideo] = useState<SampleVideo>(SAMPLE_VIDEOS[0]);
   const [customVideoUrl, setCustomVideoUrl] = useState('');
+  const [sourceMode, setSourceMode] = useState<'products' | 'samples' | 'url'>('products');
+  const [selectedProduct, setSelectedProduct] = useState<MinedProduct | null>(MINED_FINDERS_PRODUCTS[0]);
   const [jutsuMode, setJutsuMode] = useState<JutsuMode>('full_swap');
   const [computeBackend, setComputeBackend] = useState<ComputeBackend>('modal_h100');
   
@@ -94,6 +204,51 @@ export default function VideoCharacterSwapStudio({ avatar }: VideoCharacterSwapS
   const [renderStep, setRenderStep] = useState<string>('');
   const [completedVideo, setCompletedVideo] = useState<boolean>(false);
   const [activePreviewMode, setActivePreviewMode] = useState<'result' | 'split'>('result');
+
+  // Seleção de Produto Minerado do V5 Finders
+  const handleSelectProduct = (prod: MinedProduct) => {
+    setSelectedProduct(prod);
+    const virtualVideo: SampleVideo = {
+      id: prod.id,
+      title: prod.name,
+      duration: prod.duration,
+      category: `${prod.platform} • ${prod.category}`,
+      sourcePreviewUrl: prod.sourcePreviewUrl,
+      description: `Criativo UGC focado em conversão para ${prod.name} (${prod.price}) com comissão estimada de ${prod.commission}.`,
+    };
+    setSelectedVideo(virtualVideo);
+
+    // Pré-carrega o roteiro viral em 3 atos para o produto
+    const script: ViralScriptItem = {
+      id: `script_${prod.id}`,
+      title: `UGC: ${prod.name}`,
+      hook: prod.hook,
+      body: prod.body,
+      cta: prod.cta,
+      targetDuration: prod.duration,
+      niche: avatar.soul.niche,
+    };
+    setGeneratedScript(script);
+    setScriptTopic(prod.name);
+
+    toast.success(
+      'Produto Vinculado!',
+      `${prod.name} selecionado. Roteiro de alta conversão pré-carregado para ${avatar.name}!`
+    );
+  };
+
+  // Testar gancho do produto em voz alta
+  const handleTestHookVoice = (hookText: string) => {
+    if (typeof window === 'undefined' || !('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel();
+    const cleanText = hookText.replace(/\([^)]*\)/g, '').replace(/"/g, '').trim();
+    const utterance = new SpeechSynthesisUtterance(cleanText);
+    utterance.lang = 'pt-BR';
+    utterance.rate = avatar.voice.speed || 1.0;
+    utterance.pitch = (avatar.voice.pitch || 0) * 0.1 + 1.0;
+    window.speechSynthesis.speak(utterance);
+    toast.info('Voz UGC', `Sintetizando gancho de vendas com a voz de ${avatar.name}`);
+  };
 
   // Gerador de Roteiro Viral
   const [showScriptGenerator, setShowScriptGenerator] = useState(false);
@@ -272,71 +427,180 @@ export default function VideoCharacterSwapStudio({ avatar }: VideoCharacterSwapS
         {/* COLUNA ESQUERDA: CONFIGURAÇÕES E VÍDEO BASE (5 Colunas) */}
         <div className="lg:col-span-5 space-y-5">
           
-          {/* Passo 1: Seleção do Vídeo Base */}
+          {/* Passo 1: Seleção do Vídeo Base & Produtos Minerados */}
           <div className="p-4 rounded-2xl bg-slate-900/60 border border-white/10 space-y-3">
             <div className="flex items-center justify-between">
               <label className="text-xs font-bold font-mono text-slate-200 flex items-center gap-1.5 uppercase tracking-wider">
                 <Film className="w-4 h-4 text-cyber-cyan" />
-                1. Vídeo de Referência (Fonte de Movimento)
+                1. Referência ou Produto Minerado (V5 Finders)
               </label>
               <span className="text-[10px] font-mono text-slate-400">MP4 / Reels / TikTok</span>
             </div>
 
-            {/* Modelos Demonstrativos Pré-carregados */}
-            <div className="grid grid-cols-1 gap-2">
-              {SAMPLE_VIDEOS.map((sample) => (
-                <button
-                  key={sample.id}
-                  onClick={() => setSelectedVideo(sample)}
-                  className={`p-2.5 rounded-xl border text-left transition-all flex items-center gap-3 ${
-                    selectedVideo.id === sample.id
-                      ? 'bg-purple-950/40 border-purple-500 shadow-md ring-1 ring-purple-500/30'
-                      : 'bg-white/5 border-white/10 hover:bg-white/10'
-                  }`}
-                >
-                  <img
-                    src={sample.sourcePreviewUrl}
-                    alt={sample.title}
-                    className="w-12 h-12 rounded-lg object-cover border border-white/10 flex-shrink-0"
-                  />
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs font-bold text-white truncate">{sample.title}</span>
-                      <span className="text-[10px] font-mono text-purple-300 bg-purple-500/10 px-1.5 py-0.5 rounded">
-                        {sample.duration}
-                      </span>
-                    </div>
-                    <p className="text-[11px] text-slate-400 truncate">{sample.description}</p>
-                  </div>
-                </button>
-              ))}
+            {/* Abas do Passo 1 */}
+            <div className="grid grid-cols-3 gap-1 bg-obsidian-950 p-1 rounded-xl border border-white/5 text-[11px] font-mono">
+              <button
+                onClick={() => setSourceMode('products')}
+                className={`py-1.5 px-2 rounded-lg flex items-center justify-center gap-1 transition-all ${
+                  sourceMode === 'products'
+                    ? 'bg-cyber-cyan text-obsidian-950 font-bold shadow-sm'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                <ShoppingBag className="w-3 h-3" />
+                <span>Achadinhos</span>
+              </button>
+              <button
+                onClick={() => setSourceMode('samples')}
+                className={`py-1.5 px-2 rounded-lg flex items-center justify-center gap-1 transition-all ${
+                  sourceMode === 'samples'
+                    ? 'bg-purple-600 text-white font-bold shadow-sm'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                <Film className="w-3 h-3" />
+                <span>Vídeos Base</span>
+              </button>
+              <button
+                onClick={() => setSourceMode('url')}
+                className={`py-1.5 px-2 rounded-lg flex items-center justify-center gap-1 transition-all ${
+                  sourceMode === 'url'
+                    ? 'bg-white/20 text-white font-bold shadow-sm'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                <ExternalLink className="w-3 h-3" />
+                <span>Link URL</span>
+              </button>
             </div>
 
-            {/* Input para URL Externa ou Upload */}
-            <div className="pt-2 border-t border-white/5 space-y-2">
-              <label className="text-[11px] text-slate-400 font-mono">Ou cole o link de um Reel / TikTok:</label>
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  placeholder="https://www.instagram.com/reel/..."
-                  value={customVideoUrl}
-                  onChange={(e) => setCustomVideoUrl(e.target.value)}
-                  className="flex-1 px-3 py-1.5 rounded-xl bg-obsidian-950 border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-400 font-mono"
-                />
-                <button
-                  onClick={() => {
-                    if (!customVideoUrl) {
-                      toast.warning('Link Vazio', 'Cole o link de um vídeo do Instagram ou TikTok.');
-                      return;
-                    }
-                    toast.success('Vídeo Ingestado', 'Vídeo do Instagram mapeado com sucesso para o pipeline!');
-                  }}
-                  className="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-mono font-bold text-white transition-all"
-                >
-                  Carregar
-                </button>
+            {/* Visualização de Produtos Minerados (V5 Finders) */}
+            {sourceMode === 'products' && (
+              <div className="space-y-2 max-h-[310px] overflow-y-auto pr-1">
+                {MINED_FINDERS_PRODUCTS.map((prod) => {
+                  const isSelected = selectedProduct?.id === prod.id;
+                  return (
+                    <div
+                      key={prod.id}
+                      onClick={() => handleSelectProduct(prod)}
+                      className={`p-2.5 rounded-xl border cursor-pointer transition-all flex items-start gap-2.5 ${
+                        isSelected
+                          ? 'bg-cyan-950/40 border-cyber-cyan shadow-md ring-1 ring-cyber-cyan/30'
+                          : 'bg-white/5 border-white/10 hover:bg-white/10'
+                      }`}
+                    >
+                      <img
+                        src={prod.sourcePreviewUrl}
+                        alt={prod.name}
+                        className="w-12 h-12 rounded-lg object-cover border border-white/10 flex-shrink-0 mt-0.5"
+                      />
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center justify-between gap-1">
+                          <span className="text-xs font-bold text-white truncate">{prod.name}</span>
+                          <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded shrink-0 font-bold">
+                            {prod.price}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2 text-[10px] font-mono text-slate-400 mt-1">
+                          <span className="text-cyber-cyan">{prod.platform}</span>
+                          <span>•</span>
+                          <span className="text-purple-300">Comis: {prod.commission}</span>
+                          <span>•</span>
+                          <span className="text-amber-400 flex items-center gap-0.5">
+                            <Flame className="w-2.5 h-2.5" />
+                            {prod.viralityScore}%
+                          </span>
+                        </div>
+                        {isSelected && (
+                          <div className="mt-2 pt-2 border-t border-white/10 flex items-center justify-between">
+                            <span className="text-[10px] font-mono text-slate-300 italic truncate max-w-[190px]">
+                              "{prod.hook.slice(0, 38)}..."
+                            </span>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleTestHookVoice(prod.hook);
+                              }}
+                              className="px-2 py-0.5 rounded bg-cyber-cyan/20 hover:bg-cyber-cyan/30 text-cyber-cyan text-[10px] font-mono font-bold flex items-center gap-1"
+                            >
+                              <Volume2 className="w-3 h-3" />
+                              <span>Ouvir</span>
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
-            </div>
+            )}
+
+            {/* Modelos Demonstrativos Pré-carregados */}
+            {sourceMode === 'samples' && (
+              <div className="grid grid-cols-1 gap-2 max-h-[310px] overflow-y-auto pr-1">
+                {SAMPLE_VIDEOS.map((sample) => (
+                  <button
+                    key={sample.id}
+                    onClick={() => {
+                      setSelectedVideo(sample);
+                      setSelectedProduct(null);
+                    }}
+                    className={`p-2.5 rounded-xl border text-left transition-all flex items-center gap-3 ${
+                      selectedVideo.id === sample.id && !selectedProduct
+                        ? 'bg-purple-950/40 border-purple-500 shadow-md ring-1 ring-purple-500/30'
+                        : 'bg-white/5 border-white/10 hover:bg-white/10'
+                    }`}
+                  >
+                    <img
+                      src={sample.sourcePreviewUrl}
+                      alt={sample.title}
+                      className="w-12 h-12 rounded-lg object-cover border border-white/10 flex-shrink-0"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between">
+                        <span className="text-xs font-bold text-white truncate">{sample.title}</span>
+                        <span className="text-[10px] font-mono text-purple-300 bg-purple-500/10 px-1.5 py-0.5 rounded">
+                          {sample.duration}
+                        </span>
+                      </div>
+                      <p className="text-[11px] text-slate-400 truncate">{sample.description}</p>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {/* Input para URL Externa ou Upload */}
+            {sourceMode === 'url' && (
+              <div className="space-y-3 py-2">
+                <label className="text-[11px] text-slate-400 font-mono">Cole o link direto do Instagram Reel ou TikTok:</label>
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    placeholder="https://www.instagram.com/reel/..."
+                    value={customVideoUrl}
+                    onChange={(e) => setCustomVideoUrl(e.target.value)}
+                    className="flex-1 px-3 py-2 rounded-xl bg-obsidian-950 border border-white/10 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-purple-400 font-mono"
+                  />
+                  <button
+                    onClick={() => {
+                      if (!customVideoUrl) {
+                        toast.warning('Link Vazio', 'Cole o link de um vídeo do Instagram ou TikTok.');
+                        return;
+                      }
+                      setSelectedProduct(null);
+                      toast.success('Vídeo Ingestado', 'Vídeo externo mapeado com sucesso para o pipeline!');
+                    }}
+                    className="px-3.5 py-2 rounded-xl bg-purple-600 hover:bg-purple-500 text-xs font-mono font-bold text-white transition-all shadow-md"
+                  >
+                    Ingestar
+                  </button>
+                </div>
+                <p className="text-[11px] text-slate-400">
+                  O OpenJutsu faz o download automático, rastreamento corporal de 60fps e substituição facial.
+                </p>
+              </div>
+            )}
           </div>
 
           {/* Passo 2: Seletor de Modo Jutsu */}
@@ -613,9 +877,17 @@ export default function VideoCharacterSwapStudio({ avatar }: VideoCharacterSwapS
                     className="w-full h-full object-cover opacity-80"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-obsidian-950 via-obsidian-950/30 to-transparent flex flex-col justify-between p-4">
-                    <span className="self-start text-[10px] font-mono bg-black/60 backdrop-blur-sm px-2 py-1 rounded text-slate-300 border border-white/10">
-                      Vídeo de Referência Selecionado
-                    </span>
+                    <div className="flex items-center justify-between w-full">
+                      <span className="text-[10px] font-mono bg-black/75 backdrop-blur-sm px-2.5 py-1 rounded-full text-cyber-cyan border border-cyber-cyan/30 flex items-center gap-1.5 font-bold">
+                        <ShoppingBag className="w-3 h-3 text-cyber-cyan" />
+                        {selectedProduct ? `UGC Achadinho • ${selectedProduct.platform}` : 'Vídeo de Referência'}
+                      </span>
+                      {selectedProduct && (
+                        <span className="text-[10px] font-mono bg-emerald-950/80 backdrop-blur-sm px-2 py-0.5 rounded-full text-emerald-400 border border-emerald-500/40 font-bold">
+                          {selectedProduct.price} • Comis: {selectedProduct.commission}
+                        </span>
+                      )}
+                    </div>
                     <div className="space-y-1">
                       <h5 className="text-sm font-bold text-white">{selectedVideo.title}</h5>
                       <p className="text-xs text-slate-300">{selectedVideo.description}</p>

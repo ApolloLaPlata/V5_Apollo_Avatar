@@ -262,3 +262,26 @@ pm run build com Exit Code 0).
     - Next.js 14 Build: 13/13 rotas compiladas (`npm run build` com Exit Code 0).
     - Playwright QA: 0 erros e 0 warnings no console em `http://localhost:3010`.
     - Servidor de produção ativo e respondendo na porta local :3010.
+
+
+---
+
+## 12. MODO VIVO DE ANIMAÇÃO NO PALCO (IDLE & VISEMAS) & INTEGRAÇÃO DE PRODUTOS MINERADOS (05/11/2026)
+- **Implementações Realizadas:**
+  - **Modo Vivo no Palco do Avatar (`src/app/page.tsx` & `globals.css`):**
+    - Controle toggleable `isLiveIdle` no canto superior do palco com indicador luminoso e estado em tempo real.
+    - Animação torácica suave de respiração biológica contínua (`.animate-avatar-breathe`).
+    - Ciclo estocástico orgânico de piscada de olhos (`isBlinking`) acionado a cada 4.2 segundos com transição sutil de luminosidade e overlay palpebral (150ms).
+    - Efeito de visema dinâmico labial (`.animate-viseme-pulse`) com aura de pulsação sonora disparada automaticamente enquanto `isSpeaking` estiver ativo.
+  - **Hub de Produtos Minerados do V5 Finders no Video Character Swap (`VideoCharacterSwapStudio.tsx`):**
+    - Cumprimento rigoroso da **Lei 2 do Kernel** (Fines minera produtos; V5 Avatar provê os atores virtuais para anúncios UGC).
+    - Seletor por abas no Passo 1: **Achadinhos (V5 Finders)**, **Vídeos Base** e **Link URL**.
+    - Catálogo curado de 6 achadinhos de alta conversão: Mini Seladora Térmica USB (Shopee), Escova Secadora 3em1 Cerâmica (TikTok Shop), Projetor 4K Magcubic (AliExpress), Luminária Sunset RGB (Shopee), Mini Processador USB (Shopee) e Fone Bluetooth Powerbank (TikTok Shop).
+    - Cartões informativos com preço de venda, estimativa de comissão (ex: 14% R$ 2,64) e índice de viralidade (94% a 99%).
+    - Carregamento automático de roteiro viral em 3 atos (Gancho, Demonstração, CTA) e botão de áudio imediato para ouvir o gancho com a voz do avatar.
+    - Badge dinâmico no HUD de prévia do vídeo indicando o produto e plataforma afiliada.
+  - **Homologação:**
+    - TypeScript Strict: 100% verificado (`npx tsc --noEmit` com Exit Code 0).
+    - Next.js 14 Build: 13/13 rotas compiladas com sucesso (`npm run build` com Exit Code 0).
+    - Playwright QA: 0 erros e 0 warnings no console do navegador em `http://localhost:3010`.
+    - Servidor em produção ativo na porta :3010.
