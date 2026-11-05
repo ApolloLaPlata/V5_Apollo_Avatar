@@ -147,6 +147,7 @@ export default function AvatarHubPage() {
   const [customSpeechText, setCustomSpeechText] = useState<string>('');
   const [showCustomSpeechInput, setShowCustomSpeechInput] = useState<boolean>(false);
   const [isLiveIdle, setIsLiveIdle] = useState<boolean>(true);
+  const [exportSubTab, setExportSubTab] = useState<'quick' | 'sheet' | 'dna_pack'>('quick');
   const [isBlinking, setIsBlinking] = useState<boolean>(false);
 
   // Micro-movimentos orgânicos e piscada estocástica no Modo Vivo
@@ -879,6 +880,45 @@ export default function AvatarHubPage() {
                         />
                       </div>
                     </div>
+
+                    {/* Visualizador Turnaround 360° em Miniatura */}
+                    <div className="pt-3 border-t border-white/10 space-y-2">
+                      <div className="flex items-center justify-between text-xs font-mono">
+                        <span className="text-slate-300 font-bold uppercase tracking-wider flex items-center gap-1.5">
+                          <ScanEye className="w-3.5 h-3.5 text-cyber-cyan" />
+                          Folha de Rotação 360° ({selectedAvatar.name})
+                        </span>
+                        <span className="text-purple-300 text-[10px] font-mono">Laser Eye-Level OK</span>
+                      </div>
+
+                      <div className="grid grid-cols-4 gap-2">
+                        {[
+                          { id: 'front', label: '0° Frente', img: selectedAvatar.face?.primaryAnchorImage || selectedAvatar.face?.referenceImages?.[0] || selectedAvatar.avatarUrl },
+                          { id: 'threeQuarter', label: '45° 3/4', img: selectedAvatar.face?.referenceImages?.[1] || selectedAvatar.face?.turnaroundSheetUrl || selectedAvatar.avatarUrl },
+                          { id: 'profile', label: '90° Perfil', img: selectedAvatar.face?.referenceImages?.[2] || selectedAvatar.face?.tPoseSheetUrl || selectedAvatar.avatarUrl },
+                          { id: 'back', label: '180° Costas', img: selectedAvatar.face?.referenceImages?.[3] || selectedAvatar.face?.aPoseSheetUrl || selectedAvatar.avatarUrl },
+                        ].map((ang) => (
+                          <div
+                            key={ang.id}
+                            onClick={() => setSelectedAngle(ang.id as any)}
+                            className={`p-1.5 rounded-xl border cursor-pointer transition-all ${
+                              selectedAngle === ang.id
+                                ? 'bg-cyber-cyan/15 border-cyber-cyan shadow-sm ring-1 ring-cyber-cyan/30'
+                                : 'bg-slate-900 border-white/10 hover:border-white/20'
+                            }`}
+                          >
+                            <img
+                              src={ang.img}
+                              alt={ang.label}
+                              className="w-full aspect-square object-cover rounded-lg"
+                            />
+                            <div className="text-[10px] font-mono text-center text-slate-300 mt-1 truncate font-medium">
+                              {ang.label}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}
@@ -980,6 +1020,21 @@ export default function AvatarHubPage() {
                         />
                       </div>
                     </div>
+
+                    {/* Visualizador de Forma de Onda e Análise Acústica */}
+                    <div className="pt-3 border-t border-white/10 space-y-2">
+                      <div className="flex items-center justify-between text-xs font-mono">
+                        <span className="text-slate-300 font-bold uppercase tracking-wider flex items-center gap-1.5">
+                          <Activity className="w-3.5 h-3.5 text-cyber-cyan" />
+                          Espectrograma & Espectro Vocal ({selectedAvatar.voice.engine.toUpperCase()})
+                        </span>
+                        <span className="text-emerald-400 text-[10px] font-mono">Handshake V5 Sound :3008</span>
+                      </div>
+                      <WaveformCanvasViewer
+                        characterName={selectedAvatar.name}
+                        audioUrl={selectedAvatar.voice.sampleAudioUrl || null}
+                      />
+                    </div>
                   </div>
                 </div>
               )}
@@ -1062,62 +1117,159 @@ export default function AvatarHubPage() {
                         className="w-full bg-slate-900 border border-white/10 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-cyber-cyan"
                       />
                     </div>
+
+                    {/* Matriz de Arquétipos Jungianos */}
+                    <div className="pt-3 border-t border-white/10 space-y-2">
+                      <div className="flex items-center justify-between text-xs font-mono">
+                        <span className="text-slate-300 font-bold uppercase tracking-wider flex items-center gap-1.5">
+                          <BrainCircuit className="w-3.5 h-3.5 text-purple-400" />
+                          Arquétipo Jungiano Central:
+                        </span>
+                        <span className="text-cyber-cyan text-[10px] font-bold">
+                          {selectedAvatar.soul.archetype ? selectedAvatar.soul.archetype.toUpperCase() : 'CRIADOR'}
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 text-[11px] font-mono">
+                        {[
+                          { id: 'expert', label: '🧐 O Especialista' },
+                          { id: 'creator', label: '🎨 O Criador' },
+                          { id: 'rebel', label: '⚡ O Rebelde' },
+                          { id: 'magician', label: '✨ O Mago' },
+                          { id: 'ruler', label: '👑 O Governante' },
+                          { id: 'hero', label: '🛡️ O Herói' },
+                          { id: 'everyman', label: '🤝 O Amigo' },
+                          { id: 'sage', label: '📖 O Sábio' },
+                        ].map((arch) => (
+                          <button
+                            key={arch.id}
+                            onClick={() =>
+                              updateAvatar(selectedAvatar.id, {
+                                soul: { ...selectedAvatar.soul, archetype: arch.id as any },
+                              })
+                            }
+                            className={`p-1.5 rounded-lg border text-left truncate transition-all ${
+                              selectedAvatar.soul.archetype === arch.id
+                                ? 'bg-purple-950/60 border-purple-400 text-purple-300 font-bold shadow-sm'
+                                : 'bg-slate-900 border-white/5 text-slate-400 hover:text-white'
+                            }`}
+                          >
+                            {arch.label}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}
 
               {/* CONTEÚDO DA ABA: EXPORTAÇÃO & ECOSSISTEMA */}
-              {/* CONTEUDO DA ABA: EXPORTACAO & ECOSSISTEMA */}
               {activeTab === 'export' && (
                 <div className="glass-card rounded-2xl p-6 border border-white/10 space-y-6 animate-fadeIn">
                   
-
-                  {/* ARQUIVOS LOCAIS & OVERLAY */}
-                  <div className="space-y-3 pt-2 border-t border-white/10">
-                    <div className="text-[11px] font-mono uppercase tracking-wider text-slate-400 font-bold flex items-center gap-1.5">
-                      <Download className="w-3 h-3 text-cyan-400" />
-                      <span>Arquivos Soberanos & Integração Local</span>
+                  {/* Seletor de Sub-Abas de Exportação */}
+                  <div className="flex items-center justify-between border-b border-white/10 pb-4">
+                    <div>
+                      <h3 className="text-base font-bold text-white flex items-center gap-2">
+                        <Layers className="w-4 h-4 text-cyber-cyan" />
+                        Central de Exportação & Dossiê Soberano
+                      </h3>
+                      <p className="text-xs text-slate-400">
+                        Exporte pacotes para o Broadcaster, Prisma, Difusores (Flux/SDXL) ou imprima a ficha executiva.
+                      </p>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                      {/* Card 1: Baixar ZIP .v5avatar */}
-                      <div className="p-4 bg-slate-900/60 border border-white/10 rounded-xl space-y-2.5">
-                        <div className="flex items-center gap-2 text-cyber-cyan font-bold text-sm">
-                          <Download className="w-4 h-4" />
-                          <span>Pacote .v5avatar (ZIP)</span>
-                        </div>
-                        <p className="text-[11px] text-slate-400">
-                          Arquivo binário contendo Face DNA, Voice DNA, prompts e manifestos assinados com SHA-256.
-                        </p>
-                        <button
-                          onClick={handleQuickDownloadZip}
-                          disabled={isExportingZip}
-                          className="w-full py-2 px-3 rounded-lg bg-cyber-cyan hover:bg-cyan-400 text-obsidian-950 font-mono text-xs font-bold transition-all flex items-center justify-center gap-1.5 disabled:opacity-50"
-                        >
-                          <Download className="w-3.5 h-3.5" />
-                          <span>{isExportingZip ? 'Compactando...' : 'Baixar Agora'}</span>
-                        </button>
-                      </div>
-
-                      {/* Card 2: Link do OBS Studio */}
-                      <div className="p-4 bg-slate-900/60 border border-white/10 rounded-xl space-y-2.5">
-                        <div className="flex items-center gap-2 text-cyan-300 font-bold text-sm">
-                          <Radio className="w-4 h-4" />
-                          <span>Overlay para OBS Studio</span>
-                        </div>
-                        <p className="text-[11px] text-slate-400">
-                          URL do browser source com fundo transparente para o V5 Broadcaster (:3008).
-                        </p>
-                        <button
-                          onClick={handleCopyObsUrl}
-                          className="w-full py-2 px-3 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/40 text-cyan-300 font-mono text-xs font-bold transition-all flex items-center justify-center gap-1.5"
-                        >
-                          {copiedObs ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-                          <span>{copiedObs ? 'Copiado!' : 'Copiar URL OBS'}</span>
-                        </button>
-                      </div>
+                    <div className="flex items-center gap-1 bg-obsidian-950 p-1 rounded-xl border border-white/10 text-xs font-mono">
+                      <button
+                        onClick={() => setExportSubTab('quick')}
+                        className={`px-3 py-1.5 rounded-lg transition-all ${
+                          exportSubTab === 'quick'
+                            ? 'bg-cyber-cyan text-obsidian-950 font-bold shadow-sm'
+                            : 'text-slate-400 hover:text-white'
+                        }`}
+                      >
+                        Pacotes & OBS
+                      </button>
+                      <button
+                        onClick={() => setExportSubTab('sheet')}
+                        className={`px-3 py-1.5 rounded-lg transition-all ${
+                          exportSubTab === 'sheet'
+                            ? 'bg-purple-600 text-white font-bold shadow-sm'
+                            : 'text-slate-400 hover:text-white'
+                        }`}
+                      >
+                        Ficha A4 (PDF)
+                      </button>
+                      <button
+                        onClick={() => setExportSubTab('dna_pack')}
+                        className={`px-3 py-1.5 rounded-lg transition-all ${
+                          exportSubTab === 'dna_pack'
+                            ? 'bg-emerald-500 text-obsidian-950 font-bold shadow-sm'
+                            : 'text-slate-400 hover:text-white'
+                        }`}
+                      >
+                        LoRA Face DNA
+                      </button>
                     </div>
                   </div>
+
+                  {/* Sub-Aba 1: Pacotes Soberanos e OBS */}
+                  {exportSubTab === 'quick' && (
+                    <div className="space-y-4 animate-fadeIn">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                        {/* Card 1: Baixar ZIP .v5avatar */}
+                        <div className="p-4 bg-slate-900/60 border border-white/10 rounded-xl space-y-2.5">
+                          <div className="flex items-center gap-2 text-cyber-cyan font-bold text-sm">
+                            <Download className="w-4 h-4" />
+                            <span>Pacote .v5avatar (ZIP Criptografado)</span>
+                          </div>
+                          <p className="text-[11px] text-slate-400">
+                            Arquivo binário canônico contendo Face DNA, Voice DNA, prompts e manifestos assinados com SHA-256.
+                          </p>
+                          <button
+                            onClick={handleQuickDownloadZip}
+                            disabled={isExportingZip}
+                            className="w-full py-2 px-3 rounded-lg bg-cyber-cyan hover:bg-cyan-400 text-obsidian-950 font-mono text-xs font-bold transition-all flex items-center justify-center gap-1.5 disabled:opacity-50"
+                          >
+                            <Download className="w-3.5 h-3.5" />
+                            <span>{isExportingZip ? 'Compactando...' : 'Baixar .v5avatar'}</span>
+                          </button>
+                        </div>
+
+                        {/* Card 2: Link do OBS Studio */}
+                        <div className="p-4 bg-slate-900/60 border border-white/10 rounded-xl space-y-2.5">
+                          <div className="flex items-center gap-2 text-cyan-300 font-bold text-sm">
+                            <Radio className="w-4 h-4" />
+                            <span>Overlay para OBS Studio (Fundo Alpha)</span>
+                          </div>
+                          <p className="text-[11px] text-slate-400">
+                            URL do browser source com fundo transparente a 60 FPS para o V5 Broadcaster (:3008).
+                          </p>
+                          <button
+                            onClick={handleCopyObsUrl}
+                            className="w-full py-2 px-3 rounded-lg bg-cyan-500/20 hover:bg-cyan-500/30 border border-cyan-500/40 text-cyan-300 font-mono text-xs font-bold transition-all flex items-center justify-center gap-1.5"
+                          >
+                            {copiedObs ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
+                            <span>{copiedObs ? 'Copiado!' : 'Copiar URL OBS'}</span>
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Sub-Aba 2: Ficha Técnica Executiva A4 / Impressão */}
+                  {exportSubTab === 'sheet' && (
+                    <div className="animate-fadeIn">
+                      <CharacterSheetPrintPanel avatarId={selectedAvatar.id} avatarName={selectedAvatar.name} />
+                    </div>
+                  )}
+
+                  {/* Sub-Aba 3: Pacote LoRA Face DNA para Difusores */}
+                  {exportSubTab === 'dna_pack' && (
+                    <div className="animate-fadeIn">
+                      <FaceDnaPackExporterPanel avatarId={selectedAvatar.id} avatarName={selectedAvatar.name} />
+                    </div>
+                  )}
+
                 </div>
               )}
 
