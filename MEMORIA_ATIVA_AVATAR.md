@@ -180,3 +180,13 @@ pm run build com Exit Code 0).
     3. **Motion Retargeting (MiniMax H3 / Wan 2.1):** Animação a partir da pose do vídeo de referência.
   - Backends de computação: Nuvem Modal H100 SXM5 (zero custo de hardware local) vs ComfyUI Local.
   - Exportação direta com 1 clique para o **Apollo Studio** (inbox dos 7 canais de vídeo).
+
+---
+
+## 8. BACKEND API DE VÍDEO SWAP & ALTERNADOR 360° DINÂMICO (04/11/2026)
+- **Commit 9c6c9d6:**
+  - Criação da rota oficial \src/app/api/avatar/video-swap/route.ts\ com endpoints POST (despacho de job) e GET (polling de telemetria/status).
+  - Implementado alternador de câmera instantâneo no palco principal do estúdio: clicar em **Frente**, **3/4**, **Perfil** ou **Costas** altera a imagem do avatar em tempo real com animação fluida e badge de grau correspondente (0°, 45°, 90°, 180°).
+  - Atualização dos perfis canônicos em \src/store/useAvatarStore.ts\ com as folhas completas de referência multi-ângulo.
+  - Compilação limpa em 12/12 rotas estáticas e dinâmicas (
+pm run build com Exit Code 0).
