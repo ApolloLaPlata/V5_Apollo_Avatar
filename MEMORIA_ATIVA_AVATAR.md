@@ -240,3 +240,25 @@ pm run build com Exit Code 0).
     - Next.js 14 Build: 13/13 rotas geradas (Exit Code 0).
     - Playwright Browser QA: 0 erros e 0 warnings no console.
     - Servidor em produção ativo na porta :3010.
+
+
+---
+
+## 11. GESTOR DE CANAIS VINCULADOS & CÉREBRO CONVERSACIONAL (CHAT INTERATIVO) (04/11/2026)
+- **Commit be6f39c:**
+  - **Modal de Configuração de Canais Soberanos (`ChannelBindingModal.tsx`):**
+    - Interface dedicada para vincular e editar as informações de canal de cada personagem.
+    - Suporte a 6 tipos de canais da Holding: Instagram Creator, Dark YouTube, TikTok UGC, Rádio 24h/Live, Educacional e VSL/Vendas.
+    - Edição de nome do canal, handle (@), pilar de conteúdo, público-alvo e frequência de postagem (Diária, Semanal, 24/7).
+    - Botão direto no banner de canal do workbench para configuração rápida.
+  - **Cérebro Conversacional do Avatar (`AvatarInteractiveChatModal.tsx`):**
+    - Cumprimento integral do 4º Pilar do Kernel: **Interactive Channel**.
+    - Chat interativo em tempo real respeitando 100% o Soul DNA, arquétipo, biografia, bordões e diretrizes éticas do avatar.
+    - Síntese de voz automática (TTS) sincronizada: o avatar fala suas respostas em voz alta usando a velocidade e o pitch calibrados do Voice DNA.
+    - Sugestões de perguntas rápidas contextuais ao nicho do personagem.
+    - Controle de áudio (mutar/ativar som), botão de reiniciar conversa e cópia rápida de mensagens.
+  - **Homologação:**
+    - TypeScript Strict: 100% verificado (`npx tsc --noEmit` com Exit Code 0).
+    - Next.js 14 Build: 13/13 rotas compiladas (`npm run build` com Exit Code 0).
+    - Playwright QA: 0 erros e 0 warnings no console em `http://localhost:3010`.
+    - Servidor de produção ativo e respondendo na porta local :3010.
