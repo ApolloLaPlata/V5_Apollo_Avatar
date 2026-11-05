@@ -163,3 +163,20 @@ Nele, criadores, marcas e agências armazenam, gerenciam e refinam todos os seus
 2. **Personalização Sem Ruído:** Apenas 4 abas práticas (Aparência, Voz, Personalidade e Exportação/Conexões).
 3. **Multi-Modelos no Backend:** Seleção transparente de motores de geração visual (Flux.1, SDXL, ComfyUI local) e vocal (Qwen-TTS, XTTS-v2, CosyVoice).
 4. **Laboratório Avançado Oculto:** As 70+ ferramentas técnicas, benchmarks e medidores de orquestração continuam ativas no código, mas recolhidas no rodapé sob demanda para não poluir a criação.
+
+---
+
+## 7. INTEGRAÇÃO JUTSU: VIDEO CHARACTER SWAP ENGINE (04/11/2026)
+- **Commit a3b620b:**
+  - Criação do estúdio \src/components/avatar/VideoCharacterSwapStudio.tsx\ (OpenJutsu Protocol).
+  - Implementada a 5ª aba principal do estúdio: **Video Swap (Jutsu)**.
+  - Eliminação de dependência frágil do Edge Runtime em \opengraph-image.tsx\ com @vercel/og que causava falhas no Windows.
+  - Compilação Next.js 14.2.35 limpa em 100% das 11 rotas (
+pm run build com Exit Code 0).
+  - Verificação de UI ponta a ponta via Playwright: 0 erros e 0 warnings no console.
+  - Modos de operação integrados:
+    1. **Full Character Replacement (OpenJutsu):** Troca completa do corpo e rosto com SAM 3.1.
+    2. **Face Swap & Relighting (FLUX Klein + InsightFace):** Troca de rosto e iluminação harmônica.
+    3. **Motion Retargeting (MiniMax H3 / Wan 2.1):** Animação a partir da pose do vídeo de referência.
+  - Backends de computação: Nuvem Modal H100 SXM5 (zero custo de hardware local) vs ComfyUI Local.
+  - Exportação direta com 1 clique para o **Apollo Studio** (inbox dos 7 canais de vídeo).
