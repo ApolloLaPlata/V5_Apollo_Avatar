@@ -19,7 +19,7 @@ export default function V5AppActivationBanner() {
                 </span>
               </span>
               <span className="text-[11px] font-mono text-emerald-400 font-semibold flex items-center gap-1">
-                <ShieldCheck className="w-3.5 h-3.5" /> Porta :3010
+                <ShieldCheck className="w-3.5 h-3.5" /> TLSv1.3 Seguro
               </span>
             </div>
             <p className="text-xs text-slate-400">

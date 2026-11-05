@@ -277,6 +277,8 @@ export interface InteractiveChannel {
   lastSyncTimestamp?: string;
 }
 
+export type Avatar = AvatarProfile;
+
 export interface AvatarProfile {
   id: string;
   name: string;

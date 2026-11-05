@@ -25,7 +25,7 @@ export async function GET() {
       status: 'healthy',
       app: 'V5 Apollo Avatar',
       domain: 'avatar.v5apollo.com',
-      port: ':3010',
+      port: process.env.PORT ? `:${process.env.PORT}` : ':443',
       timestamp: new Date().toISOString(),
       uptime,
       memoryUsage,

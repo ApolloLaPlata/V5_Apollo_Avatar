@@ -43,7 +43,8 @@ export default function ObsTransparentOverlayPanel({
   const [copiedUrl, setCopiedUrl] = useState(false);
   const [copiedCss, setCopiedCss] = useState(false);
 
-  const overlayUrl = `http://localhost:3010/live/overlay?avatarId=${targetId}&fps=${targetFps}&mode=${overlayMode}&glow=true`;
+  const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://avatar.v5apollo.com';
+  const overlayUrl = `${baseUrl}/live/overlay?avatarId=${targetId}&fps=${targetFps}&mode=${overlayMode}&glow=true`;
 
   const obsCustomCss = `body {
   background-color: rgba(0, 0, 0, 0);

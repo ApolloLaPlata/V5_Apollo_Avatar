@@ -72,7 +72,8 @@ export default function BroadcasterWebhookPanel({
     msg: 'Aguardando verificação',
   });
 
-  const webhookUrl = 'http://localhost:3010/api/webhook/broadcaster';
+  const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://avatar.v5apollo.com';
+  const webhookUrl = `${baseUrl}/api/webhook/broadcaster`;
   const liveToken =
     currentAvatar?.channel?.broadcasterLiveToken ||
     `v5b_live_${targetId.replace('avatar-', '')}_8849`;

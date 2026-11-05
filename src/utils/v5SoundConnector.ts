@@ -77,7 +77,7 @@ export function generateSpeakerEmbeddingHash(voiceId: string): string {
  */
 export async function testV5SoundHandshake(
   voiceId: string,
-  serverUrl: string = 'http://localhost:3008'
+  serverUrl: string = typeof process !== 'undefined' && process.env?.NODE_ENV === 'production' ? 'https://broadcaster.v5apollo.com' : 'http://localhost:3008'
 ): Promise<V5SoundHandshakeResult> {
   const start = performance.now();
 

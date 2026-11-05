@@ -36,7 +36,10 @@ import {
   Send,
   Volume2,
   Palette,
+  Film,
 } from 'lucide-react';
+
+import VideoCharacterSwapStudio from '@/components/avatar/VideoCharacterSwapStudio';
 
 // Import dos painéis do Laboratório Técnico (acessíveis no Modo Engenheiro)
 import { CharacterCreator } from '@/components/avatar/CharacterCreator';
@@ -115,7 +118,7 @@ import SecurityAuditPanel from '@/components/avatar/SecurityAuditPanel';
 import MilestoneVersion100Banner from '@/components/avatar/MilestoneVersion100Banner';
 import CentralCharacterManagementDashboard from '@/components/avatar/CentralCharacterManagementDashboard';
 
-type StudioTab = 'face' | 'voice' | 'soul' | 'export';
+type StudioTab = 'face' | 'voice' | 'soul' | 'jutsu' | 'export';
 
 export default function AvatarHubPage() {
   const { avatars, selectedAvatarId, selectAvatar, updateAvatar, resetToDefaults } = useAvatarStore();
@@ -189,16 +192,18 @@ export default function AvatarHubPage() {
     if (!selectedAvatar) return;
     const catchphrase = selectedAvatar.soul.catchphrases?.[0] || 'Novo conteúdo da holding no ar!';
     const title = `${selectedAvatar.name}: ${selectedAvatar.tagline}`;
-    const url = `http://localhost:3011/?title=${encodeURIComponent(title)}&content=${encodeURIComponent(catchphrase)}&actor=${encodeURIComponent(selectedAvatar.name)}`;
+    const posterBase = typeof window !== 'undefined' && window.location.hostname.includes('v5apollo.com') ? 'https://huntera.com.br' : (process.env.NEXT_PUBLIC_POSTER_URL || 'https://huntera.com.br');
+    const url = `${posterBase}/?title=${encodeURIComponent(title)}&content=${encodeURIComponent(catchphrase)}&actor=${encodeURIComponent(selectedAvatar.name)}`;
     window.open(url, '_blank');
-    toast.success('Ponte Ativada', `Enviando ${selectedAvatar.name} para o V5 Poster (:3011)`);
+    toast.success('Ponte Ativada', `Enviando ${selectedAvatar.name} para o V5 Poster`);
   };
 
   const handleDispatchToBroadcaster = () => {
     if (!selectedAvatar) return;
-    const url = `http://localhost:3008/dashboard/studio?avatarId=${encodeURIComponent(selectedAvatar.id)}&avatarName=${encodeURIComponent(selectedAvatar.name)}`;
+    const broadcasterBase = typeof window !== 'undefined' && window.location.hostname.includes('v5apollo.com') ? 'https://broadcaster.v5apollo.com' : (process.env.NEXT_PUBLIC_BROADCASTER_URL || 'https://broadcaster.v5apollo.com');
+    const url = `${broadcasterBase}/dashboard/studio?avatarId=${encodeURIComponent(selectedAvatar.id)}&avatarName=${encodeURIComponent(selectedAvatar.name)}`;
     window.open(url, '_blank');
-    toast.success('Ponte Ativada', `Acoplando ${selectedAvatar.name} no V5 Broadcaster (:3008)`);
+    toast.success('Ponte Ativada', `Acoplando ${selectedAvatar.name} no V5 Broadcaster`);
   };
 
   const handleDispatchToSound = () => {
@@ -447,6 +452,17 @@ export default function AvatarHubPage() {
                 >
                   <BrainCircuit className="w-4 h-4" />
                   <span>Personalidade</span>
+                </button>
+                <button
+                  onClick={() => setActiveTab('jutsu')}
+                  className={`flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-xl text-xs font-medium transition-all ${
+                    activeTab === 'jutsu'
+                      ? 'bg-purple-600 text-white font-bold shadow-md ring-1 ring-purple-400'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  <Film className="w-4 h-4 text-purple-300" />
+                  <span>Video Swap (Jutsu)</span>
                 </button>
                 <button
                   onClick={() => setActiveTab('export')}
@@ -784,6 +800,13 @@ export default function AvatarHubPage() {
                       </div>
                     </div>
                   </div>
+                </div>
+              )}
+
+              {/* CONTEÚDO DA ABA: VIDEO SWAP (JUTSU) */}
+              {activeTab === 'jutsu' && (
+                <div className="glass-card rounded-2xl p-6 border border-white/10 space-y-6 animate-fadeIn">
+                  <VideoCharacterSwapStudio avatar={selectedAvatar} />
                 </div>
               )}
             </div>
