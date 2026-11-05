@@ -279,6 +279,26 @@ export interface InteractiveChannel {
 
 export type Avatar = AvatarProfile;
 
+export interface VideoRenderItem {
+  id: string;
+  title: string;
+  createdAt: string;
+  duration: string;
+  mode: 'full_swap' | 'face_relight' | 'motion_retarget';
+  previewUrl: string;
+  videoUrl: string;
+}
+
+export interface ViralScriptItem {
+  id: string;
+  title: string;
+  hook: string;
+  body: string;
+  cta: string;
+  targetDuration: string;
+  niche: string;
+}
+
 export interface AvatarProfile {
   id: string;
   name: string;
@@ -300,6 +320,8 @@ export interface AvatarProfile {
     edit: boolean;
     finders: boolean;
   };
+  videoRenders?: VideoRenderItem[];
+  scripts?: ViralScriptItem[];
 }
 
 export interface ArchetypePreset {
