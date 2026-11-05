@@ -43,6 +43,8 @@ import VideoCharacterSwapStudio from '@/components/avatar/VideoCharacterSwapStud
 import CustomAngleUploadModal from '@/components/avatar/CustomAngleUploadModal';
 import MultiModelGenerateModal from '@/components/avatar/MultiModelGenerateModal';
 import ContentPipelineStudio from '@/components/avatar/ContentPipelineStudio';
+import ChannelBindingModal from '@/components/avatar/ChannelBindingModal';
+import AvatarInteractiveChatModal from '@/components/avatar/AvatarInteractiveChatModal';
 import { Calendar } from 'lucide-react';
 import { Camera, Tv, MessageSquare } from 'lucide-react';
 
@@ -137,6 +139,8 @@ export default function AvatarHubPage() {
   const [advancedCategory, setAdvancedCategory] = useState<string>('all');
   const [isUploadAngleModalOpen, setIsUploadAngleModalOpen] = useState(false);
   const [isGenerateModalOpen, setIsGenerateModalOpen] = useState(false);
+  const [isChannelModalOpen, setIsChannelModalOpen] = useState(false);
+  const [isChatModalOpen, setIsChatModalOpen] = useState(false);
   const [channelFilter, setChannelFilter] = useState<'all' | 'instagram_creator' | 'dark_youtube' | 'tiktok_ugc'>('all');
   const [activeExpression, setActiveExpression] = useState<'neutral' | 'smile' | 'sales' | 'serious' | 'surprised'>('neutral');
   const [currentSpokenText, setCurrentSpokenText] = useState<string>('');
@@ -406,6 +410,14 @@ export default function AvatarHubPage() {
                     </div>
                     <div className="text-[10px] text-slate-400">Frequência</div>
                   </div>
+                  <div className="h-6 w-px bg-white/10" />
+                  <button
+                    onClick={() => setIsChannelModalOpen(true)}
+                    className="px-3 py-1.5 rounded-xl bg-purple-500/20 hover:bg-purple-500/30 border border-purple-500/40 text-purple-300 font-mono text-xs font-bold transition-all flex items-center gap-1.5"
+                  >
+                    <Tv className="w-3.5 h-3.5" />
+                    <span>Configurar Canal</span>
+                  </button>
                 </div>
               </div>
             )}
@@ -582,26 +594,34 @@ export default function AvatarHubPage() {
                     <span>✨ Gerar com IA (Multi-Model Hub)</span>
                   </button>
 
-                  <div className="grid grid-cols-2 gap-2">
+                  <div className="grid grid-cols-3 gap-2">
                     <button
                       onClick={() => handleTestVoice()}
-                      className={`py-2 px-3 rounded-xl border text-xs font-mono font-bold flex items-center justify-center gap-1.5 transition-all ${
+                      className={`py-2 px-2.5 rounded-xl border text-xs font-mono font-bold flex items-center justify-center gap-1.5 transition-all ${
                         isSpeaking
                           ? 'bg-rose-500/20 border-rose-500 text-rose-300 animate-pulse'
                           : 'bg-white/5 hover:bg-white/10 border-white/10 text-white'
                       }`}
                     >
                       {isSpeaking ? <Square className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5 text-cyber-cyan" />}
-                      <span>{isSpeaking ? 'Parar Voz' : 'Ouvir Voz'}</span>
+                      <span>{isSpeaking ? 'Parar' : 'Voz'}</span>
+                    </button>
+
+                    <button
+                      onClick={() => setIsChatModalOpen(true)}
+                      className="py-2 px-2.5 rounded-xl bg-purple-600/20 hover:bg-purple-600/30 border border-purple-500/40 text-purple-300 font-bold text-xs font-mono flex items-center justify-center gap-1.5 transition-all shadow-sm"
+                    >
+                      <MessageSquare className="w-3.5 h-3.5" />
+                      <span>Chat</span>
                     </button>
 
                     <button
                       onClick={handleQuickDownloadZip}
                       disabled={isExportingZip}
-                      className="py-2 px-3 rounded-xl bg-cyber-cyan hover:bg-cyan-400 text-obsidian-950 font-bold text-xs font-mono flex items-center justify-center gap-1.5 transition-all shadow-md disabled:opacity-50"
+                      className="py-2 px-2.5 rounded-xl bg-cyber-cyan hover:bg-cyan-400 text-obsidian-950 font-bold text-xs font-mono flex items-center justify-center gap-1.5 transition-all shadow-md disabled:opacity-50"
                     >
                       <Download className="w-3.5 h-3.5" />
-                      <span>{isExportingZip ? 'Gerando...' : 'Exportar .v5avatar'}</span>
+                      <span>{isExportingZip ? '...' : '.v5avatar'}</span>
                     </button>
                   </div>
 
@@ -1340,6 +1360,24 @@ export default function AvatarHubPage() {
           isOpen={isGenerateModalOpen}
           onClose={() => setIsGenerateModalOpen(false)}
           defaultAngle={selectedAngle}
+        />
+      )}
+
+      {/* Modal de Configuração do Canal Vinculado */}
+      {selectedAvatar && (
+        <ChannelBindingModal
+          avatar={selectedAvatar}
+          isOpen={isChannelModalOpen}
+          onClose={() => setIsChannelModalOpen(false)}
+        />
+      )}
+
+      {/* Modal de Chat Interativo com o Avatar */}
+      {selectedAvatar && (
+        <AvatarInteractiveChatModal
+          avatar={selectedAvatar}
+          isOpen={isChatModalOpen}
+          onClose={() => setIsChatModalOpen(false)}
         />
       )}
     </div>
