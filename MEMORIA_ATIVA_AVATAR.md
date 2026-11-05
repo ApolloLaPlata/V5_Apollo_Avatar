@@ -190,3 +190,25 @@ pm run build com Exit Code 0).
   - Atualização dos perfis canônicos em \src/store/useAvatarStore.ts\ com as folhas completas de referência multi-ângulo.
   - Compilação limpa em 12/12 rotas estáticas e dinâmicas (
 pm run build com Exit Code 0).
+
+---
+
+## 9. CENTRAL DE CANAIS VINCULADOS, HUB MULTI-MODELOS & PALCO INTERATIVO (04/11/2026)
+- **Commit 1fdb04b:**
+  - **Canal Vinculado & Constância de Conteúdo (Channel Binding):**
+    - Enriquecimento do modelo de dados (\ChannelBinding\) vinculando cada personagem da Holding ao seu canal oficial de transmissão (\@mayavance.ia\ para Instagram Creator, \@arquivooculto.v5\ para Dark YouTube e novo avatar canônico \@achadinhosdaluna\ para TikTok UGC / Achadinhos).
+    - Banner visual de métricas de constância no topo do workbench: total de vídeos produzidos, áudios sintetizados e frequência de publicação.
+    - Filtro de catálogo por tipo de canal no topo da barra de atores.
+  - **Hub de Geração Multi-Modelos IA (\/api/avatar/generate\ & \MultiModelGenerateModal.tsx\):**
+    - Suporte a múltiplos motores de difusão de última geração: **FLUX.1 Dev (Klein)**, **FLUX.1 Schnell**, **SDXL Lightning** e **Ideogram v2**.
+    - Presets calibrados: Geração de Ângulo 360°, Troca de Figurino/Roupa, Cenário de Estúdio (Podcast, Minimalista, Cyberpunk) e Expressão Facial mantendo o Face DNA imutável.
+    - Aplicação em 1 clique para o ângulo correspondente ou foto principal do avatar.
+  - **Palco Visual Super-Interativo (Studio Stage):**
+    - **Upload Direto de Foto por Ângulo (\CustomAngleUploadModal.tsx\):** Botão direto na barra de ângulos para subir arquivo do computador ou link web para Frente, 3/4, Perfil ou Costas.
+    - **HUD de Fala com Legendas em Tempo Real (Closed Captions):** Visualizador de equalizador de som e balão de fala flutuante com texto falado diretamente sobre a imagem do ator.
+    - **Testador de Bordões & Frases Personalizadas:** Botões para disparar qualquer bordão do avatar na hora ou digitar frases livres para o avatar falar.
+    - **Micro-Expressões Faciais Imediatas:** Seletor rápido de humor (\😊 Neutro\, \😄 Sorrindo\, \🔥 Vendas\, \🧐 Sério\, \😲 Surpreso\).
+  - **Homologação e QA:**
+    - TypeScript Strict: 100% aprovado (px tsc --noEmit\ Exit Code 0).
+    - Next.js 14 Build: 13/13 rotas compiladas com sucesso (pm run build\ Exit Code 0).
+    - Playwright Test: 0 erros e 0 warnings no console do navegador na porta :3010.
