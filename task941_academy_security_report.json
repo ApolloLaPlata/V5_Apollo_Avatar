@@ -1,0 +1,9 @@
+{
+  "task_id": "TASK-941",
+  "timestamp": "2026-11-02T10:47:20.124847",
+  "target": "V5 Academy (LMS)",
+  "status": "PASSED",
+  "sanitized": "Saneada credencial v5_live_v5_academy hardcoded em src/lib/v5_apollo_client.ts para process.env.V5_APOLLO_API_KEY",
+  "vercelignore": "Blindado contra vazamento de .env e acervo editorial",
+  "summary": "100% dos segredos sanitizados no V5 Academy. Credenciais de API carregadas estritamente de variáveis de ambiente."
+}

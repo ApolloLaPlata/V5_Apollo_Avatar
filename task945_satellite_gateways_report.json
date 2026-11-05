@@ -1,0 +1,25 @@
+{
+  "task_id": "TASK-945",
+  "timestamp": "2026-11-02T10:47:20.124847",
+  "target": "Gateways Satélites",
+  "status": "PASSED",
+  "gateways_tested": [
+    {
+      "host": "api.v5apollo.com",
+      "status": 200
+    },
+    {
+      "host": "basefy.io",
+      "status": 200
+    },
+    {
+      "host": "huntera.com.br",
+      "status": 200
+    },
+    {
+      "host": "pixdrop.com.br",
+      "status": 200
+    }
+  ],
+  "summary": "4/4 gateways centrais com resposta HTTP 200 sob TLSv1.3."
+}

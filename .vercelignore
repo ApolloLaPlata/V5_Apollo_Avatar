@@ -1,0 +1,11 @@
+# Vercel Deployment Shield - V5 Apollo Avatar
+.env*
+*.env
+*.local
+*.md
+Pesquisa e Conhecimento/
+scripts/
+*.tsbuildinfo
+*.log
+.git
+.github

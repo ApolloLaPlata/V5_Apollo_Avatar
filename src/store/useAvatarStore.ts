@@ -76,6 +76,18 @@ export const INITIAL_CANONICAL_AVATARS: AvatarProfile[] = [
       sound: true,
       edit: true,
       finders: true
+    },
+    channelBinding: {
+      id: 'ch_maya_vance',
+      channelName: 'Maya Vance • Tech & IA Soberana',
+      channelType: 'instagram_creator',
+      channelHandle: '@mayavance.ia',
+      targetAudience: 'Desenvolvedores, empreendedores e criadores de IA',
+      contentPillar: 'Tutoriais de ferramentas de IA e soberania tecnológica',
+      publicationFrequency: 'daily',
+      totalVideosProduced: 48,
+      totalAudiosSynthesized: 126,
+      totalTurnaroundAngles: 4,
     }
   },
   {
@@ -133,6 +145,87 @@ export const INITIAL_CANONICAL_AVATARS: AvatarProfile[] = [
       sound: true,
       edit: true,
       finders: false
+    },
+    channelBinding: {
+      id: 'ch_arthur_dark',
+      channelName: 'Arquivo Oculto • Histórias & VSLs',
+      channelType: 'dark_youtube',
+      channelHandle: '@arquivooculto.v5',
+      targetAudience: 'Público interessado em mistérios, história mundial e ciência',
+      contentPillar: 'Mini-documentários e narrativas cinematográficas de alta retenção',
+      publicationFrequency: 'weekly',
+      totalVideosProduced: 84,
+      totalAudiosSynthesized: 310,
+      totalTurnaroundAngles: 4,
+    }
+  },
+  {
+    id: 'avatar-luna-cristal',
+    name: 'Luna Cristal',
+    tagline: 'Criadora UGC & Reviewer de Achadinhos Virais Shopee/AliExpress',
+    type: 'influencer',
+    avatarUrl: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80',
+    createdAt: '2026-10-27T10:00:00Z',
+    updatedAt: '2026-10-27T10:00:00Z',
+    face: {
+      primaryAnchorImage: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80',
+      referenceImages: [
+        'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80',
+        'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=600&q=80',
+        'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&q=80',
+        'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80'
+      ],
+      clothingPrompt: 'Cropped canelado lilás e blazer casual oversized bege, visual clean girl aesthetic',
+      fixedFeaturesPrompt: 'Jovem brasileira de 22 anos, sorriso magnético espontâneo, cabelo castanho longo iluminado',
+      ethnicityAgeGender: 'Mulher jovem brasileira, 22 anos',
+      lightingPreset: 'ring_light',
+      diffusionSeed: 91402831
+    },
+    voice: {
+      engine: 'qwen-tts',
+      tone: 'friendly',
+      speed: 1.1,
+      pitch: 1.05,
+      stability: 0.88,
+      v5SoundVoiceId: 'voice_luna_ugc_br_v1'
+    },
+    soul: {
+      archetype: 'everyman',
+      bio: 'Especialista em reviews de produtos achadinhos com foco em conversão e retenção nos primeiros 3 segundos. Testadora voraz de novidades de casa, beleza e gadgets.',
+      niche: 'Achadinhos & UGC',
+      personalityTraits: ['Espontânea', 'Confiável', 'Rápida', 'Expressiva'],
+      catchphrases: [
+        'Gente, olha o que acabou de chegar pra mim!',
+        'Eu juro que não dava nada por isso, mas me surpreendeu.',
+        'O link tá no primeiro comentário ou na bio!'
+      ],
+      forbiddenTopics: ['Produtos de procedência duvidosa', 'Promessas milagrosas de emagrecimento'],
+      systemPrompt: 'Você é Luna Cristal, criadora UGC da V5 Apollo. Seu objetivo é prender a atenção em 3 segundos e demonstrar utilidade prática com autenticidade.'
+    },
+    channel: {
+      totalConversations: 2890,
+      allowedOrigins: ['https://broadcaster.v5apollo.com', 'https://prisma.v5apollo.com', 'http://localhost:3008', 'http://localhost:3010'],
+      isLiveActive: false,
+      broadcasterLiveToken: 'v5b_live_luna_ugc_9921'
+    },
+    syncedSites: {
+      broadcaster: true,
+      prisma: true,
+      sound: true,
+      edit: true,
+      finders: true
+    },
+    channelBinding: {
+      id: 'ch_luna_ugc',
+      channelName: 'Achadinhos da Luna • Shopee & TikTok',
+      channelType: 'tiktok_ugc',
+      channelHandle: '@achadinhosdaluna',
+      targetAudience: 'Compradores de e-commerce e caçadores de ofertas 18-35 anos',
+      contentPillar: 'Reviews sinceros de produtos minerados no V5 Finders',
+      publicationFrequency: 'daily',
+      totalVideosProduced: 142,
+      totalAudiosSynthesized: 520,
+      totalTurnaroundAngles: 4
     }
   }
 ];
@@ -185,6 +278,7 @@ export const useAvatarStore = create<AvatarState>()(
                     soul: updates.soul ? { ...av.soul, ...updates.soul } : av.soul,
                     channel: updates.channel ? { ...av.channel, ...updates.channel } : av.channel,
                     syncedSites: updates.syncedSites ? { ...av.syncedSites, ...updates.syncedSites } : av.syncedSites,
+                    channelBinding: updates.channelBinding ? { ...av.channelBinding, ...updates.channelBinding } : av.channelBinding,
                   }
                 : av
             ),

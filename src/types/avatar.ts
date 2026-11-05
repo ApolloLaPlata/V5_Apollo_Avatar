@@ -279,6 +279,29 @@ export interface InteractiveChannel {
 
 export type Avatar = AvatarProfile;
 
+export interface ChannelBinding {
+  id: string;
+  channelName: string;
+  channelType: 'dark_youtube' | 'tiktok_ugc' | 'instagram_creator' | 'radio_24h' | 'vsl_sales' | 'educational' | 'podcaster';
+  channelHandle: string;
+  targetAudience: string;
+  contentPillar: string;
+  publicationFrequency: 'daily' | 'weekly' | '24_7_live';
+  totalVideosProduced: number;
+  totalAudiosSynthesized: number;
+  totalTurnaroundAngles: number;
+}
+
+export interface AiGenerationHistoryItem {
+  id: string;
+  timestamp: string;
+  model: 'flux_dev' | 'flux_schnell' | 'sdxl_lightning' | 'ideogram_v2' | 'wan_2_1';
+  prompt: string;
+  angle: 'front' | 'threeQuarter' | 'profile' | 'back' | 'custom';
+  imageUrl: string;
+  seed: number;
+}
+
 export interface VideoRenderItem {
   id: string;
   title: string;
@@ -322,6 +345,8 @@ export interface AvatarProfile {
   };
   videoRenders?: VideoRenderItem[];
   scripts?: ViralScriptItem[];
+  channelBinding?: ChannelBinding;
+  aiGenerations?: AiGenerationHistoryItem[];
 }
 
 export interface ArchetypePreset {
