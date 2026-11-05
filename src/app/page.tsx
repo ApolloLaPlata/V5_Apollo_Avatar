@@ -919,6 +919,18 @@ export default function AvatarHubPage() {
                         ))}
                       </div>
                     </div>
+
+                    {/* Auditoria Biométrica FVI (Face Verification Index) */}
+                    <div className="pt-4 border-t border-white/10 space-y-2">
+                      <div className="flex items-center justify-between text-xs font-mono">
+                        <span className="text-slate-300 font-bold uppercase tracking-wider flex items-center gap-1.5">
+                          <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+                          Auditoria de Consistência Facial (FVI Multi-Cena)
+                        </span>
+                        <span className="text-cyan-400 text-[10px] font-mono font-bold">ArcFace Cosine Similarity ≥ 88%</span>
+                      </div>
+                      <FaceVerificationIndexPanel avatarId={selectedAvatar.id} avatarName={selectedAvatar.name} />
+                    </div>
                   </div>
                 </div>
               )}
@@ -1033,6 +1045,22 @@ export default function AvatarHubPage() {
                       <WaveformCanvasViewer
                         characterName={selectedAvatar.name}
                         audioUrl={selectedAvatar.voice.sampleAudioUrl || null}
+                      />
+                    </div>
+
+                    {/* Gravador e Ingestão de Áudio para Clonagem de Voz */}
+                    <div className="pt-4 border-t border-white/10 space-y-2">
+                      <div className="flex items-center justify-between text-xs font-mono">
+                        <span className="text-slate-300 font-bold uppercase tracking-wider flex items-center gap-1.5">
+                          <Mic className="w-3.5 h-3.5 text-cyber-cyan" />
+                          Clonagem Vocal & Ingestão de Áudio (V5 Sound :3008)
+                        </span>
+                        <span className="text-emerald-400 text-[10px] font-mono font-bold">Zero-Shot Qwen-TTS</span>
+                      </div>
+                      <VoiceAudioUploader
+                        avatarId={selectedAvatar.id}
+                        avatarName={selectedAvatar.name}
+                        currentAudioUrl={selectedAvatar.voice.sampleAudioUrl}
                       />
                     </div>
                   </div>

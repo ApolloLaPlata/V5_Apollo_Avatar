@@ -27,11 +27,20 @@ interface ContentPipelineStudioProps {
   onSpeakPhrase?: (phrase: string) => void;
 }
 
-interface ContentDayItem {
+export interface HookVariant {
+  id: string;
+  label: string;
+  text: string;
+  retention: string;
+}
+
+export interface ContentDayItem {
   day: string;
   dayNumber: number;
   type: string;
   hook: string;
+  hookVariants: HookVariant[];
+  selectedVariantIndex: number;
   body: string;
   cta: string;
   duration: string;
@@ -48,7 +57,7 @@ export default function ContentPipelineStudio({
   const [copiedDay, setCopiedDay] = useState<number | null>(null);
   const [selectedDayIndex, setSelectedDayIndex] = useState<number>(0);
 
-  // Geração de 7 dias de roteiros adaptados ao nicho e bordão do avatar
+  // Geração de 7 dias com Matriz de 3 Variantes de Ganchos A/B/C
   const generateInitialSchedule = (): ContentDayItem[] => {
     const catchphrase = avatar.soul.catchphrases?.[0] || 'Fala, mentes do futuro!';
     const niche = avatar.soul.niche;
@@ -59,6 +68,27 @@ export default function ContentPipelineStudio({
         dayNumber: 1,
         type: 'Gancho Provocativo & Curiosidade',
         hook: `(0-3s • Expressão Surpresa) "Você ainda tá fazendo isso manualmente em ${new Date().getFullYear()}? Para tudo e olha esse detalhe!"`,
+        hookVariants: [
+          {
+            id: 'h1_a',
+            label: 'Var A • Curiosidade',
+            text: `(0-3s • Expressão Surpresa) "Você ainda tá fazendo isso manualmente em ${new Date().getFullYear()}? Para tudo e olha esse detalhe!"`,
+            retention: '92% Retenção',
+          },
+          {
+            id: 'h1_b',
+            label: 'Var B • Choque',
+            text: `(0-3s • Expressão Séria) "99% das pessoas no nicho de ${niche} estão perdendo mais de 2 horas por dia por ignorar essa ferramenta."`,
+            retention: '89% Retenção',
+          },
+          {
+            id: 'h1_c',
+            label: 'Var C • Transformação',
+            text: `(0-3s • Expressão Confiante) "Como eu automatizei uma semana inteira de produção sem abrir o editor uma única vez."`,
+            retention: '95% Retenção',
+          },
+        ],
+        selectedVariantIndex: 0,
         body: `(3-18s • Cadência Rápida) "90% das pessoas perdem mais de 2 horas por dia com tarefas que poderiam ser automatizadas em um clique. ${catchphrase} Essa ferramenta entrega exatamente o resultado final sem você precisar quebrar a cabeça."`,
         cta: `(18-25s • Expressão Confiante) "O link completo com o passo a passo tá na bio. Comenta 'EU QUERO' que eu te mando agora no direct!"`,
         duration: '25s',
@@ -69,6 +99,27 @@ export default function ContentPipelineStudio({
         dayNumber: 2,
         type: 'Review Sincero & Demonstração',
         hook: `(0-3s • Expressão Intrigada) "Eu juro que achei que era golpe quando vi o preço disso aqui na internet..."`,
+        hookVariants: [
+          {
+            id: 'h2_a',
+            label: 'Var A • Desconfiança',
+            text: `(0-3s • Expressão Intrigada) "Eu juro que achei que era golpe quando vi o preço disso aqui na internet..."`,
+            retention: '91% Retenção',
+          },
+          {
+            id: 'h2_b',
+            label: 'Var B • Teste Real',
+            text: `(0-3s • Expressão Curiosa) "Paguei menos de 50 reais nisso aqui pra testar se funciona mesmo ou se é só marketing."`,
+            retention: '88% Retenção',
+          },
+          {
+            id: 'h2_c',
+            label: 'Var C • Veredito',
+            text: `(0-3s • Expressão Satisfeita) "Esse achadinho superou minhas expectativas e se tornou meu queridinho da semana."`,
+            retention: '93% Retenção',
+          },
+        ],
+        selectedVariantIndex: 0,
         body: `(3-20s • Tom Didático) "Comprei pra testar e o acabamento é surreal. Mostra aqui de perto: ele resolve exatamente a dor de quem produz conteúdo em constância no nicho de ${niche}."`,
         cta: `(20-25s • Sorriso Espontâneo) "Clica no primeiro link fixado antes que o lote promocional se esgote!"`,
         duration: '25s',
@@ -79,6 +130,27 @@ export default function ContentPipelineStudio({
         dayNumber: 3,
         type: 'Quebra de Mito & Verdade Oculta',
         hook: `(0-3s • Olhar Fixo na Câmera) "Eles não querem que você saiba disso sobre ${niche}."`,
+        hookVariants: [
+          {
+            id: 'h3_a',
+            label: 'Var A • Segredo',
+            text: `(0-3s • Olhar Fixo na Câmera) "Eles não querem que você saiba disso sobre ${niche}."`,
+            retention: '94% Retenção',
+          },
+          {
+            id: 'h3_b',
+            label: 'Var B • Mentira Desmascarada',
+            text: `(0-3s • Expressão Firme) "Te contaram uma mentira deslavada sobre como ter consistência nas redes."`,
+            retention: '90% Retenção',
+          },
+          {
+            id: 'h3_c',
+            label: 'Var C • Verdade Oculta',
+            text: `(0-3s • Expressão Misteriosa) "O que os grandes players nunca revelam nos cursos deles sobre ${niche}."`,
+            retention: '96% Retenção',
+          },
+        ],
+        selectedVariantIndex: 0,
         body: `(3-19s • Tom Seguro e Autoritário) "A maioria dos 'especialistas' de palco esconde que o verdadeiro segredo não é trabalhar 14 horas, mas ter uma esteira soberana rodando nos bastidores."`,
         cta: `(19-24s) "Salva esse vídeo para não esquecer e envia para quem precisa ouvir essa verdade hoje."`,
         duration: '24s',
@@ -89,6 +161,27 @@ export default function ContentPipelineStudio({
         dayNumber: 4,
         type: 'Estudo de Caso / Antes & Depois',
         hook: `(0-3s • Expressão Empolgada) "Olha a diferença brutal entre fazer do jeito antigo e usando essa técnica!"`,
+        hookVariants: [
+          {
+            id: 'h4_a',
+            label: 'Var A • Antes vs Depois',
+            text: `(0-3s • Expressão Empolgada) "Olha a diferença brutal entre fazer do jeito antigo e usando essa técnica!"`,
+            retention: '93% Retenção',
+          },
+          {
+            id: 'h4_b',
+            label: 'Var B • Prova Numérica',
+            text: `(0-3s • Expressão Impressionada) "De 3 horas por vídeo para 25 segundos com fidelidade perfeita de identidade."`,
+            retention: '95% Retenção',
+          },
+          {
+            id: 'h4_c',
+            label: 'Var C • Comparativo',
+            text: `(0-3s • Expressão Desafiadora) "Coloquei dois criadores lado a lado e o resultado deixou todo mundo de queixo caído."`,
+            retention: '91% Retenção',
+          },
+        ],
+        selectedVariantIndex: 0,
         body: `(3-18s • Comparativo Visual) "Na esquerda, 4 horas perdidas. Na direita, o pipeline do ${avatar.name} gerando o arquivo final em 22 segundos com fidelidade perfeita."`,
         cta: `(18-23s) "De qual lado você prefere estar? Segue o perfil para dominar o método."`,
         duration: '23s',
@@ -99,6 +192,27 @@ export default function ContentPipelineStudio({
         dayNumber: 5,
         type: 'Erro Fatal que Quase Todo Mundo Comete',
         hook: `(0-3s • Expressão Séria) "Se você comete esse único erro, você tá jogando dinheiro no lixo todos os dias."`,
+        hookVariants: [
+          {
+            id: 'h5_a',
+            label: 'Var A • Dinheiro Perdido',
+            text: `(0-3s • Expressão Séria) "Se você comete esse único erro, você tá jogando dinheiro no lixo todos os dias."`,
+            retention: '92% Retenção',
+          },
+          {
+            id: 'h5_b',
+            label: 'Var B • Alerta Imediato',
+            text: `(0-3s • Expressão de Alerta) "Pare de fazer isso agora mesmo se você quiser ter relevância em ${niche}."`,
+            retention: '90% Retenção',
+          },
+          {
+            id: 'h5_c',
+            label: 'Var C • Cilada Comum',
+            text: `(0-3s • Expressão Preocupada) "Quase todo iniciante cai nessa armadilha e desiste no primeiro mês."`,
+            retention: '88% Retenção',
+          },
+        ],
+        selectedVariantIndex: 0,
         body: `(3-19s • Cadência Enfática) "O maior erro de quem tenta viralizar em ${niche} é mudar de persona o tempo todo. A consistência de identidade é a chave mestra."`,
         cta: `(19-24s) "Comenta aqui embaixo: você já passou por isso? Quero saber sua opinião."`,
         duration: '24s',
@@ -109,6 +223,27 @@ export default function ContentPipelineStudio({
         dayNumber: 6,
         type: 'Hack / Dica Rápida em 30 Segundos',
         hook: `(0-3s • Expressão Amigável) "Essa dica rápida de 30 segundos vai salvar o seu final de semana!"`,
+        hookVariants: [
+          {
+            id: 'h6_a',
+            label: 'Var A • Hack Rápido',
+            text: `(0-3s • Expressão Amigável) "Essa dica rápida de 30 segundos vai salvar o seu final de semana!"`,
+            retention: '90% Retenção',
+          },
+          {
+            id: 'h6_b',
+            label: 'Var B • Atalho Secreto',
+            text: `(0-3s • Expressão Conspiratória) "O atalho que economiza metade do tempo e ninguém te ensina de graça."`,
+            retention: '93% Retenção',
+          },
+          {
+            id: 'h6_c',
+            label: 'Var C • Praticidade Pura',
+            text: `(0-3s • Expressão Empolgada) "Faz isso aqui hoje mesmo e me agradece depois nos comentários!"`,
+            retention: '89% Retenção',
+          },
+        ],
+        selectedVariantIndex: 0,
         body: `(3-18s • Dinâmico e Enérgico) "Ativa essa configuração oculta nas suas ferramentas hoje mesmo e veja a mágica acontecer. ${catchphrase}"`,
         cta: `(18-22s) "Compartilha com o seu amigo que precisa dessa praticidade urgente!"`,
         duration: '22s',
@@ -119,6 +254,27 @@ export default function ContentPipelineStudio({
         dayNumber: 7,
         type: 'Reflexão Estratégica & Chamada de Comunidade',
         hook: `(0-3s • Expressão Serena) "Domingo à noite é hora de planejar quem você quer ser na próxima semana."`,
+        hookVariants: [
+          {
+            id: 'h7_a',
+            label: 'Var A • Planejamento',
+            text: `(0-3s • Expressão Serena) "Domingo à noite é hora de planejar quem você quer ser na próxima semana."`,
+            retention: '91% Retenção',
+          },
+          {
+            id: 'h7_b',
+            label: 'Var B • Soberania',
+            text: `(0-3s • Olhar Direto) "Enquanto eles descansam, a Holding V5 Apollo programa uma máquina de conteúdo."`,
+            retention: '94% Retenção',
+          },
+          {
+            id: 'h7_c',
+            label: 'Var C • Motivação Forte',
+            text: `(0-3s • Expressão Firme) "Sua semana só começa bem se você tiver clareza do que vai construir."`,
+            retention: '92% Retenção',
+          },
+        ],
+        selectedVariantIndex: 0,
         body: `(3-19s • Tom Inspirador) "Enquanto a concorrência improvisa, a Holding V5 Apollo programa uma semana inteira de publicações no piloto automático. A soberania é uma escolha diária."`,
         cta: `(19-25s • Expressão Confiante) "Pronto para subir de nível? O link para a nossa central está no perfil. Boa semana!"`,
         duration: '25s',
@@ -139,6 +295,23 @@ export default function ContentPipelineStudio({
         `7 novos roteiros otimizados foram compilados para ${avatar.name}!`
       );
     }, 1000);
+  };
+
+  const handleSelectHookVariant = (dayNumber: number, variantIndex: number) => {
+    setSchedule((prev) =>
+      prev.map((day) => {
+        if (day.dayNumber === dayNumber) {
+          const variant = day.hookVariants[variantIndex];
+          return {
+            ...day,
+            hook: variant ? variant.text : day.hook,
+            selectedVariantIndex: variantIndex,
+          };
+        }
+        return day;
+      })
+    );
+    toast.info('Variante Ativada', `Gancho alternativo selecionado para ${activeDay.day}!`);
   };
 
   const handleCopyDayScript = (item: ContentDayItem) => {
@@ -260,12 +433,36 @@ export default function ContentPipelineStudio({
 
           {/* Os 3 Atos do Vídeo */}
           <div className="space-y-3">
-            {/* Ato 1: Gancho */}
-            <div className="p-3.5 rounded-xl bg-obsidian-950/70 border border-purple-500/30 space-y-1">
-              <div className="flex items-center justify-between text-[11px] font-mono text-purple-300 font-bold">
-                <span>[ATO 1: GANCHO DE ATENÇÃO • 0 A 3 SEGUNDOS]</span>
-                <span className="text-emerald-400 font-bold">Retenção ~88%</span>
+            {/* Ato 1: Gancho com Matriz A/B/C Testing */}
+            <div className="p-4 rounded-xl bg-obsidian-950/70 border border-purple-500/30 space-y-2.5">
+              <div className="flex flex-wrap items-center justify-between gap-2 text-[11px] font-mono">
+                <span className="text-purple-300 font-bold">[ATO 1: GANCHO DE ATENÇÃO • 0 A 3 SEGUNDOS]</span>
+                
+                {/* Seletor de Variantes A/B/C */}
+                <div className="flex items-center gap-1 bg-black/60 p-1 rounded-lg border border-white/10">
+                  {activeDay.hookVariants.map((v, vIdx) => (
+                    <button
+                      key={v.id}
+                      onClick={() => handleSelectHookVariant(activeDay.dayNumber, vIdx)}
+                      className={`px-2 py-0.5 rounded text-[10px] font-mono font-bold transition-all ${
+                        activeDay.selectedVariantIndex === vIdx
+                          ? 'bg-purple-600 text-white shadow-sm'
+                          : 'text-slate-400 hover:text-white'
+                      }`}
+                    >
+                      {v.label.split(' • ')[0]}
+                    </button>
+                  ))}
+                </div>
               </div>
+
+              <div className="flex items-center justify-between text-[10px] font-mono text-emerald-400">
+                <span className="text-purple-200">{activeDay.hookVariants[activeDay.selectedVariantIndex]?.label}</span>
+                <span className="bg-emerald-500/10 px-1.5 py-0.5 rounded border border-emerald-500/20">
+                  {activeDay.hookVariants[activeDay.selectedVariantIndex]?.retention}
+                </span>
+              </div>
+
               <p className="text-xs text-white leading-relaxed font-sans font-medium">
                 {activeDay.hook}
               </p>
