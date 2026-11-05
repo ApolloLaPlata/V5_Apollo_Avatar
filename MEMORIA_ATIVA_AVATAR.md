@@ -212,3 +212,31 @@ pm run build com Exit Code 0).
     - TypeScript Strict: 100% aprovado (px tsc --noEmit\ Exit Code 0).
     - Next.js 14 Build: 13/13 rotas compiladas com sucesso (pm run build\ Exit Code 0).
     - Playwright Test: 0 erros e 0 warnings no console do navegador na porta :3010.
+
+
+---
+
+## 10. ESTEIRA DE CONSTÂNCIA SEMANAL DE 7 DIAS & PIPELINE AUTOMATIZADO (04/11/2026)
+- **Commit c6202d8:**
+  - **Componente ContentPipelineStudio (`src/components/avatar/ContentPipelineStudio.tsx`):**
+    - Criação da 6ª aba do estúdio: **Esteira (7 Dias)**.
+    - Geração automática da grade de 7 dias de publicações para redes sociais (Segunda a Domingo) contendo:
+      1. Segunda: Gancho Provocativo & Curiosidade
+      2. Terça: Review Sincero & Demonstração de Produto
+      3. Quarta: Quebra de Mito & Verdade Oculta
+      4. Quinta: Estudo de Caso / Antes & Depois
+      5. Sexta: Erro Fatal que Quase Todo Mundo Comete
+      6. Sábado: Hack / Dica Rápida em 30 Segundos
+      7. Domingo: Reflexão Estratégica & Chamada de Comunidade
+    - Roteiros estruturados nos 3 Atos de Alta Retenção:
+      - Gancho Visual (0 a 3 segundos com micro-expressão indicada)
+      - Desenvolvimento e Prova (3 a 18 segundos no tom vocal do avatar)
+      - Call-to-Action Final (18 a 25 segundos direcionando para o canal vinculado)
+    - Botão **"Ouvir Gancho"** disparando síntese de fala imediata.
+    - Botão **"Aplicar no Video Swap"** transferindo o roteiro para renderização na usina Modal H100.
+    - Botão **"Regenerar 7 Dias"** para compilar novas variações de pauta.
+  - **Homologação:**
+    - TypeScript Strict: Exit Code 0.
+    - Next.js 14 Build: 13/13 rotas geradas (Exit Code 0).
+    - Playwright Browser QA: 0 erros e 0 warnings no console.
+    - Servidor em produção ativo na porta :3010.
